@@ -28,9 +28,13 @@ def process():
     
     # generate the appropriate PDF
     target = form.getfirst("agreement", None)
-    if (target == 'noembargo'):
-        agreements.no_embargo(pdf_fn, manuscript=manuscript, journal=journal,
-                              author=author, publisher=publisher)
+    if target in agreements.handlers:
+        agreements.handlers[target] (pdf_fn, manuscript=manuscript,
+                                     journal=journal, author=author,
+                                     publisher=publisher)
+    else:
+        # XXX error handling
+        pass
         
     # serve the temporary file
     pdf_file = file(pdf_fn, "rb")
