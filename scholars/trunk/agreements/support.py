@@ -11,6 +11,8 @@ styles = getSampleStyleSheet()
 
 Title = "ADDENDUM TO PUBLICATION AGREEMENT"
 Footer = "Model Author's Addendum to Publication Agreement 1.0"
+Disclaimer1 = "Neither Creative Commons nor Science Commons are parties to this agreement or provide legal advice."
+Disclaimer2 = "For more information, visit www.sciencecommons.org."
 
 def pageInfo (canvas, doc):
     canvas.saveState()
@@ -23,7 +25,12 @@ def pageInfo (canvas, doc):
     canvas.setFont('Times-Roman', 8)
     canvas.drawImage('./images/scicom.gif', inch, inch*.75,
                      width=inch, height=inch*.28)
-    canvas.drawString(2.1 * inch, inch*.85, Footer)
+    canvas.drawString(2.1 * inch, inch*.95, Footer)
+
+    canvas.setFont('Times-Bold', 8)
+    canvas.drawString(2.1 * inch, inch*.85, Disclaimer1)
+    canvas.drawString(2.1 * inch, inch*.75, Disclaimer2)
+    
     canvas.restoreState()
 
 def fillInRow(value, label, width=inch*3):
