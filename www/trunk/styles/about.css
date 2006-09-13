@@ -1,0 +1,17 @@
+/* About Science Commons section styles for Science Commons site  */
+
+
+
+#divtitle {
+  background-image: url(../img/about/sitetitlebkg.jpg);
+}
+
+#divtertiarynav a,
+#divtertiarynav a:link,
+#divtertiarynav a:visited {
+  color: #d26004;
+}
+
+#divtext h2 {
+  color: #d26004;
+}

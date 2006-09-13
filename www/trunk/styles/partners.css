@@ -1,0 +1,11 @@
+/* Partners section styles for Science Commons site  */
+
+
+
+#divtitle {
+  background-image: url(../img/partners/sitetitlebkg.jpg);
+}
+
+#divtext h2 {
+  color: #fc7122;
+}

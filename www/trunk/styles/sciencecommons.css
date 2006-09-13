@@ -1,0 +1,142 @@
+/* common styles for Science Commons site  */
+
+
+
+/* GENERAL */
+
+html, body {
+  margin: 0px;
+}
+/* don't set background color on html for sake of Dreamweaver */
+body {
+  background-color: #ffffff;
+  background-image: none;
+  text-align: center;        /* centers the page for IE/win */
+}
+
+/* for div containing skip links and other content that should never be seen by visual browsers */
+.offscreen {
+  position: absolute;
+  left: 0px; top: -9999px;
+  width: 1px; height: 1px;
+  overflow: hidden;
+}
+/* for back to top anchor */
+#divtopanchor {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 1px;
+  height: 1px;
+  z-index: 1;
+}
+
+/* div to clear floating divs */
+.divclear {
+  clear: both;
+}
+
+/* remove space around form */
+form {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+/* get rid of fieldsets and legends */
+fieldset {
+  display: inline;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+legend {
+  display: none;
+}
+
+/* table cells all aligned left and top */
+td {
+  text-align: left;
+  vertical-align: top;
+}
+
+/* layout table */
+/* note: cellspacing=0 must still be specified in table tag because of IE */
+table.layouttable {
+  border: none;
+  border-spacing: 0px;
+  margin: 0px;
+  padding: 0px;
+}
+table.layouttable td {
+  padding: 0px;
+}
+
+/* elements for screen display or print display only */
+span.screenonly {
+  display: inline;
+}
+span.printonly {
+  display: none;
+}
+div.screenonly {
+  display: block;
+}
+div.printonly {
+  display: none;
+}
+
+/* all lists use solid bullet */
+ul {
+  list-style-type: disc;
+}
+
+
+
+/* OUTER SHELL */
+/* container for all page content */
+
+#divoutershell {
+  width: 750px;
+  margin: 0px auto;
+  text-align: left; /* reset alignment for IE */
+}
+
+
+
+/* LINKS */
+
+a,
+a:link {
+  color: #3059a4;
+  text-decoration: none;
+}
+a:visited {
+  color: #4b617d;
+  text-decoration: none;
+}
+a:active,
+a:hover,
+a:focus {
+  color: #3059a4;
+  text-decoration: underline;
+}
+
+
+
+/* FOOTER */
+
+#divfooter {
+  margin: 18px 0px 18px 0px;
+}
+#divfooter p {
+  font-family: arial, lucida, helvetica, sans-serif;
+  font-size: 0.70em;
+  font-weight: normal;
+  line-height: 140%;
+  color: #4b4b4b;
+  margin: 0px;
+  text-align: center;
+}
+#divfooter p img {
+  margin-bottom: 4px;
+}
