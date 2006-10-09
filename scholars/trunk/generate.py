@@ -1,9 +1,9 @@
-#!/usr/bin/env python
+#!/usr/local/python234/bin/python
 
 """CGI Wrapper Script for Scholar's Copryight."""
 
 import cgi
-import cgitb; cgitb.enable()
+# import cgitb; cgitb.enable()
 
 import tempfile
 import os
