@@ -1,0 +1,13 @@
+To Do:
+
+* MeSH chooser for disease field
+   * chooser
+   * show/hide
+* Protocol fill in
+   * show/hide
+* Duration chooser for limited term
+   * chooser/entry validator
+   * show/hide
+* generate metadata
+
+* server side deed implementation
