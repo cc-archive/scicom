@@ -41,11 +41,21 @@ best fits your desired transfer conditions. </p>
 <p>Specify a field of use. [<a href="">More information</a>]</p>
 
 <p>
-  <select name="field" size="1" onchange="updateMta();">
+  <select name="field" size="1" onchange="updateMta(); update_field('field');">
     <option value="all">All Research Uses</option>
     <option value="disease">Disease Field of Use</option>
     <option value="protocol">Restricted Protocol</option>
   </select> 
+</p>
+
+<p id="field_all_detail" class="sub_selector"/>
+
+<p id="field_disease_detail" class="sub_selector">
+Disease Field: <input name="field_disease" />
+</p>
+
+<p id="field_protocol_detail" class="sub_selector">
+Research Protocol: <input name="field_protocol" />
 </p>
 
 <p>Is Scaling Up allowed? [<a href="">More information</a>]</p>
@@ -60,10 +70,15 @@ best fits your desired transfer conditions. </p>
 <p>What is the duration of the permitted use? 
   [<a href="">More information</a>]</p>
 <p>
-  <select name="term" size="1" onchange="updateMta();">
+  <select name="term" size="1" onchange="updateMta(); update_field('term');">
     <option value="variable">Until Completion</option>
     <option value="fixed">Fixed Term</option>
   </select>
+</p>
+
+<p id="term_variable_detail" class="sub_selector" />
+<p id="term_fixed_detail"  class="sub_selector">
+Contract Term: <input name="term_fixed" />
 </p>
 
 <p>Is the recipient permitted to retain Materials at the end of
