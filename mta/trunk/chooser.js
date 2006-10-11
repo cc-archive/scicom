@@ -1,6 +1,5 @@
 
 var mta = new SciComMta();
-var mta_info_visible = false;
 
 getSettings = function() {
 
@@ -34,12 +33,4 @@ updateMta = function() {
   document.getElementById('mta_link').setAttribute('href', mta.get_uri());
   document.getElementById('mta_link').innerHTML = mta.get_name();
 
-  if (!mta_info_visible) {
-     // show the resulting MTA
-     var el = YAHOO.ext.Element.get('results');
-     el.setVisible(true, true);
-     // el.toggle(/*fade*/true);
-
-     mta_info_visible = true;
-  } // if not visible...
 } // updateMta
