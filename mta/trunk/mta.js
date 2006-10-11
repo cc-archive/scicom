@@ -1,8 +1,12 @@
+// SciComMta
+// 
+// 
+
 SciComMta = function() {
 
   // MTA Generation Control Structures
   this._CURRENT_VERSION = "1.0";
-  this._BASE_URI = "http://sciencecommons.org/mta/";
+  this._BASE_URI = "http://mta.sciencecommons.org/";
 
   // this._field_order = ["field", "scaling", "term", "retain", "publication"];
   this._field_values = new Array();
@@ -53,6 +57,8 @@ SciComMta = function() {
      this._settings = new_settings;
   } // update_settings
 
+
+
   // get_uri
   //   Generate the URI for the currently selected MTA
   //
@@ -70,9 +76,14 @@ SciComMta = function() {
         }
      }
 
-     return this._BASE_URI + uri_pieces.join("+") + "/" + this._CURRENT_VERSION;
+     return this._BASE_URI + uri_pieces.join("-") + "/" + this._CURRENT_VERSION;
   } // get_uri
 
+
+
+  // get_name
+  //   Generate the Agreement name for the currently selected MTA
+  // 
   this.get_name = function() {
 
      var uri_pieces = new Array();
@@ -90,6 +101,10 @@ SciComMta = function() {
      return "Science Commons " + uri_pieces.join("-") + " " +  this._CURRENT_VERSION;
   } // get_name
 
+
 } // SciComMta
-SciComMta.prototype._field_order = ["field", "scaling", "term", "retain", "publication"];
+
+// specify the order for fields in constructing the URI and Name
+SciComMta.prototype._field_order = ["field", "scaling", 
+				    "term", "retain", "publication"];
 
