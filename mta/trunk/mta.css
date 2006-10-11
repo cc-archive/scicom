@@ -1,6 +1,15 @@
 body {
-    font-family: arial, verdana, helvetica, sans-serif;
-    font-size: 12pt;
+    font-size: 85%;
+    margin: 15px;
+}
+
+h1 {
+   font-size: 136%;
+   padding-bottom: 10px;
+}
+
+p {
+  padding-bottom: 10px;
 }
 
 #selector {
