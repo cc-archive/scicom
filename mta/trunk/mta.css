@@ -1,0 +1,22 @@
+body {
+    font-family: arial, verdana, helvetica, sans-serif;
+    font-size: 12pt;
+}
+
+#selector {
+    border-right:1px solid;
+    float:left;
+    padding: 5px;
+    margin: 5px;
+    width: 50%;
+}
+
+#results {
+   margin: 5px;
+   padding: 5px;
+}
+
+#metadata {
+   border: 1px solid;
+   
+}
