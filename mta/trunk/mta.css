@@ -31,7 +31,6 @@ p {
 }
 
 .sub_selector {
-   font-size: 0.8em;
    margin-left: 15px;
    display:none;
    visibility:hidden;
