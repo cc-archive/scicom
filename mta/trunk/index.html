@@ -11,7 +11,18 @@
 <!--
   @import url(./mta.css);
 -->
-</STYLE>
+
+            #field_disease_detail {z-index:9050;padding-bottom:10px;}
+            #ysearchautocomplete {position:relative;}
+            #field_disease {position:relative;width:20em;height:1.4em;}
+            #field_disease_ac {position:absolute;left:0;top:1.7em;display:inline;}
+            #field_disease_ac .yui-ac-content {position:absolute;left:0;top:0;width:20em;border:1px solid #404040;background:#fff;overflow:hidden;text-align:left;z-index:9050;}
+            #field_disease_ac .yui-ac-shadow {position:absolute;left:0;top:0;margin:.3em;background:#a0a0a0;z-index:9049;}
+            #field_disease_ac ul {padding:5px 0;width:100%;}
+            #field_disease_ac li {padding:0 5px;cursor:default;white-space:nowrap;}
+            #field_disease_ac li.yui-ac-highlight {background:#ff0;}
+            #ysearchsubmit {position:relative;}
+</style>
 
 <script type="text/javascript" src="./yui/build/yahoo/yahoo.js" >
 </script>
@@ -23,13 +34,17 @@
 </script>
 <script type="text/javascript" src="./yui/build/dragdrop/dragdrop.js" >
 </script>
+<script type="text/javascript" src="./yui/build/connection/connection.js" >
+</script>
+<script type="text/javascript" src="./yui/build/autocomplete/autocomplete.js" >
+</script>
 <script type="text/javascript" src="./yui-ext/yui-ext.js" >
 </script>
 
 <script type="text/javascript" src="./mta.js"></script>
 <script type="text/javascript" src="./chooser.js"></script>
 
-<body onload="updateMta();">
+<body onload="initChooser();">
 
 <h1>Materials Transfer Agreement</h1>
 
@@ -53,9 +68,12 @@ best fits your desired transfer conditions. </p>
 
 <p id="field_all_detail" class="sub_selector"/>
 
-<p id="field_disease_detail" class="sub_selector">
-Disease Field: <input name="field_disease" />
-</p>
+<div id="field_disease_detail" class="sub_selector">
+        
+Disease Field: <span id="ysearchautocomplete"><input name="field_disease" type="text" id="field_disease" />
+
+   <div id="field_disease_ac"></div></span>
+</div>
 
 <p id="field_protocol_detail" class="sub_selector">
 Research Protocol: <input name="field_protocol" />

@@ -61,3 +61,26 @@ update_field = function(field_name) {
     } // for i...
 
 } // update_field
+
+    initChooser = function() {
+
+	// initialize auto-complete for disease field restriction
+	var dsMeSH = new YAHOO.widget.DS_XHR("/mta/server/mesh_json.py",
+					 ["Result", "Description", "LookupKey"]
+					 );
+	
+	var diseaseAutoComp = new YAHOO.widget.AutoComplete("field_disease",
+							    "field_disease_ac",
+							    dsMeSH);
+	diseaseAutoComp.useIFrame = true;
+	diseaseAutoComp.forceSelection = true;
+	diseaseAutoComp.typeAhead = true;
+
+	diseaseAutoComp.formatResult = function(aResultItem, sQuery) {
+	    return aResultItem[0] + " (" + aResultItem[1] + ")";
+	} // formatResult
+
+	// call updateMta to generate the information for the base MTA
+	updateMta();
+
+    } // initChooser
