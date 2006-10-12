@@ -36,3 +36,12 @@ p {
    display:none;
    visibility:hidden;
 }
+
+#material_details label {
+   float:left;
+   width:150px;
+}
+
+#cmd_show_material_dlg {
+   float: right;
+}

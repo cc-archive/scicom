@@ -64,6 +64,9 @@ update_field = function(field_name) {
 
 } // update_field
 
+    var materialDetailsSubmit = function() {
+    } // materialDetailsSubmit
+
     initChooser = function() {
 
 	// initialize auto-complete for disease field restriction
@@ -75,12 +78,33 @@ update_field = function(field_name) {
 							    "field_disease_ac",
 							    dsMeSH);
 	diseaseAutoComp.useIFrame = true;
-	diseaseAutoComp.forceSelection = true;
+	// diseaseAutoComp.forceSelection = true;
 	diseaseAutoComp.typeAhead = true;
 
 	diseaseAutoComp.formatResult = function(aResultItem, sQuery) {
 	    return aResultItem[0] + " (" + aResultItem[1] + ")";
 	} // formatResult
+
+	
+	// initialize the material details dialog UI
+	var dlg_buttons = [ {text:'OK', handler: materialDetailsSubmit,
+			     isDefault: true},
+    {text:'Cancel', handler: function(){materialDialog.hide();} } ];
+
+	materialDialog = new YAHOO.widget.Dialog("material_details", { 
+		modal:false, visible:false, width:"350px", 
+		fixedcenter:true, constraintoviewport:true, 
+		draggable:true, postmethod:"none" 
+	    });
+	materialDialog.cfg.queueProperty("buttons", dlg_buttons);
+
+	materialDialog.render();
+	// materialDialog.hide();
+
+	// connect the link to the dialog
+	YAHOO.util.Event.addListener("cmd_show_material_dlg", "click", 
+				     function() {materialDialog.show();}
+				     );
 
 	// call updateMta to generate the information for the base MTA
 	updateMta();

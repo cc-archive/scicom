@@ -188,6 +188,8 @@ SciComMta = function() {
       // publication
 
       result.push("</TransferAgreement>");
+      result.push("");
+      result.push("</rdf:RDF>");
 
       return result.join("\n");
 

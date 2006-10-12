@@ -6,7 +6,8 @@
 
 <link rel="stylesheet" type="text/css" href="yui/build/reset/reset.css">
 <link rel="stylesheet" type="text/css" href="yui/build/fonts/fonts.css"> 
-
+<link rel="stylesheet" type="text/css" 
+      href="yui/build/container/assets/container.css" /> 
 <style type="text/css">
 <!--
   @import url(./mta.css);
@@ -37,6 +38,8 @@
 <script type="text/javascript" src="./yui/build/connection/connection.js" >
 </script>
 <script type="text/javascript" src="./yui/build/autocomplete/autocomplete.js" >
+</script>
+<script type="text/javascript" src="./yui/build/container/container.js" >
 </script>
 <script type="text/javascript" src="./yui-ext/yui-ext.js" >
 </script>
@@ -121,6 +124,12 @@ Contract Term: <input name="term_fixed" />
     <option value="no">No</option>
   </select>
 </p>
+
+<p class="dialog_link">
+  <a href="#" id="cmd_show_material_dlg" onclick="return false;">
+    Add material details >></a>
+</p>
+
 </form>
 </div>
 
@@ -134,6 +143,20 @@ the agreement.</p>
 <textarea id="metadata" rows=10 cols=50>
 </textarea>
 
+</div>
+
+<div id="material_details" >
+  <div class="hd">Add additional material information</div>
+  <div class="bd">
+    <label for="material_desc">Description:</label>
+    <input type="textbox" name="material_desc" /><br/>
+
+    <label for="material_provider">Provider:</label>
+    <input type="textbox" name="material_provider" /><br/>
+
+    <label for="material_url">Material URL:</label>
+    <input type="textbox" name="material_url" />
+  </div>
 </div>
 
 </body></html>
