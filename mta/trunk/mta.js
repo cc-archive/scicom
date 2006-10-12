@@ -37,18 +37,34 @@ SciComMta = function() {
   this._field_values['publication']['yes'] = ['', ''];
   this._field_values['publication']['no'] = ['No Publication', 'NoPublication'];
 
+  // current settings
+  this._settings = new Array();
+
   // ******************************************************************
 
+  // get_param
+  //   Return the current value of a specific field; the value is returned
+  //   as a two-value array, containing ["Human Readable", "URI Piece"]
+  //
   this.get_param = function(field_name) {
     return this._field_values[field_name][this._settings[field_name]];
-  }
+  } // get_param
 
+  // get_raw_param
+  //   Return the current value of a specific field; the value is returned
+  //   as the raw parameter value (ie, "yes", "no", etc).
+  //
+  this.get_raw_param = function(field_name) {
+      return this._settings[field_name];
+  } // get_raw_param
+
+  // set_param
+  //   Set the value for a field; the field value is specifed as the "raw"
+  //   value.
+  // 
   this.set_param = function(field_name, field_value) {
     this._settings[field_name] = field_value;
   } // set_param
-
-  // current settings
-  this._settings = new Array();
 
   // update_settings
   //   Update the current settings for this MTA
@@ -56,7 +72,6 @@ SciComMta = function() {
   this.update_settings = function(new_settings) {
      this._settings = new_settings;
   } // update_settings
-
 
 
   // get_uri
@@ -100,6 +115,90 @@ SciComMta = function() {
 
      return "Science Commons " + uri_pieces.join("-") + " " +  this._CURRENT_VERSION;
   } // get_name
+
+
+  // get_metadata
+  //    Generate the metadata for this MTA
+  this.get_metadata = function() {
+
+
+      /*
+    <?xml version="1.0"?>
+    <rdf:RDF xmlns="http://web.resource.org/cc/"
+             xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+             xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+             xmlns:dc="http://purl.org/dc/elements/1.1/"
+             xmlns:dcq="http://purl.org/dc/terms/">
+    <TransferAgreement
+    rdf:about="http://sciencecommons.org/mta/DiseaseRestricted-FixedTerm/2.5/">
+      <requires rdf:resource="http://web.resource.org/cc/DiseaseField" />
+      <permits rdf:resource="http://web.resource.org/cc/ScalingUp" />
+      <requires rdf:resource="http://web.resource.org/cc/FixedTerm" />
+      <permits rdf:resource="http://web.resource.org/cc/Retention" />
+    </TransferAgreement>
+
+    </rdf:RDF>
+      */
+
+      var result = new Array();
+
+      // header
+      result.push();
+      result.push('<rdf:RDF xmlns="http://web.resource.org/cc/"');
+      result.push('xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"');
+      result.push('xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"');
+      result.push('xmlns:dc="http://purl.org/dc/elements/1.1/"');
+      result.push('xmlns:dcq="http://purl.org/dc/terms/">');
+
+      // agreement
+      result.push('<TransferArgreement rdf:about="' + this.get_uri() + '">');
+
+      // field of research
+      var mta_field = this.get_raw_param("field");
+      if (mta_field == "disease") {
+	  result.push("disease");
+      } else
+	  if (mta_field == "protocol") {
+	      result.push("protocol");
+	  }
+
+      // scaling
+      if (this.get_raw_param("scaling") == "yes") {
+	  // allows scaling up
+	  result.push('<permits rdf:resource="http://web.resource.org/cc/ScalingUp" />');
+      } else {
+	  // scaling up prohibited
+	  result.push('<prohibits rdf:resource="http://web.resource.org/cc/ScalingUp" />');
+      }
+
+      // term
+      if (this.get_raw_param("term") == "fixed") {
+	  result.push('<requires rdf:resource="http://web.resource.org/cc/FixedTerm" />');
+      }
+
+      // retention
+      if (this.get_raw_param("retain") == "yes") {
+	  // permits material retention
+	  result.push('<permits rdf:resource="http://web.resource.org/cc/Retention" />');
+      } else {
+	  // prohibits material retention
+	  result.push('<prohibits rdf:resource="http://web.resource.org/cc/Retention" />');
+      }
+
+      // publication
+
+      result.push("</TransferAgreement>");
+
+      return result.join("\n");
+
+      result.push(this.get_uri());
+
+      for (i=0; i < this._field_order.length; i++) {
+	  result.push(this.get_param(this._field_order[i]));
+      }
+
+
+  } // get_metadata
 
 
 } // SciComMta

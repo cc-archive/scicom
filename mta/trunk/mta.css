@@ -27,7 +27,8 @@ p {
 
 #metadata {
    border: 1px solid;
-   
+   font-size: 85%;   
+   width: 500px;
 }
 
 .sub_selector {

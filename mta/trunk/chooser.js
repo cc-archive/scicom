@@ -31,6 +31,8 @@ updateMta = function() {
   document.getElementById('mta_link').setAttribute('href', mta.get_uri());
   document.getElementById('mta_link').innerHTML = mta.get_name();
 
+  document.getElementById("metadata").innerHTML = mta.get_metadata();
+
 } // updateMta
 
 update_field = function(field_name) {
