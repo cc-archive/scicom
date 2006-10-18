@@ -6,12 +6,16 @@ pkg_resources.require("simplejson")
 import os
 import cherrypy
 import simplejson
+import genshi.template
 
 import scicom.mta
 import scicom.mta.mesh
 
 STATIC_DIR = os.path.abspath(
     os.path.join(os.path.dirname(__file__), 'static',)
+    )
+TEMPLATE_DIR = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), 'templates',)
     )
 MESH_SOURCE = os.path.join(STATIC_DIR, 'mesh_2007_trees')
 
@@ -32,11 +36,38 @@ class Mesh(object):
     
 class MtaMaterial(object):
 
-    def add(self):
-        pass
+    def __init__(self):
 
+        # get a handle to the database session
+        self.session = scicom.mta.connect_session()
+
+    @cherrypy.expose
+    def add(self, description, provider, more_info=None):
+
+        # create the new material
+        new_material = scicom.mta.material.Material(
+            description, provider, more_info)
+
+        # store the material
+        self.session.save(new_material)
+        self.session.flush()
+        
+        # return the stable URI
+        return new_material.view_uri()
+
+    @cherrypy.expose
     def view(self, id):
-        pass
+
+        # get the Material
+        query = self.session.query(scicom.mta.material.Material)
+        material = query.select_by(material_id=id)
+
+        # pass the Material off to a template
+        loader = genshi.template.TemplateLoader([TEMPLATE_DIR])
+        template = loader.load('material.html')
+        stream = template.generate(material=material[0])
+
+        return stream.render('xhtml')
     
 class MtaWeb(object):
 

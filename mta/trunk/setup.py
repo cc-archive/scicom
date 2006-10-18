@@ -11,7 +11,9 @@ setup(
     # scripts and dependencies
     install_requires = ['CherryPy>=3.0beta2',
                         'sqlalchemy',
-                        'simplejson',],
+                        'simplejson',
+                        'Genshi'
+                        ],
     include_package_data = True,
     namespace_packages = ['scicom'],
     zip_safe = False,
