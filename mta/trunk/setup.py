@@ -3,9 +3,9 @@
 from setuptools import setup, find_packages
 
 setup(
-    name = "scicom.mta",
-    version = "0.1",
-    packages = find_packages('src', exclude=["deprecated", "eggs"]),
+    name = "scicom.mta_web",
+    version = "0.2",
+    packages = find_packages('src'),
     package_dir = {'':'src'},
 
     # scripts and dependencies
@@ -13,10 +13,11 @@ setup(
                         'sqlalchemy',
                         'simplejson',],
     include_package_data = True,
+    namespace_packages = ['scicom'],
     zip_safe = False,
 
     entry_points = { 'console_scripts':
-                     ['mta = mta:serve',
+                     ['mta = scicom.mta_web.app:serve',
                       ],
                      },
 
