@@ -1,14 +1,32 @@
-To Do:
+Material Transfer Agreements
+----------------------------
 
-- MeSH chooser for disease field
-   - chooser
-   - show/hide
-- Protocol fill in
-   - show/hide
-* Duration chooser for limited term
-   * chooser/entry validator
-   - show/hide
-* collect field values for metadata generation
-* generate metadata
+This project includes the code and static files for serving the Science
+Commons Material Transfer Agreements.  
 
-* server side deed implementation
+The code requires Python 2.4 or later.
+
+Development & Deployment
+========================
+
+This project uses zc.buildout to manage dependencies and deployment.  After
+checking out the code, run ``bootstrap.py`` to download zc.buildout and its
+dependencies ::
+
+  $ python bootstrap.py
+
+After running bootstrap, you can run buildout to install the project for
+development in the local directory ::
+
+  $ ./bin/buildout
+
+This will retrieve the run-time dependencies of the project and place them
+in the ``eggs`` directory.  It will also create a development egg for the
+MTA-specific code.  A development egg is a special link file in the 
+``develop-eggs`` directory which links the code in development to the local
+Python environment.
+
+You can then run the test server by running the ``mta`` wrapper script which
+buildout generates ::
+
+  $ ./bin/mta

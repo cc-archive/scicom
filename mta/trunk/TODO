@@ -1,0 +1,13 @@
+
+* Limited Term
+  - duration chooser
+* Metadata
+  - collect secondary data (disease field, duration)
+  - generate RDFa
+* Material Registry
+  - register the material if no URI is provided
+  - material view
+* Deeds
+  - simple deed mockup
+* User Interface
+  - integrate material details UI
