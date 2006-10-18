@@ -7,8 +7,8 @@ import os
 import cherrypy
 import simplejson
 
-import model
-import model.mesh
+import scicom.mta
+import scicom.mta.mesh
 
 STATIC_DIR = os.path.abspath(
     os.path.join(os.path.dirname(__file__), 'static',)
@@ -22,13 +22,13 @@ class Mesh(object):
     def json(self, query=None):
 
         # load the MeSH data set
-        mesh_tree = model.mesh.MeshTreeSet(MESH_SOURCE)
+        mesh_tree = scicom.mta.mesh.MeshTreeSet(MESH_SOURCE)
 
         # filter and spit out the results in JSON format
         cherrypy.response.headers['Content-type'] = 'text/plain'
 
         return simplejson.dumps({'Result':mesh_tree.query(query)},
-                                cls=model.mesh.MeshEntryJsonEncoder)
+                                cls=scicom.mta.mesh.MeshEntryJsonEncoder)
     
 class MtaMaterial(object):
 

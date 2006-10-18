@@ -70,7 +70,7 @@ update_field = function(field_name) {
     initChooser = function() {
 
 	// initialize auto-complete for disease field restriction
-	var dsMeSH = new YAHOO.widget.DS_XHR("/mta/server/mesh_json.py",
+	var dsMeSH = new YAHOO.widget.DS_XHR("/mesh/json",
 					 ["Result", "Description", "LookupKey"]
 					 );
 	
