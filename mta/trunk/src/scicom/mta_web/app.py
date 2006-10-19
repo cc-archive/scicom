@@ -36,10 +36,12 @@ class Mesh(object):
     
 class MtaMaterial(object):
 
-    def __init__(self):
+    def __init__(self, loader):
 
         # get a handle to the database session
         self.session = scicom.mta.connect_session()
+
+        self.__loader = loader
 
     @cherrypy.expose
     def add(self, description, provider, more_info=None):
@@ -63,14 +65,28 @@ class MtaMaterial(object):
         material = query.select_by(material_id=id)
 
         # pass the Material off to a template
-        loader = genshi.template.TemplateLoader([TEMPLATE_DIR])
-        template = loader.load('material.html')
+        template = self.__loader.load('material.html')
         stream = template.generate(material=material[0])
 
         return stream.render('xhtml')
     
 class MtaWeb(object):
 
+    def __init__(self):
+
+        # create a template loader instance
+        self.__loader = genshi.template.TemplateLoader([TEMPLATE_DIR])
+
+        # create sub-objects for areas of functionality
+
+        # Material Registration
+        self.material = MtaMaterial(self.__loader)
+        self.material.exposed = True
+
+        # JSON support for MeSH ontology
+        self.mesh = Mesh()
+        self.mesh.exposed = True
+        
     # serve up static files for HTML, CSS, Javascript, etc.
     _cp_config = {'tools.staticdir.on':True,
                   'tools.staticdir.root':STATIC_DIR,
@@ -83,15 +99,11 @@ class MtaWeb(object):
     # MTA deeds and legalcode
     @cherrypy.expose
     def agreement(self, code, version):
-        return "\n".join([code,version])
 
-    # Material Registration
-    material = MtaMaterial()
-    material.exposed = True
+        template = self.__loader.load("deed.html")
+        stream = template.generate(code=code, version=version)
 
-    # JSON support for MeSH ontology
-    mesh = Mesh()
-    mesh.exposed = True
+        return stream.render("xhtml")
 
 def serve(host='localhost', port=8080):
 

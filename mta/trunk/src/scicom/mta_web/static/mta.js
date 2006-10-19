@@ -6,7 +6,7 @@ SciComMta = function() {
 
   // MTA Generation Control Structures
   this._CURRENT_VERSION = "1.0";
-  this._BASE_URI = "http://mta.sciencecommons.org/";
+  this._BASE_URI = "http://mta.sciencecommons.org/agreement/";
 
   // this._field_order = ["field", "scaling", "term", "retain", "publication"];
   this._field_values = new Array();
