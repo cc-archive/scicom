@@ -9,7 +9,7 @@ getSettings = function() {
 
   for (key in SciComMta.prototype._field_order) {
      field_name = SciComMta.prototype._field_order[key];
-     result[field_name] = document.forms["mta_selector_form"][field_name].value;
+     result[field_name] = document.getElementById(field_name).value;
   }
 
 // alert(result);
@@ -38,10 +38,10 @@ updateMta = function() {
 update_field = function(field_name) {
 
     // get the field value
-    value = document.forms["mta_selector_form"][field_name].value;
+    value = document.getElementById(field_name).value;
 
     // iterate over the options updating the visibility if necessary
-    var options = document.forms["mta_selector_form"][field_name].options;
+    var options = document.getElementById(field_name).options;
 
     for (i = 0; i < options.length; i++) {
 	var option = options.item(i);
@@ -64,8 +64,40 @@ update_field = function(field_name) {
 
 } // update_field
 
-    var materialDetailsSubmit = function() {
-    } // materialDetailsSubmit
+    var generate_material_callback = {
+	success: function(result) {
+	    document.getElementById("material_uri").value = result.responseText;
+	}, // success
+
+	failure: function(result) {
+	    // XXX handle error case here
+	}, // failure
+
+	argument: [],
+
+    } // generate_material_callback
+
+    generate_material_uri = function(event) {
+
+	// make sure we have a description and provider
+	var description = document.getElementById("material_desc").value;
+	var provider = document.getElementById("material_provider").value;
+
+	if (!description || !provider) {
+	    // show error message
+	    alert("You must provide a Description and Provider to generate a URL");
+	    return false;
+	}
+
+	// make the async call to generate a URI
+	req_url = "/material/add?description=" + description;
+	req_url += "&provider=" + provider;
+
+	var transaction = YAHOO.util.Connect.asyncRequest("GET", req_url,
+					     generate_material_callback, null);
+
+    } // generate_material_uri
+
 
     initChooser = function() {
 
@@ -85,26 +117,9 @@ update_field = function(field_name) {
 	    return aResultItem[0] + " (" + aResultItem[1] + ")";
 	} // formatResult
 
-	
-	// initialize the material details dialog UI
-	var dlg_buttons = [ {text:'OK', handler: materialDetailsSubmit,
-			     isDefault: true},
-    {text:'Cancel', handler: function(){materialDialog.hide();} } ];
 
-	materialDialog = new YAHOO.widget.Dialog("material_details", { 
-		modal:false, visible:false, width:"350px", 
-		fixedcenter:true, constraintoviewport:true, 
-		draggable:true, postmethod:"none" 
-	    });
-	materialDialog.cfg.queueProperty("buttons", dlg_buttons);
-
-	materialDialog.render();
-	// materialDialog.hide();
-
-	// connect the link to the dialog
-	YAHOO.util.Event.addListener("cmd_show_material_dlg", "click", 
-				     function() {materialDialog.show();}
-				     );
+	var btn_material = document.getElementById("generate_material_uri");
+	btn_material.onclick = generate_material_uri;
 
 	// call updateMta to generate the information for the base MTA
 	updateMta();
