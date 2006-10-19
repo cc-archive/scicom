@@ -37,11 +37,22 @@ p {
    visibility:hidden;
 }
 
-#material_details label {
+#selector label {
    float:left;
-   width:150px;
+   width:200px;
+   padding-bottom: 5px;
 }
 
-#cmd_show_material_dlg {
-   float: right;
+#selector p {
+   margin-left: 10px;
+   clear:both;
+}
+
+.section_header {
+   width:95%;
+   background: gray;
+   padding-top: 5px;
+   padding-bottom: 5px;
+   padding-left: 5px;
+   margin-bottom: 10px;
 }
