@@ -2,14 +2,26 @@ from sqlalchemy import *
 
 import material
 
-DB_URI = "mysql://root@localhost/sc_mta"
+DB_URI = "sqlite://./material.db" # mysql://root@localhost/sc_mta"
 
 def connect_session():
     """Instantiate the database connection."""
 
     db_metadata = BoundMetaData(DB_URI)
 
-    material_table = Table('materials', db_metadata, autoload=True)
-    material_mapper = mapper(material.Material, material_table)
+    # Material registry
+    m_tbl = Table('materials', db_metadata,
+                  Column('material_id', Integer, primary_key=True),
+                  Column('description', String(100)),
+                  Column('provider', String(100)),
+                  Column('more_info', String(255)),
+                  Column('identifier', String(255)),
+                  )
+
+    # make sure the table exists
+    if not(m_tbl.exists()):
+        m_tbl.create()
+    
+    material_mapper = mapper(material.Material, m_tbl)
     
     return create_session()

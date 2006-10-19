@@ -9,8 +9,9 @@ setup(
     package_dir = {'':'src'},
 
     # scripts and dependencies
-    install_requires = ['CherryPy>=3.0beta2',
-                        'sqlalchemy',
+    install_requires = ['setuptools',
+                        'CherryPy>=3.0beta2',
+                        'SQLAlchemy',
                         'simplejson',
                         'Genshi'
                         ],
