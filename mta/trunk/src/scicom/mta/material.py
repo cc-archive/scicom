@@ -2,7 +2,7 @@ import hashlib
 
 class Material(object):
 
-    BASE_URI = "http://mta.creativecommons.org/material/view"
+    BASE_URI = "http://mta.sciencecommons.org/material/view"
     
     def __init__(self, description, provider, more_info=None, identifier=None):
 
