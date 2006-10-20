@@ -105,9 +105,12 @@ class MtaWeb(object):
 
         return stream.render("xhtml")
 
-def serve(host='localhost', port=8080):
+def serve(host='localhost', port=8082):
 
     cherrypy.tree.mount(MtaWeb())
+
+    cherrypy.server.socket_host = host
+    cherrypy.server.socket_port = port
     cherrypy.server.quickstart()
     cherrypy.engine.start()
 
