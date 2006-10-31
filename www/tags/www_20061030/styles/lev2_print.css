@@ -1,0 +1,83 @@
+/* level 2 print styles for Science Commons site  */
+
+
+
+/* PAGE AREA */
+/* (inside the centered outer shell) */
+
+#divpagearea {
+  width: 620px;
+  padding: 0px;
+}
+
+
+
+/* TITLE AREA */
+/* (contains "Science Commons") */
+
+#divtitle {
+  position: absolute;
+	left: 460px;
+	top: 0px;
+	margin: 0px;
+	padding: 0px;
+	border: none;
+	background-image: none;
+}
+
+
+
+/* PRIMARY NAVIGATION */
+
+#divprimarynav {
+  display: none;
+}
+
+
+
+/* PAGE TITLE */
+
+#divpagetitle {
+  margin: 0px 0px 20px 0px;
+	border: 0px;
+}
+
+
+
+/* SECONDARY NAVIGATION */
+
+#divsecondarynav {
+  display: none;
+}
+
+
+
+/* TERTIARY NAVIGATION */
+
+#divtertiarynav {
+  display: none;
+}
+
+
+
+/* CONTENT */
+
+#divtext {
+  width: 592px;
+  margin: 0px;
+	padding: 0px 0px 0px 28px;
+	border: 0px;
+  background-color: transparent;
+}
+
+
+
+/* FACTOID */
+
+#divfactoid {
+  position: static;
+  width: 592px;
+  margin: 30px 0px 30px 0px;
+	padding: 0px 0px 0px 28px;
+	border: 0px;
+}

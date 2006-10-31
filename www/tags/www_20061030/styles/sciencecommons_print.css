@@ -1,0 +1,27 @@
+/* print styles for Science Commons site  */
+
+
+
+/* GENERAL */
+
+span.screenonly {
+  display: none;
+}
+span.printonly {
+  display: inline;
+}
+div.screenonly {
+  display: none;
+}
+div.printonly {
+  display: block;
+}
+
+
+
+/* OUTER SHELL */
+/* container for all page content */
+
+#divoutershell {
+  width: 620px;
+}

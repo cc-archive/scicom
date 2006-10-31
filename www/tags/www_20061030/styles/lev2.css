@@ -1,0 +1,245 @@
+/* level 2 styles for Science Commons site  */
+
+
+
+/* PAGE AREA */
+/* (inside the centered outer shell) */
+
+#divpagearea {
+  position: relative;
+  z-index: 1;
+  width: 738px;
+  padding: 0px 0px 9px 12px;
+}
+
+
+
+/* TITLE AREA */
+/* (contains "Science Commons") */
+
+#divtitle {
+  margin-top: 6px;
+  border-top: 1px solid #a6a6a6;
+  border-bottom: 1px solid #a6a6a6;
+  padding: 56px 27px 30px 580px;
+  width: 131px;
+  height: 39px;
+  background-image: url(../img/about/sitetitlebkg.jpg); /* set for each section */
+  background-repeat: no-repeat;
+}
+#divtitle h1 {
+  margin: 0px;
+	padding: 0px;
+}
+
+
+
+/* PRIMARY NAVIGATION */
+
+#divprimarynav {
+  position: absolute;
+  z-index: 5;
+  left: 12px;
+  top: 141px;
+}
+#divprimarynav h2 {
+	padding: 0px;
+	margin: 0px;
+}
+/* menus */
+#divprimarynav ul.popupmenu {
+  position: absolute;
+  left: 245px;
+	width: 366px;
+  z-index: 5;
+  visibility: hidden;
+
+  list-style: none;
+	padding: 0px;
+	margin: 0px;
+}
+#divprimarynav ul.popupmenu li {
+  float: left;
+}
+#divprimarynav ul.popupmenu li a {
+  display: block;
+}
+#menu_thesciencecommons {
+  top: 0px;
+}
+#menu_projects {
+  top: 31px;
+}
+#menu_resources {
+  top: 62px;
+}
+#menu_contactblog {
+  top: 125px;
+}
+
+
+
+/* PAGE TITLE */
+
+#divpagetitle {
+  margin-left: 245px;
+  border-left: 1px solid #a6a6a6;
+  border-bottom: 1px solid #a6a6a6;
+  width: 492px;
+  height: 125px;
+}
+#divpagetitle h1 {
+  margin: 0px;
+	padding: 0px;
+}
+
+
+
+/* SECONDARY NAVIGATION */
+
+#divsecondarynav {
+  margin-left: 245px;
+  border-left: 1px solid #a6a6a6;
+  border-bottom: 1px solid #a6a6a6;
+  width: 492px;
+}
+
+
+
+/* TERTIARY NAVIGATION */
+
+#divtertiarynav {
+  position: absolute;
+  z-index: 5;
+  left: 27px;
+  top: 356px;
+  width: 222px;
+}
+
+#divtertiarynav ul {
+  list-style: none;
+  margin: 0px;
+	padding: 0px;
+}
+#divtertiarynav li {
+  font-family: arial, lucida, helvetica, sans-serif;
+  font-size: 0.75em;
+	font-weight: bold;
+  line-height: 120%;
+  color: #000000;
+  margin-top: 0px;
+	margin-bottom: 8px;
+}
+#divtertiarynav a,
+#divtertiarynav a:link,
+#divtertiarynav a:visited {
+  color: #000000;
+  text-decoration: none;
+}
+#divtertiarynav a:active,
+#divtertiarynav a:hover,
+#divtertiarynav a:focus {
+  color: #7d7d7d;
+  text-decoration: underline;
+}
+#divtertiarynav a.current,
+#divtertiarynav a.current:link,
+#divtertiarynav a.current:visited {
+  color: #7d7d7d;
+  text-decoration: none;
+}
+
+
+
+/* CONTENT */
+
+#divtext {
+  margin-left: 245px;
+  border-left: 1px solid #a6a6a6;
+  padding: 30px 44px 88px 28px;
+  width: 420px;
+	min-height: 250px;
+  background-color: #f2f2f2;
+}
+#divtext h1, #divtext h2, #divtext h3, #divtext p, #divtext li {
+  font-family: arial, lucida, helvetica, sans-serif;
+  font-size: 0.75em;
+  line-height: 160%;
+  color: #000000;
+  margin-top: 0px;
+}
+#divtext h1 {
+  font-size: 2.00em;
+  font-weight: normal;
+  line-height: 120%;
+  color: #858585;
+  margin-bottom: 10px;
+}
+#divtext h2, #divtext h3 {
+  font-weight: bold;
+  color: #858585;             /* set h2 color for each section */
+  margin-bottom: 0px;
+}
+#divtext p.tagline {
+  font-size: 0.90em;
+	font-style: italic;
+  line-height: 140%;
+  color: #333333;
+}
+
+#divtext a,
+#divtext a:link,
+#divtext a:visited {
+  text-decoration: underline;
+}
+/* paragraphic list */
+ul.paragraphic li {
+  margin-bottom: 1.0em;
+}
+/* list of links */
+ul.linklist {
+  list-style: none;
+	margin: 0px 0px 1.5em 0px;
+	padding: 0px;
+}
+ul.linklist li {
+  margin: 0px 0px 0.75em 0px;
+  line-height: 140%;
+}
+/* images that float left/right */
+img.floatleft {
+  float: left;
+	margin: 4px 6px 8px 0px;
+}
+img.floatright {
+  float: right;
+	margin: 4px 0px 8px 6px;
+}
+
+
+
+/* FACTOID */
+
+#divfactoid {
+  position: absolute;
+  z-index: 5;
+  left: 27px;
+  top: 386px;
+  width: 200px;
+}
+#divfactoid h2, #divfactoid p {
+  font-family: arial, lucida, helvetica, sans-serif;
+  font-size: 0.75em;
+  line-height: 140%;
+  color: #666666;
+  margin: 0px;
+}
+#divfactoid h2 {
+  font-style: normal;
+}
+#divfactoid p.attribution {
+  padding-left: 20px;
+}
+div.pushdown {
+  margin-top: 6em;
+}

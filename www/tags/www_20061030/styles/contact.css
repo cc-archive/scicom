@@ -1,0 +1,11 @@
+/* Contact/Blog section styles for Science Commons site  */
+
+
+
+#divtitle {
+  background-image: url(../img/contact/sitetitlebkg.jpg);
+}
+
+#divtext h2 {
+  color: #024859;
+}
