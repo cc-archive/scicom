@@ -74,7 +74,7 @@
       <h2><a href="index.html" onmouseover="show_menu_exclusive('contactblog')" onmouseout="start_delayed_hide_menu()"><img src="/img/contact/nav/contactblog.gif" width="246" height="32" border="0" alt="Contact/Blog" title="" name="n1contactblog" id="n1contactblog" /></a></h2>
       <ul class="popupmenu" id="menu_contactblog">
         <li><a href="/weblog" onmouseover="cancel_delayed_hide_menu()" onmouseout="start_delayed_hide_menu()"><img src="/img/contact/menus/blog.gif" width="366" height="28" border="0" alt="Science Commons Blog" title="" /></a></li>
-        <li><a href="announce.html" onmouseover="cancel_delayed_hide_menu()" onmouseout="start_delayed_hide_menu()"><img src="/img/contact/menus/announce.gif" width="366" height="26" border="0" alt="Science Commons Announce/Discuss" title="" /></a></li>
+        <li><a href="/contact/announce.html" onmouseover="cancel_delayed_hide_menu()" onmouseout="start_delayed_hide_menu()"><img src="/img/contact/menus/announce.gif" width="366" height="26" border="0" alt="Science Commons Announce/Discuss" title="" /></a></li>
       </ul>
 
     </div>
@@ -87,4 +87,4 @@
     <!-- secondary navigation -->
     <div id="divsecondarynav">
     <a href="/weblog"><img src="/img/contact/nav2/blog_hi.gif" width="169" height="24" border="0" alt="Science Commons Blog" title="" name="n2blog" id="n2blog" /></a><a
-         href="announce.html" onmouseover="MM_swapImage('n2announce','','/img/contact/nav2/announce_ro.gif',1)" onmouseout="MM_swapImgRestore()"><img src="/img/contact/nav2/announce.gif" width="240" height="24" border="0" alt=" | Science Commons Announce/Discuss" title="" name="n2announce" id="n2announce" /></a></div>
+         href="/contact/announce.html" onmouseover="MM_swapImage('n2announce','','/img/contact/nav2/announce_ro.gif',1)" onmouseout="MM_swapImgRestore()"><img src="/img/contact/nav2/announce.gif" width="240" height="24" border="0" alt=" | Science Commons Announce/Discuss" title="" name="n2announce" id="n2announce" /></a></div>
