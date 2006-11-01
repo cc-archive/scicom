@@ -3,111 +3,24 @@
 <head>
   <title>Science Commons: Scholar's Copyright Agreement</title>
 
+<link rel="stylesheet" type="text/css" href="css/scholars.css">
+<link rel="stylesheet" type="text/css" href="css/jtip.css">
 
-  <style type="text/css">
-h1 { 
-   font-size: 1.5em;
-}
-
-body { 
-   font-family: Arial,Helvetica,sans-serif;
-   background-color: rgb(75, 97, 125);
-}
-
-label { 
-   font-size: 0.9em;
-   font-weight: bold;
-   text-align: right;
-
-   float: left;
-   width: 200px;
-   margin-right: 10px;
-}
-
-input {
-   left: 210px;
-   width: 300px;
-   margin-bottom: 5px;
-   border: 1px solid #222;
-   padding: 2px;
-}
-
-select {
-   width: 300px;
-}
-
-button.generate {
-   text-align: center;
-   margin-left: 220px;
-   margin-top: 20px;
-   margin-bottom: 20px;
-   padding: 5px;
-}
-
-p { 
-   font-size: 1em;
-}
-
-p.footer { 
-   font-size: 0.7em;
-   text-align: center;
-}
-
-.logo { 
-   float: right;
-}
-
-#content { 
-   border: 1px solid rgb(51, 51, 51);
-   padding: 10px;
-   width: 600px;
-   margin-left: auto;
-   margin-right: auto;
-   background-color: rgb(255, 255, 255);
-   opacity: 1;
-}
-
-.helptext {
-   font-size: .6em;
-   background-color:yellow;
-   margin-left: 210px;
-   width:300px;
-   margin-top: 5px;
-   margin-bottom: 5px;
-}
-
-td {
-   text-align: left;
-   vertical-align: top;
-}
-
-.red {
-background-color: red;
-}
-
-  </style>
-
-<script type="text/javascript" src="jquery.pack.js"></script>
+<script type="text/javascript" src="js/jquery.pack.js"></script>
+<script type="text/javascript" src="js/jtip.js"></script>
 
 <script type="text/javascript">
-
-// showHelp()
-function showHelp(help_id) {
-
-   $(help_id).slideToggle("slow");
-} // showHelp
 
 // addAuthor()
 function addAuthor() {
 
-  var last_author = $(  $("//input[@name='author']").get()[0] );
-  var new_author = last_author.clone();
-  new_author.addClass("red");
+  var new_author = $('<label>&nbsp;</label><input class="additional" name="author" /><br/>');
+  new_author.hide();
 
-  new_author.before("<br/><label&nbsp;</label>");
-
-
-  last_author.after(new_author);
+  $("#author_container").append(new_author);
+  //var last_author = $("//input[@name='author']:last");
+  //last_author.after(new_author);
+  new_author.slideDown();
 
   return false;
 
@@ -116,7 +29,6 @@ function addAuthor() {
 // initially hide all help text
 $("document").ready(function() {
 
-   $(".helptext").hide();
    $("#addAuthor").click(addAuthor);
 }); // document.ready
 
@@ -136,46 +48,24 @@ Copyright</h1>
 
 <label for="manuscript">Manuscript Title</label>
    <input name="manuscript">
-   <a href="" onclick="showHelp('#title_help'); return false;">?</a>
-
-   <div id="title_help" class="helptext">
-     Type the full title of the article, as it will appear in the 
-     published version.
-   </div>
+   <a href="help/title.html?width=200" class="jTip helpLink" id="title" name="Manuscript Title">?</a>
 
 <label for="journal">Journal</label>
    <input name="journal">
-   <a href="#" onclick="showHelp('#help_journal'); return false;">?</a>
-
-   <div class="helptext" id="help_journal">
-     Type the full name of the journal or publication in which the article 
-     will be published. (Do not use abbreviated titles.)
-   </div>
+   <a href="help/journal.html?width=200" class="jTip helpLink" id="journal" name="Journal">?</a>
 
 
 <label for="author">Author Information</label>
+  <div id="author_container">
    <input name="author">
-   <a href="#" onclick="showHelp('#help_author'); return false;">?</a>
-   <a href="#" id="addAuthor">+</a>
-
-   <div class="helptext" id="help_author">
-     Type the full name (first name, middle initial, last name) of 
-     each author, as it will appear in the published version. 
-
-<!-- If there are more than four authors,  click “more” below to enter more names. -->
-   </div>
+   <a href="help/author.html?width=200" class="jTip helpLink" id="author" name="Author Information">?</a>
+   <a href="#" class="helpLink" id="addAuthor" name="add author">+</a><br/>
+  </div>
 
 <label for="publisher">Publisher</label>
    <input name="publisher">
-   <a href="#" onclick="showHelp('#help_publisher'); return false;">?</a>
-
-   <div class="helptext" id="help_publisher">
-     Type the name of the publisher of the journal or publication in 
-     which the article will appear. This name can usually be found in 
-     the copyright assignment agreement provided by the publisher or 
-     on the masthead of the publication.
-   </div>
-
+   <a href="help/publisher.html?width=200" class="jTip helpLink" 
+      id="publisher" name="Publisher">?</a>
 
 <label for="agreement">Agreement Type</label>
         
@@ -185,12 +75,8 @@ Copyright</h1>
      <option value="retaincc">OpenAccess-Creative Commons</option>
    </select>
 
-   <a href="#" onclick="showHelp('#help_agreement'); return false;">?</a>
-
-   <div class="helptext" id="help_agreement">
-     Please refer to the {FAQ} for more help selecting your addendum.
-   </div>
-
+   <a href="help/agreement.html?width=200" class="jTip helpLink" 
+      id="agreement" name="Agreement Type">?</a>
 
 <button type="submit" class="generate">Generate Addendum</button>
 
