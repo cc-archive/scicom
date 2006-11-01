@@ -79,7 +79,7 @@ background-color: red;
 }
 
 .helpLink {
-background-color: #faa;
+background-color: #80b3ff;
 color: white;
 text-decoration: none;
 margin-bottom: 2px;
@@ -90,4 +90,8 @@ padding-right:2px;
 
 .additional {
   margin-left:210px;
+}
+
+.error {
+  background-color: #faa;
 }

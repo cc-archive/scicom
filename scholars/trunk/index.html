@@ -11,25 +11,56 @@
 
 <script type="text/javascript">
 
-// addAuthor()
-function addAuthor() {
+// validate the form prior to submission
+function validate() {
 
-  var new_author = $('<label>&nbsp;</label><input class="additional" name="author" /><br/>');
-  new_author.hide();
+  // clear all previous errors
+  $("input").removeClass("error");
+  var errors = false;
 
-  $("#author_container").append(new_author);
-  //var last_author = $("//input[@name='author']:last");
-  //last_author.after(new_author);
-  new_author.slideDown();
+  // check all except author, which is special cased
+  $("input[@name!='author']").each(function(){
 
-  return false;
+     if(! $(this).val()) {
 
-} // addAuthor
+        errors = true;
+        $(this).addClass("error");
+
+     } 
+  });
+
+  // check author
+  var seen_author = false;
+  $("input[@name='author']").each(function(){
+     if ($(this).val()) seen_author = true;
+  });
+
+  if (!seen_author) {
+     $("//input[@name='author']:first").addClass("error");
+     errors = true;
+  }
+
+  // submit if no errors
+  return !(errors);
+
+} // validate
 
 // initially hide all help text
 $("document").ready(function() {
 
-   $("#addAuthor").click(addAuthor);
+   // HTML snippet for new author input boxes
+   var AUTHOR_INPUT = '<label>&nbsp;</label><input class="additional" name="author" /><br/>';
+
+
+   // add author input box functionality
+   $("#addAuthor").click( function() {
+       $(AUTHOR_INPUT).hide().appendTo("#author_container").slideDown();
+
+       return false;
+       } );
+
+   $("#generate").click(validate);
+
 }); // document.ready
 
 </script>
@@ -47,11 +78,12 @@ Copyright</h1>
 <form action="generate.py">
 
 <label for="manuscript">Manuscript Title</label>
-   <input name="manuscript">
+   <input name="manuscript" id="txt_title">
    <a href="help/title.html?width=200" class="jTip helpLink" id="title" name="Manuscript Title">?</a>
 
+
 <label for="journal">Journal</label>
-   <input name="journal">
+   <input name="journal" id="txt_journal">
    <a href="help/journal.html?width=200" class="jTip helpLink" id="journal" name="Journal">?</a>
 
 
@@ -63,7 +95,7 @@ Copyright</h1>
   </div>
 
 <label for="publisher">Publisher</label>
-   <input name="publisher">
+   <input name="publisher"  id="txt_publisher">
    <a href="help/publisher.html?width=200" class="jTip helpLink" 
       id="publisher" name="Publisher">?</a>
 
@@ -78,7 +110,7 @@ Copyright</h1>
    <a href="help/agreement.html?width=200" class="jTip helpLink" 
       id="agreement" name="Agreement Type">?</a>
 
-<button type="submit" class="generate">Generate Addendum</button>
+<button type="submit" class="generate" id="generate">Generate Addendum</button>
 
 <p class="footer" style="text-align:left;">IMPORTANT NOTICE:  This website 
 provides general information and sample agreements but it does not 
