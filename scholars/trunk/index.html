@@ -5,31 +5,123 @@
 
 
   <style type="text/css">
-h1 { font-size: 1.5em;
+h1 { 
+   font-size: 1.5em;
 }
-body { font-family: Arial,Helvetica,sans-serif;
-background-color: rgb(75, 97, 125);
+
+body { 
+   font-family: Arial,Helvetica,sans-serif;
+   background-color: rgb(75, 97, 125);
 }
-label { font-size: 0.9em;
-font-weight: bold;
-text-align: right;
+
+label { 
+   font-size: 0.9em;
+   font-weight: bold;
+   text-align: right;
+
+   float: left;
+   width: 200px;
+   margin-right: 10px;
 }
-p { font-size: 1em;
+
+input {
+   left: 210px;
+   width: 300px;
+   margin-bottom: 5px;
+   border: 1px solid #222;
+   padding: 2px;
 }
-p.footer { font-size: 0.7em;
-text-align: center;
+
+select {
+   width: 300px;
 }
-.logo { float: right;
+
+button.generate {
+   text-align: center;
+   margin-left: 220px;
+   margin-top: 20px;
+   margin-bottom: 20px;
+   padding: 5px;
 }
-#content { border: 1px solid rgb(51, 51, 51);
-padding: 10px;
-width: 600px;
-margin-left: auto;
-margin-right: auto;
-background-color: rgb(255, 255, 255);
-opacity: 1;
+
+p { 
+   font-size: 1em;
 }
+
+p.footer { 
+   font-size: 0.7em;
+   text-align: center;
+}
+
+.logo { 
+   float: right;
+}
+
+#content { 
+   border: 1px solid rgb(51, 51, 51);
+   padding: 10px;
+   width: 600px;
+   margin-left: auto;
+   margin-right: auto;
+   background-color: rgb(255, 255, 255);
+   opacity: 1;
+}
+
+.helptext {
+   font-size: .6em;
+   background-color:yellow;
+   margin-left: 210px;
+   width:300px;
+   margin-top: 5px;
+   margin-bottom: 5px;
+}
+
+td {
+   text-align: left;
+   vertical-align: top;
+}
+
+.red {
+background-color: red;
+}
+
   </style>
+
+<script type="text/javascript" src="jquery.pack.js"></script>
+
+<script type="text/javascript">
+
+// showHelp()
+function showHelp(help_id) {
+
+   $(help_id).slideToggle("slow");
+} // showHelp
+
+// addAuthor()
+function addAuthor() {
+
+  var last_author = $(  $("//input[@name='author']").get()[0] );
+  var new_author = last_author.clone();
+  new_author.addClass("red");
+
+  new_author.before("<br/><label&nbsp;</label>");
+
+
+  last_author.after(new_author);
+
+  return false;
+
+} // addAuthor
+
+// initially hide all help text
+$("document").ready(function() {
+
+   $(".helptext").hide();
+   $("#addAuthor").click(addAuthor);
+}); // document.ready
+
+</script>
+
 </head>
 
 <body>
@@ -41,121 +133,73 @@ Copyright</h1>
 <p>Please enter the information requested below and choose a version of the Science Commons Author's Addendum to generate an addendum. For more information on how to select and use an addendum, refer to <a href="http://www.sciencecommons.org/resources/faq/authorsaddendum.html">the FAQ</a>.</p>
 
 <form action="generate.py">
-  <table style="text-align: left; margin-left: auto; margin-right: auto;" border="0" cellpadding="2" cellspacing="2">
 
-    <tbody>
+<label for="manuscript">Manuscript Title</label>
+   <input name="manuscript">
+   <a href="" onclick="showHelp('#title_help'); return false;">?</a>
 
-      <tr>
+   <div id="title_help" class="helptext">
+     Type the full title of the article, as it will appear in the 
+     published version.
+   </div>
 
-        <td style="text-align: right;"><label for="manuscript">Manuscript
-Title</label></td>
+<label for="journal">Journal</label>
+   <input name="journal">
+   <a href="#" onclick="showHelp('#help_journal'); return false;">?</a>
 
-        <td><input name="manuscript"></td>
+   <div class="helptext" id="help_journal">
+     Type the full name of the journal or publication in which the article 
+     will be published. (Do not use abbreviated titles.)
+   </div>
 
-      </tr>
 
-      <tr>
+<label for="author">Author Information</label>
+   <input name="author">
+   <a href="#" onclick="showHelp('#help_author'); return false;">?</a>
+   <a href="#" id="addAuthor">+</a>
 
-        <td style="text-align: right;"><label for="journal">Journal</label></td>
+   <div class="helptext" id="help_author">
+     Type the full name (first name, middle initial, last name) of 
+     each author, as it will appear in the published version. 
 
-        <td><input name="journal"></td>
+<!-- If there are more than four authors,  click “more” below to enter more names. -->
+   </div>
 
-      </tr>
+<label for="publisher">Publisher</label>
+   <input name="publisher">
+   <a href="#" onclick="showHelp('#help_publisher'); return false;">?</a>
 
-      <tr>
+   <div class="helptext" id="help_publisher">
+     Type the name of the publisher of the journal or publication in 
+     which the article will appear. This name can usually be found in 
+     the copyright assignment agreement provided by the publisher or 
+     on the masthead of the publication.
+   </div>
 
-        <td></td>
 
-        <td></td>
+<label for="agreement">Agreement Type</label>
+        
+   <select name="agreement">
+     <option value="noembargo">OpenAccess-Publish</option>
+     <option value="embargo">OpenAccess-Delay</option>
+     <option value="retaincc">OpenAccess-Creative Commons</option>
+   </select>
 
-      </tr>
+   <a href="#" onclick="showHelp('#help_agreement'); return false;">?</a>
 
-      <tr>
+   <div class="helptext" id="help_agreement">
+     Please refer to the {FAQ} for more help selecting your addendum.
+   </div>
 
-        <td style="text-align: right;"><label for="author">Author
-Information</label></td>
 
-        <td><input name="author"></td>
+<button type="submit" class="generate">Generate Addendum</button>
 
-      </tr>
-
-      <tr>
-
-        <td></td>
-
-        <td><input name="author"></td>
-
-      </tr>
-
-      <tr>
-
-        <td></td>
-
-        <td><input name="author"></td>
-
-      </tr>
-
-      <tr>
-
-        <td></td>
-
-        <td><input name="author"></td>
-
-      </tr>
-
-      <tr>
-
-        <td></td>
-
-        <td></td>
-
-      </tr>
-
-      <tr>
-
-        <td style="text-align: right;"><label for="publisher">Publisher</label></td>
-
-        <td><input name="publisher"></td>
-
-      </tr>
-
-      <tr>
-
-        <td></td>
-
-        <td></td>
-
-      </tr>
-
-      <tr>
-
-        <td style="text-align: right;"><label for="agreement">Agreement Type</label></td>
-
-        <td>
-        <select name="agreement">
-        <option value="noembargo">OpenAccess-Publish</option>
-        <option value="embargo">OpenAccess-Delay</option>
-        <option value="retaincc">OpenAccess-Creative Commons</option>
-        </select>
-
-        </td>
-
-      </tr>
-<tr><td colspan="2"><p class="footer" style="text-align:left;">IMPORTANT NOTICE:  This website 
+<p class="footer" style="text-align:left;">IMPORTANT NOTICE:  This website 
 provides general information and sample agreements but it does not 
 provide individual legal advice. Creative Commons Corporation, including 
 Science Commons ("Creative Commons"), is not a law firm and does not 
-provide legal services, and you should not rely on us for legal advice. Using the materials on this website or communicating with us does not create an attorney-client relationship. Creative Commons provides this general legal information on an 'as-is' basis. Creative Commons makes no warranties, including, but not limited to, the warranties of merchantability and fitness for a particular purpose, regarding the information or materials provided on this website. Creative Commons is not a party to this addendum or any related agreement. You agree that as consideration for making these materials available to you free of charge, you shall not bring suit against Creative Commons or otherwise hold Creative Commons liable to You or any party on any legal theory for any damages whatsoever, including without limitation any general, special, incidental or consequential damages arising in connection to your use of the materials and information.</p></td></tr>
+provide legal services, and you should not rely on us for legal advice. Using the materials on this website or communicating with us does not create an attorney-client relationship. Creative Commons provides this general legal information on an 'as-is' basis. Creative Commons makes no warranties, including, but not limited to, the warranties of merchantability and fitness for a particular purpose, regarding the information or materials provided on this website. Creative Commons is not a party to this addendum or any related agreement. You agree that as consideration for making these materials available to you free of charge, you shall not bring suit against Creative Commons or otherwise hold Creative Commons liable to You or any party on any legal theory for any damages whatsoever, including without limitation any general, special, incidental or consequential damages arising in connection to your use of the materials and information.</p>
 
-
-      <tr>
-
-        <td style="text-align: center;" colspan="2" rowspan="1"><button type="submit">Submit</button></td>
-
-      </tr>
-
-    </tbody>
-  </table>
 
 </form>
 
