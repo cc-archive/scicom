@@ -9,9 +9,18 @@
 $(document).ready(JT_init);
 
 function JT_init(){
-	       $("a.jTip")
-		   .hover(function(){JT_show(this.href,this.id,this.name)},function(){$('#JT').remove()})
-           .click(function(){return false});	   
+
+    $("a.jTip").hover(
+		function(){
+		    JT_show(this.href,this.id,this.name)
+		},
+		function(){
+		    window.setTimeout("$('#JT_" + this.id + 
+    "').fadeOut('slow', function() {$('#JT_" + this.id + "').remove();});", 
+				      2000)
+			});
+
+    $("a.jTip").click(function(){return false});	   
 }
 
 function JT_show(url,linkId,title){
@@ -30,17 +39,19 @@ function JT_show(url,linkId,title){
 	}
 	
 	if(hasArea>((params['width']*1)+75)){
-		$("body").append("<div id='JT' style='width:"+params['width']*1+"px'><div id='JT_arrow_left'></div><div id='JT_close_left'>"+title+"</div><div id='JT_copy'><div class='JT_loader'><div></div></div>");//right side
+		$("body").append("<div id='JT_" + linkId + "' style='width:"+params['width']*1+"px'><div id='JT_arrow_left'></div><div id='JT_close_left'>"+title+"</div><div id='JT_copy_" + linkId + "'><div class='JT_loader'><div></div></div>");//right side
 		var arrowOffset = getElementWidth(linkId) + 11;
 		var clickElementx = getAbsoluteLeft(linkId) + arrowOffset; //set x position
 	}else{
-		$("body").append("<div id='JT' style='width:"+params['width']*1+"px'><div id='JT_arrow_right' style='left:"+((params['width']*1)+1)+"px'></div><div id='JT_close_right'>"+title+"</div><div id='JT_copy'><div class='JT_loader'><div></div></div>");//left side
+		$("body").append("<div id='JT_" + linkId + "' style='width:"+params['width']*1+"px'><div id='JT_arrow_right' style='left:"+((params['width']*1)+1)+"px'></div><div id='JT_close_right'>"+title+"</div><div id='JT_copy_" + linkId + "'><div class='JT_loader'><div></div></div>");//left side
 		var clickElementx = getAbsoluteLeft(linkId) - ((params['width']*1) + 15); //set x position
 	}
 	
-	$('#JT').css({left: clickElementx+"px", top: clickElementy+"px"});
-	$('#JT').show();
-	$('#JT_copy').load(url);
+	$('#JT_' + linkId).css({left: clickElementx+"px", top: clickElementy+"px"});
+	$('#JT_' + linkId).css({position: 'absolute', 'z-index': '100', border: '2px solid #CCC', 'background-color': '#fff'});
+
+	$('#JT_' + linkId).show();
+	$('#JT_copy_' + linkId).load(url);
 
 }
 
