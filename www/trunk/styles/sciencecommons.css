@@ -14,6 +14,13 @@ body {
   text-align: center;        /* centers the page for IE/win */
 }
 
+h4 {
+  margin-left:4px;
+  margin-bottom:5px;
+  font-family: arial, lucida, helvetica, sans-serif;
+
+}
+
 /* for div containing skip links and other content that should never be seen by visual browsers */
 .offscreen {
   position: absolute;

@@ -104,16 +104,17 @@ research process.</p>
       <td id="rightcolumn">
       <div id="divcurrentpost">
       <div id="divfactoid">
+<h4>SC Blog</h4>
 <?  
 require_once 'rss_fetch.inc';
 
-$url = 'http://sciencecommons.org/weblog/feed/';
+$url = 'http://sciencecommons.org:81/weblog/feed/atom/';
 $rss = fetch_rss($url);
 
 $latest = $rss->items[0];
 
-echo '<p><a href="' . $latest["link"] . '">' . $latest["title"] . "</a></p>";
-echo "<p>" . $latest["description"] . "</p>"; ?>
+echo '<p><a href="' . $latest["link"] . '">' . ($latest["title"]) . "</a></p>";
+echo "<p>" . ($latest["description"]) . "</p>"; ?>
       </div>
       </div>
       </td>
