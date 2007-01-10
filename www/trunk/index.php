@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Science Commons</title>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+  <meta name="description" content="" lang="en-us">
+  <meta name="keywords" content="" xml:lang="en-us" lang="en-us">
+  <script language="JavaScript" type="text/javascript"
+ src="scripts/dwcode.js"> </script>
+  <script language="JavaScript" type="text/javascript"
+ src="scripts/menucode.js"> </script>
+  <link rel="stylesheet" href="styles/sciencecommons.css"
+ type="text/css">
+  <link rel="stylesheet" href="styles/home.css" type="text/css">
+</head>
+<body
+ onload="MM_preloadImages('img/home/nav/thesciencecommons_ro.gif','img/home/nav/projects_ro.gif','img/home/nav/resources_ro.gif','img/home/nav/partners_ro.gif','img/home/nav/contactblog_ro.gif')">
+<!-- anchor for back to top -->
+<div id="divtopanchor"> <a name="top" id="top"><img
+ src="img/spacer.gif" alt="" border="0" height="1" width="1"></a></div>
+<!-- outer shell -->
+<div id="divoutershell"><!-- container for page content -->
+<div id="divpagearea"><!-- creative commons "tab" -->
+<div><a href="http://creativecommons.org/support/"> <img
+ src="http://creativecommons.org/images/support/2006/spread-2.gif"
+ border="0"></a> </div>
+<!-- title area -->
+<div id="divtitle">
+<h1><img src="img/home/scicomlogo.gif" alt="Science Commons" title=""
+ height="51" width="178"></h1>
+</div>
+<!-- primary navigation -->
+<div id="divprimarynav">
+<h2><a href="about/index.html"
+ onmouseover="MM_swapImage('n1thesciencecommons','','img/home/nav/thesciencecommons_ro.gif',1)"
+ onmouseout="MM_swapImgRestore()"><img
+ src="img/home/nav/thesciencecommons.gif" alt="The Science Commons"
+ title="" name="n1thesciencecommons" id="n1thesciencecommons" border="0"
+ height="32" width="732"></a></h2>
+<h2><a href="projects/index.html"
+ onmouseover="show_menu_exclusive('projects')"
+ onmouseout="start_delayed_hide_menu()"><img
+ src="img/home/nav/projects.gif" alt="Projects" title=""
+ name="n1projects" id="n1projects" border="0" height="34" width="732"></a></h2>
+<ul class="popupmenu" id="menu_projects">
+  <li><a href="projects/publishing/index.html"
+ onmouseover="cancel_delayed_hide_menu()"
+ onmouseout="start_delayed_hide_menu()"><img
+ src="img/home/menus/copyright.gif" alt="Scholar's Copyright Project"
+ title="" border="0" height="28" width="575"></a></li>
+  <li><a href="projects/licensing/index.html"
+ onmouseover="cancel_delayed_hide_menu()"
+ onmouseout="start_delayed_hide_menu()"><img
+ src="img/home/menus/biomaterials.gif"
+ alt="Biological Materials Transfer Project" title="" border="0"
+ height="27" width="575"></a></li>
+  <li><a href="projects/data/index.html"
+ onmouseover="cancel_delayed_hide_menu()"
+ onmouseout="start_delayed_hide_menu()"><img
+ src="img/home/menus/neurocommons.gif" alt="The Neurocommons" title=""
+ border="0" height="27" width="575"></a></li>
+</ul>
+<h2><a href="resources/index.html"
+ onmouseover="MM_swapImage('n1resources','','img/home/nav/resources_ro.gif',1)"
+ onmouseout="MM_swapImgRestore()"><img src="img/home/nav/resources.gif"
+ alt="Resources" title="" name="n1resources" id="n1resources" border="0"
+ height="34" width="732"></a></h2>
+<h2><a href="partners/index.html"
+ onmouseover="MM_swapImage('n1partners','','img/home/nav/partners_ro.gif',1)"
+ onmouseout="MM_swapImgRestore()"><img src="img/home/nav/partners.gif"
+ alt="Partners" title="" name="n1partners" id="n1partners" border="0"
+ height="33" width="732"></a></h2>
+<h2><a href="contact/index.html"
+ onmouseover="MM_swapImage('n1contactblog','','img/home/nav/contactblog_ro.gif',1)"
+ onmouseout="MM_swapImgRestore()"><img
+ src="img/home/nav/contactblog.gif" alt="Contact/Blog" title=""
+ name="n1contactblog" id="n1contactblog" border="0" height="34"
+ width="732"></a></h2>
+</div>
+<!-- small slice of background -->
+<div> <img src="img/home/bkg2.gif" alt="" height="4" width="732"></div>
+<!-- table divides page into two columns -->
+<table class="layouttable" cellspacing="0">
+  <tbody>
+    <tr>
+      <td id="leftcolumn">
+      <div id="divintrotext">
+      <h1 class="subtitle">Science Commons</h1>
+      <p class="subtitle">Accelerating the Scientific Research Cycle</p>
+      <p>Science Commons serves the advancement of science by removing
+unnecessary legal and technical barriers to scientific collaboration
+and innovation.</p>
+      <p>Built on the promise of Open Access to scholarly literature
+and data, Science Commons identifies and eases key barriers to the
+movement of information, tools and data through the scientific research
+cycle.</p>
+      <p>Our long term vision is to provide more than just useful
+contracts. We will combine our publishing, data, and licensing
+approaches to develop solutions for a truly integrated and streamlined
+research process.</p>
+      </div>
+      </td>
+      <td id="rightcolumn">
+      <div id="divcurrentpost">
+      <div id="divfactoid">
+<?  
+require_once 'rss_fetch.inc';
+
+$url = 'http://sciencecommons.org/weblog/feed/';
+$rss = fetch_rss($url);
+
+$latest = $rss->items[0];
+
+echo '<p><a href="' . $latest["link"] . '">' . $latest["title"] . "</a></p>";
+echo "<p>" . $latest["description"] . "</p>"; ?>
+      </div>
+      </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<!-- footer -->
+<div id="divfooter">
+<p> <a rel="license" href="http://creativecommons.org/licenses/by/2.5/"><img
+ src="img/somerights.gif" alt="Creative Commons License" title=""
+ border="0" height="31" width="88"></a><br>
+Except where otherwise <a
+ href="http://creativecommons.org/policies#license">noted</a>, this
+site is<br>
+licensed under a <a rel="license"
+ href="http://creativecommons.org/licenses/by/2.5/">Creative Commons
+License</a></p>
+</div>
+<!--
+
+<rdf:RDF xmlns="http://web.resource.org/cc/"
+
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+
+<Work rdf:about="">
+
+<license rdf:resource="http://creativecommons.org/licenses/by/2.5/" />
+
+</Work>
+
+<License rdf:about="http://creativecommons.org/licenses/by/2.5/">
+
+   <requires rdf:resource="http://web.resource.org/cc/Attribution" />
+
+   <permits rdf:resource="http://web.resource.org/cc/Reproduction" />
+
+   <permits rdf:resource="http://web.resource.org/cc/Distribution" />
+
+   <permits rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+
+   <requires rdf:resource="http://web.resource.org/cc/Notice" />
+
+</License>
+
+</rdf:RDF>
+
+-->
+</div>
+<!-- divpagearea --></div>
+<!-- divoutershell -->
+</body>
+</html>
