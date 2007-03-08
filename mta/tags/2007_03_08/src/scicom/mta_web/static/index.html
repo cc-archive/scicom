@@ -1,0 +1,163 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+
+<title>Generate Materials Transfer Agreement</title>
+
+<link rel="stylesheet" type="text/css" href="yui/build/reset/reset.css">
+<link rel="stylesheet" type="text/css" href="yui/build/fonts/fonts.css"> 
+<link rel="stylesheet" type="text/css" 
+      href="yui/build/container/assets/container.css" /> 
+<style type="text/css">
+<!--
+  @import url(./mta.css);
+-->
+
+            #field_disease_detail {z-index:9050;padding-bottom:10px;}
+            #ysearchautocomplete {position:relative;}
+            #field_disease {position:relative;width:20em;height:1.4em;}
+            #field_disease_ac {position:absolute;left:0;top:1.7em;display:inline;}
+            #field_disease_ac .yui-ac-content {position:absolute;left:0;top:0;width:20em;border:1px solid #404040;background:#fff;overflow:hidden;text-align:left;z-index:9050;}
+            #field_disease_ac .yui-ac-shadow {position:absolute;left:0;top:0;margin:.3em;background:#a0a0a0;z-index:9049;}
+            #field_disease_ac ul {padding:5px 0;width:100%;}
+            #field_disease_ac li {padding:0 5px;cursor:default;white-space:nowrap;}
+            #field_disease_ac li.yui-ac-highlight {background:#ff0;}
+            #ysearchsubmit {position:relative;}
+</style>
+
+<script type="text/javascript" src="./yui/build/yahoo/yahoo-min.js" >
+</script>
+<script type="text/javascript" src="./yui/build/dom/dom-min.js" >
+</script>
+<script type="text/javascript" src="./yui/build/event/event-min.js" >
+</script>
+<script type="text/javascript" src="./yui/build/animation/animation-min.js" >
+</script>
+<script type="text/javascript" src="./yui/build/dragdrop/dragdrop-min.js" >
+</script>
+<script type="text/javascript" src="./yui/build/connection/connection-min.js" >
+</script>
+<script type="text/javascript" src="./yui/build/autocomplete/autocomplete-min.js" >
+</script>
+<script type="text/javascript" src="./yui/build/container/container-min.js" >
+</script>
+<script type="text/javascript" src="./yui-ext/yui-ext.js" >
+</script>
+
+<script type="text/javascript" src="./mta.js"></script>
+<script type="text/javascript" src="./chooser.js"></script>
+
+<body onload="initChooser();">
+
+<h1>Materials Transfer Agreement</h1>
+
+<p>Science Commons Materials Transfer Agreements allow you to blah, blah,
+lorem ipsum, yada, yada...</p>
+
+<p>Choose the Science Commons Materials Transfer Agreement that
+best fits your desired transfer conditions. </p>
+
+<div id="selector">
+
+<div class="section_header">Material Information</div>
+
+<p>
+    <label for="material_desc">Description:</label>
+    <input type="textbox" id="material_desc" id="material_desc"/>
+</p>
+<p>
+    <label for="material_provider">Provider:</label>
+    <input type="textbox" id="material_provider" id="material_provider"/>
+</p>
+<p>
+    <label for="material_uri">Material URL:</label>
+    <input type="textbox" id="material_uri" id="material_uri" /> 
+    [<a href="#">More Information</a>] <br/>
+    <button id="generate_material_uri"
+       title="Generate a stable material URI for use with metadata.">
+      generate</button>
+</p>
+<div class="section_header">Agreement Details</div>
+
+<p><label for="field">Specify a field of use:</label>
+
+  <select id="field" size="1" onchange="updateMta(); update_field('field');">
+    <option value="all">All Research Uses</option>
+    <option value="disease">Disease Field of Use</option>
+    <option value="protocol">Restricted Protocol</option>
+  </select> 
+ [<a href="">More information</a>]
+</p>
+
+<p id="field_all_detail" class="sub_selector"/>
+
+<div id="field_disease_detail" class="sub_selector">
+        
+Disease Field: <span id="ysearchautocomplete"><input id="field_disease" type="text" id="field_disease" />
+
+   <div id="field_disease_ac"></div></span>
+</div>
+
+<p id="field_protocol_detail" class="sub_selector">
+Research Protocol: <input id="field_protocol" />
+</p>
+
+<p><label for="scaling">Is Scaling Up allowed?</label>
+
+  <select id="scaling" size="1" onchange="updateMta();">
+    <option value="yes">Yes</option>
+    <option value="no">No</option>
+  </select>
+ [<a href="">More information</a>]
+
+</p>
+
+<p><label for="term">What is the duration of the permitted use? </label>
+  <select id="term" size="1" onchange="updateMta(); update_field('term');">
+    <option value="variable">Until Completion</option>
+    <option value="fixed">Fixed Term</option>
+  </select>
+  [<a href="">More information</a>]
+</p>
+
+<p id="term_variable_detail" class="sub_selector" />
+<p id="term_fixed_detail"  class="sub_selector">
+Contract Term: <input id="term_fixed" />
+</p>
+
+<p>
+  <label for="retain">Is the recipient permitted to retain Materials 
+    at the end of the permitted use?</label>
+
+  <select id="retain" size="1" onchange="updateMta();">
+    <option value="yes">Yes</option>
+    <option value="no">No</option>
+  </select>
+ [<a href="">More information</a>]
+</p>
+
+<p>
+  <label for="publication">Will materials be use for published research?</label>
+  <select id="publication" size="1" onchange="updateMta();">
+    <option value="yes">Yes</option>
+    <option value="no">No</option>
+  </select>
+  [<a href="">More information</a>]
+</p>
+
+</div>
+
+<div id="results">
+
+<p>You have selected the Science Commons
+<a href="#" id="mta_link">Material Transfer Agreement 1.0</a> agreement.  You can 
+copy and paste the metadata below into your web page to include a link to 
+the agreement.</p>
+
+<textarea id="metadata" rows=10 cols=50>
+</textarea>
+
+</div>
+
+
+</body></html>

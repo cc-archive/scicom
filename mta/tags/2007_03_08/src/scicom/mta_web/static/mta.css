@@ -1,0 +1,58 @@
+body {
+    font-size: 85%;
+    margin: 15px;
+}
+
+h1 {
+   font-size: 136%;
+   padding-bottom: 10px;
+}
+
+p {
+  padding-bottom: 10px;
+}
+
+#selector {
+    border-right:1px solid;
+    float:left;
+    padding: 5px;
+    margin: 5px;
+    width: 50%;
+}
+
+#results {
+   margin: 5px;
+   padding: 5px;
+}
+
+#metadata {
+   border: 1px solid;
+   font-size: 85%;   
+   width: 500px;
+}
+
+.sub_selector {
+   margin-left: 15px;
+   display:none;
+   visibility:hidden;
+}
+
+#selector label {
+   float:left;
+   width:200px;
+   padding-bottom: 5px;
+}
+
+#selector p {
+   margin-left: 10px;
+   clear:both;
+}
+
+.section_header {
+   width:95%;
+   background: gray;
+   padding-top: 5px;
+   padding-bottom: 5px;
+   padding-left: 5px;
+   margin-bottom: 10px;
+}
