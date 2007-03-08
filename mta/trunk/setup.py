@@ -1,12 +1,11 @@
 # XXX license header here
 
-from setuptools import setup, find_packages
+from setuptools import setup
 
 setup(
     name = "scicom.mta",
     version = "0.2",
-    packages = find_packages('src'),
-    package_dir = {'':'src'},
+    packages = ['scicom.mta', 'scicom.mta_web'],
 
     # scripts and dependencies
     install_requires = ['setuptools',
