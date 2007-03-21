@@ -27,16 +27,18 @@ setup(
 
     # scripts and dependencies
     install_requires = ['setuptools',
-                        'CherryPy>=3.0beta2',
+                        'CherryPy>=3.0',
+                        'Reportlab>=2.0',
                         'zdaemon',
                         ],
+    dependency_links = ['http://www.reportlab.co.uk/svn/public/reportlab/trunk/reportlab#egg=Reportlab-2.0'],
 
     include_package_data = True,
     namespace_packages = ['scicom'],
     zip_safe = False,
 
     entry_points = { 'console_scripts':
-                     ['scholars = scicom.scholars.app:serve',
+                     ['server = scicom.scholars.app:serve',
                       ],
                      },
 
