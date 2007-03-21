@@ -18,37 +18,5 @@
 ## FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 ## DEALINGS IN THE SOFTWARE.
 
-"""CGI Wrapper Script for Scholar's Copryight."""
-
-import tempfile
-import os
-import sys
-
-from scicom.scholars import agreements
-
-def create_pdf(manuscript, journal, authors, publisher, 
-               target_agreement):
-    
-    # get a temporary file name
-    pdf_fn = tempfile.NamedTemporaryFile().name
-    
-    # generate the appropriate PDF
-    if target_agreement in agreements.handlers:
-        agreements.handlers[target_agreement] (pdf_fn, manuscript=manuscript,
-                                     journal=journal, author=authors,
-                                     publisher=publisher)
-    else:
-        # invalid target
-        show_error()
-        
-    # read the temporary file
-    pdf_file = file(pdf_fn, "rb")
-    result = pdf_file.read()
-    pdf_file.close()
-
-    # remove the temp file
-    os.unlink(os.path.join(tempfile.tempdir, pdf_fn))
-
-    # return the contents
-    return result 
-    
+import generate
+import static
