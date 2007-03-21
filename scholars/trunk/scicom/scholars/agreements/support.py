@@ -6,6 +6,9 @@ from reportlab.rl_config import defaultPageSize
 from reportlab.lib.units import inch
 from reportlab.lib import colors
 
+import os.path
+import scicom.scholars.static
+
 PAGE_HEIGHT=defaultPageSize[1]; PAGE_WIDTH=defaultPageSize[0]
 styles = getSampleStyleSheet()
 
@@ -23,8 +26,14 @@ def pageInfo (canvas, doc):
 
     # draw the footer
     canvas.setFont('Times-Roman', 8)
-    canvas.drawImage('./images/scicom.gif', inch, inch*.75,
-                     width=inch, height=inch*.28)
+    try:
+        canvas.drawImage(os.path.abspath(os.path.join(
+                    os.path.dirname(scicom.scholars.static.__file__), 'images',
+                    'scicom.gif')), inch, inch*.75,
+                         width=inch, height=inch*.28)
+    except:
+        pass
+
     canvas.drawString(2.1 * inch, inch*.95, Footer)
 
     canvas.setFont('Times-Bold', 8)
