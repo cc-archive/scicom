@@ -114,12 +114,21 @@ class ScholarsCopyright(object):
 
         return stream.render('xhtml')
 
-def serve(host='localhost', port=8082):
 
+def get_localconf():
+    """Return a file-like object which can be read to load the local instance 
+    configuration."""
+
+    return file(os.path.join( os.path.dirname(__file__), 'local.conf' ))
+
+def serve():
+
+    # load the local configuration
+    cherrypy.config.update( get_localconf() )
+
+    # mount the application
     cherrypy.tree.mount(ScholarsCopyright())
 
-    #cherrypy.server.socket_host = host
-    cherrypy.server.socket_port = port
     cherrypy.server.quickstart()
     cherrypy.engine.start()
 
