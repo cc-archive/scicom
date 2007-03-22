@@ -29,6 +29,7 @@ setup(
     install_requires = ['setuptools',
                         'CherryPy>=3.0',
                         'Reportlab>=2.0',
+                        'SQLAlchemy',
                         'zdaemon',
                         ],
     dependency_links = ['http://www.reportlab.co.uk/svn/public/reportlab/trunk/reportlab#egg=Reportlab-2.0'],

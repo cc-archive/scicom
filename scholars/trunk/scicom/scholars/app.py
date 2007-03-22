@@ -31,7 +31,12 @@ TEMPLATE_DIR = os.path.abspath(
     )
     
 class ScholarsCopyright(object):
+
+    def __init__(self):
         
+        # create a persistent connection to our database
+        self._session = scicom.scholars.dbconn.connect_session()
+
     # serve up static files for HTML, CSS, Javascript, etc.
     _cp_config = {'tools.staticdir.on':True,
                   'tools.staticdir.root':STATIC_DIR,
@@ -62,7 +67,12 @@ class ScholarsCopyright(object):
         # generate the agreement
         pdf_contents = scicom.scholars.generate.create_pdf(
             manuscript, journal, author, publisher, agreement)
-        scicom.scholars.track.record()
+
+        self._session.save(
+            scicom.scholars.stats.AgreementStatistic(
+                'direct', journal, agreement)
+            )
+        self._session.flush()
 
         # set the appropriate headers
         cherrypy.response.headers['Expires'] = '0'
