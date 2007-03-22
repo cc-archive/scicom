@@ -20,6 +20,7 @@
 
 import os
 import cherrypy
+import genshi.template
 
 import scicom.scholars
 
@@ -27,9 +28,12 @@ STATIC_DIR = os.path.abspath(
     os.path.dirname(scicom.scholars.static.__file__)
     )
 TEMPLATE_DIR = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), 'templates',)
+    os.path.dirname(scicom.scholars.templates.__file__)
     )
-    
+
+class MissingParameterException(Exception):
+    pass
+
 class ScholarsCopyright(object):
 
     def __init__(self):
@@ -37,18 +41,28 @@ class ScholarsCopyright(object):
         # create a persistent connection to our database
         self._session = scicom.scholars.dbconn.connect_session()
 
+        # create a template loader instance
+        self._loader = genshi.template.TemplateLoader([TEMPLATE_DIR])
+
+        # pre-process the direct index.html
+        template = self._loader.load('index.html')
+        self._index = template.generate(partner_id='direct').render('xhtml')
+
+    @cherrypy.expose
+    def index(self):
+        """Return the index page."""
+
+        # return the pre-rendered template
+        return self._index
+
     # serve up static files for HTML, CSS, Javascript, etc.
     _cp_config = {'tools.staticdir.on':True,
                   'tools.staticdir.root':STATIC_DIR,
                   'tools.staticdir.dir':''}
 
-    # map the root path to the static file index.html
-    index = cherrypy.tools.staticfile.handler(
-        os.path.join(STATIC_DIR, 'index.html'))
-
     @cherrypy.expose
     def generate(self, manuscript='', journal='', author=[],
-                 publisher='', agreement=''):
+                 publisher='', agreement='', partner_id='direct'):
         
         # make sure author is a list
         try:
@@ -61,7 +75,8 @@ class ScholarsCopyright(object):
         # validate input
         if "" in (manuscript, journal, publisher, agreement) or \
                 len(author) == 0:
-            show_error()
+            raise MissingParameterException
+
         if len(journal) > 255: journal = journal[:255]
 
         # generate the agreement
@@ -70,7 +85,7 @@ class ScholarsCopyright(object):
 
         self._session.save(
             scicom.scholars.stats.AgreementStatistic(
-                'direct', journal, agreement)
+                partner_id, journal, agreement)
             )
         self._session.flush()
 
@@ -86,19 +101,18 @@ class ScholarsCopyright(object):
         return pdf_contents
 
     @cherrypy.expose
-    def iframe(self, partner_id=None, stylesheet=''):
+    def iframe(self, partner_id=None, stylesheet='css/scholars.css'):
 
-        pass
+        # partner_id is required
+        if partner_id is None:
+            raise MissingParameterException()
 
+        # render the template and return the value
+        template = self._loader.load('iframe.html')
+        stream = template.generate(partner_id=partner_id,
+                                   stylesheet=stylesheet)
 
-    # MTA deeds and legalcode
-    @cherrypy.expose
-    def agreement(self, code, version):
-
-        template = self.__loader.load("deed.html")
-        stream = template.generate(code=code, version=version)
-
-        return stream.render("xhtml")
+        return stream.render('xhtml')
 
 def serve(host='localhost', port=8082):
 

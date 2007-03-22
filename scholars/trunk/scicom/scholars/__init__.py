@@ -22,3 +22,4 @@ import dbconn
 import generate
 import stats
 import static
+import templates

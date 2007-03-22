@@ -29,6 +29,7 @@ setup(
     install_requires = ['setuptools',
                         'CherryPy>=3.0',
                         'Reportlab>=2.0',
+                        'Genshi',
                         'SQLAlchemy',
                         'zdaemon',
                         ],
