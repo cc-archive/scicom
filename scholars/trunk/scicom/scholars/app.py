@@ -62,6 +62,7 @@ class ScholarsCopyright(object):
         # generate the agreement
         pdf_contents = scicom.scholars.generate.create_pdf(
             manuscript, journal, author, publisher, agreement)
+        scicom.scholars.track.record()
 
         # set the appropriate headers
         cherrypy.response.headers['Expires'] = '0'
