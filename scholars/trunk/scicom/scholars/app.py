@@ -101,7 +101,7 @@ class ScholarsCopyright(object):
         return pdf_contents
 
     @cherrypy.expose
-    def iframe(self, partner_id=None, stylesheet='css/scholars.css'):
+    def iframe(self, partner_id=None, stylesheet=None):
 
         # partner_id is required
         if partner_id is None:
