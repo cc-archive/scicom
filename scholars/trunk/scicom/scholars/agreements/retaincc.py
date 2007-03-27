@@ -11,7 +11,7 @@ from support import *
 
 class RetainCC(object):
 
-    NAME = "RetainCC"
+    NAME = "OpenAccess-Creative Commons"
 
     def __call__(self, filename, manuscript="", journal="", author=[], 
                  publisher=""):

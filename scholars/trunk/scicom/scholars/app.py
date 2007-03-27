@@ -23,6 +23,7 @@ import cherrypy
 import genshi.template
 
 import scicom.scholars
+from scicom.scholars import agreements
 
 STATIC_DIR = os.path.abspath(
     os.path.dirname(scicom.scholars.static.__file__)
@@ -44,16 +45,13 @@ class ScholarsCopyright(object):
         # create a template loader instance
         self._loader = genshi.template.TemplateLoader([TEMPLATE_DIR])
 
-        # pre-process the direct index.html
-        template = self._loader.load('index.html')
-        self._index = template.generate(partner_id='direct').render('xhtml')
-
     @cherrypy.expose
     def index(self):
         """Return the index page."""
 
-        # return the pre-rendered template
-        return self._index
+        template = self._loader.load('index.html')
+        return template.generate(partner_id='direct',
+                                 agreements=agreements.handlers).render('xhtml')
 
     # serve up static files for HTML, CSS, Javascript, etc.
     _cp_config = {'tools.staticdir.on':True,
@@ -110,6 +108,7 @@ class ScholarsCopyright(object):
         # render the template and return the value
         template = self._loader.load('iframe.html')
         stream = template.generate(partner_id=partner_id,
+                                   agreements=agreements.handlers,
                                    stylesheet=stylesheet)
 
         return stream.render('xhtml')

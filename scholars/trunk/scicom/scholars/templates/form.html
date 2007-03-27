@@ -1,4 +1,6 @@
-<div>
+<div xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:py="http://genshi.edgewall.org/"
+     >
 
 <h1 class="logo">Scholars Copyright</h1>
 
@@ -33,9 +35,9 @@
 <label for="agreement">Agreement Type</label>
         
    <select name="agreement">
-     <option value="noembargo">OpenAccess-Publish</option>
-     <option value="embargo">OpenAccess-Delay</option>
-     <option value="retaincc">OpenAccess-Creative Commons</option>
+     <py:for each="agr in agreements">
+       <option value="${agr}">${agreements[agr].NAME}</option>
+     </py:for>
    </select>
 
    <a href="help/agreement.html?width=200" class="jTip helpLink" 
