@@ -46,11 +46,12 @@ class ScholarsCopyright(object):
         self._loader = genshi.template.TemplateLoader([TEMPLATE_DIR])
 
     @cherrypy.expose
-    def index(self):
+    def index(self, default=None):
         """Return the index page."""
 
         template = self._loader.load('index.html')
         return template.generate(partner_id='direct',
+                                 default=default,
                                  agreements=agreements.handlers).render('xhtml')
 
     # serve up static files for HTML, CSS, Javascript, etc.
@@ -99,7 +100,7 @@ class ScholarsCopyright(object):
         return pdf_contents
 
     @cherrypy.expose
-    def iframe(self, partner_id=None, stylesheet=None):
+    def iframe(self, partner_id=None, stylesheet=None, default=None):
 
         # partner_id is required
         if partner_id is None:
@@ -108,8 +109,10 @@ class ScholarsCopyright(object):
         # render the template and return the value
         template = self._loader.load('iframe.html')
         stream = template.generate(partner_id=partner_id,
-                                   agreements=agreements.handlers,
-                                   stylesheet=stylesheet)
+                                   default=default,
+                                   stylesheet=stylesheet,
+                                   agreements=agreements.handlers
+                                   )
 
         return stream.render('xhtml')
 

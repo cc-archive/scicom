@@ -36,7 +36,14 @@
         
    <select name="agreement">
      <py:for each="agr in agreements">
-       <option value="${agr}">${agreements[agr].NAME}</option>
+       <py:choose>
+	 <py:when test="default == agr">
+	   <option value="${agr}" selected="1">${agreements[agr].NAME}</option>
+	 </py:when>
+	 <py:otherwise>
+	   <option value="${agr}">${agreements[agr].NAME}</option>
+	 </py:otherwise>
+       </py:choose>
      </py:for>
    </select>
 
