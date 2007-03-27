@@ -34,7 +34,7 @@ def create_pdf(manuscript, journal, authors, publisher,
     
     # generate the appropriate PDF
     if target_agreement in agreements.handlers:
-        agreements.handlers[target_agreement] (pdf_fn, manuscript=manuscript,
+        agreements.handlers[target_agreement]() (pdf_fn, manuscript=manuscript,
                                      journal=journal, author=authors,
                                      publisher=publisher)
     else:

@@ -2,7 +2,7 @@ import noembargo
 import embargo
 import retaincc
 
-handlers = {'noembargo': noembargo.no_embargo,
-            'embargo': embargo.embargo,
-            'retaincc': retaincc.retaincc,
+handlers = {'noembargo': noembargo.NoEmbargo,
+            'embargo': embargo.Embargo,
+            'retaincc': retaincc.RetainCC,
             }
