@@ -30,7 +30,7 @@ class RetainCC(object):
         # Section 1
         Story.append(
             Paragraph(
-            """<seq id="main">. THIS ADDENDUM hereby modifies and supplements
+            """<seqreset id="main" /><seq id="main">. THIS ADDENDUM hereby modifies and supplements
             the attached Publication Agreement concerning the following
             Article:""", styles['outer_style'])
             )

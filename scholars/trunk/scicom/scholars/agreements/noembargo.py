@@ -12,6 +12,7 @@ from support import *
 class NoEmbargo(object):
 
     NAME = "OpenAccess-Publish"
+    VERSION = "1.0"
 
     def __call__(self, filename, manuscript="", journal="", author=[], 
                  publisher=""):
@@ -21,26 +22,17 @@ class NoEmbargo(object):
         while len(author) < 4:
             author.append("")
 
-        doc = SimpleDocTemplate(filename)
+        doc = getDocument(filename)
 
         Story = []
-
-        outer_style = styles["Normal"]
-        outer_style.spaceAfter = 8
-        outer_style.spaceBefore = 6
-        outer_style.leftIndent = inch * 0.12
-        outer_style.firstLineIndent = -1 * outer_style.leftIndent
-
-        inner_style = copy.deepcopy(outer_style)
-        inner_style.leftIndent = inch * 0.50
-        inner_style.firstLineIndent = -0.25 * inch
 
         # Section 1
         Story.append(
             Paragraph(
-            """<seq id="main">. THIS ADDENDUM hereby modifies and supplements
+            """<seqreset id="main" /><seq id="main"/>. 
+            THIS ADDENDUM hereby modifies and supplements
             the attached Publication Agreement concerning the following
-            Article:""", outer_style)
+            Article:""", styles['outer_style'])
             )
 
         journal_info_table = Table([
@@ -55,7 +47,7 @@ class NoEmbargo(object):
         Story.append(
             Paragraph(
             """<seq id="main">. The parties to the Publication Agreement as
-            modified and supplemented by this Addendum are:""", outer_style)
+            modified and supplemented by this Addendum are:""", styles['outer_style'])
             )
 
         journal_info_table = Table([
@@ -79,7 +71,7 @@ class NoEmbargo(object):
             there is any conflict between this Addendum and the Publication
             Agreement, the provisions of this Addendum are paramount and the
             Publication Agreement shall be construed accordingly.""",
-            outer_style)
+            styles['outer_style'])
             )
 
         # Section 4
@@ -87,18 +79,18 @@ class NoEmbargo(object):
             Paragraph(
             """<seq id="main">. Notwithstanding any terms in the Publication
             Agreement to the contrary, AUTHOR and PUBLISHER agree as follows:""",
-            outer_style)
+            styles['outer_style'])
             )
 
         Story.append(
             Paragraph(
-            """<seq template="%(main)s.%(Sec4+)s"/>. <b>Professional Activities.</b>
+            """<seqreset id="Sec4" /><seq template="%(main)s.%(Sec4+)s"/>. <b>Professional Activities.</b>
             Author retains the non-exclusive right to create derivative works
             from the Article and to reproduce, to distribute, to publicly
             perform, and to publicly display the Article in connection with
             Author's teaching, conference presentations, lectures, other
             scholarly works, and professional activities. """,
-            inner_style)
+            styles['inner_style'])
             )
 
         Story.append(
@@ -113,7 +105,7 @@ class NoEmbargo(object):
             first publication, when applicable. "Published version" means the
             version of the Article distributed by Publisher to subscribers or
             readers of the Journal.""",
-            inner_style)
+            styles['inner_style'])
             )
 
         Story.append(
@@ -128,7 +120,7 @@ class NoEmbargo(object):
             of an agreement between Author or Author's employing institution
             and such funding entity, such as an agency of the United States
             government.""",
-            inner_style)
+            styles['inner_style'])
             )
 
         # Section 5
@@ -139,7 +131,7 @@ class NoEmbargo(object):
             However, if Publisher publishes the Article in the journal or in any
             other form without signing a copy of this Addendum, such publication
             manifests Publisher's assent to the terms of this Addendum.""",
-            outer_style)
+            styles['outer_style'])
             )
 
         # Signature
@@ -157,7 +149,15 @@ class NoEmbargo(object):
         journal_info_table.hAlign = 'LEFT'
         Story.append(journal_info_table)
 
-        doc.build(Story, onFirstPage=pageInfo, onLaterPages=pageInfo)
+        # Disclaimer
+        Story.append(
+            Paragraph(Disclaimer, styles['disclaimer'])
+            )
+
+        agreement = "%s %s" % (self.NAME, self.VERSION)
+        doc.build(Story, 
+                  onFirstPage=lambda x,y: pageInfo(agreement, x, y), 
+                  onLaterPages=lambda x,y: pageInfo(agreement, x, y))
 
 if __name__ == '__main__':
     NoEmbargo()("test.pdf", "Extraordinary Measures",
