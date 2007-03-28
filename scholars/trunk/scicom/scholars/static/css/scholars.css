@@ -2,6 +2,7 @@
 
 body { 
    font-family: Arial,Helvetica,sans-serif;
+   font-size: 10pt;
    background-color: rgb(75, 97, 125);
 }
 
@@ -10,6 +11,7 @@ body {
    background-image: url(/images/scicom.gif);
    background-position: top right;
    background-repeat: no-repeat;
+   padding-right:250px;
 }
 
 #content { 
@@ -20,4 +22,12 @@ body {
    margin-right: auto;
    background-color: rgb(255, 255, 255);
    opacity: 1;
+}
+
+dd, li {
+   padding-bottom: 10px;
+}
+
+form {
+   padding-top: 10px;
 }
