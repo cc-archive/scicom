@@ -11,7 +11,7 @@ from support import *
 
 class NoEmbargo(object):
 
-    NAME = "OpenAccess-Publish"
+    NAME = "Immediate Access"
     VERSION = "1.0"
 
     def __call__(self, filename, manuscript="", journal="", author=[], 

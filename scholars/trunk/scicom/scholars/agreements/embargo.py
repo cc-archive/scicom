@@ -11,7 +11,7 @@ from support import *
 
 class Embargo(object):
 
-    NAME = "OpenAccess-Embargo"
+    NAME = "Delayed Access"
     VERSION = "1.0"
 
     def __call__(self, filename, manuscript="", journal="", author=[], 

@@ -29,7 +29,7 @@ def mit_pageInfo (canvas, doc):
 class MIT(object):
     """MIT addendum."""
 
-    NAME = "MIT"
+    NAME = "MIT Amendment"
     VERSION = "1.0"
 
     def __call__(self, filename, manuscript="", journal="", author=[], 
