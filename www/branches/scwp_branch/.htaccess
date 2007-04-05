@@ -1,0 +1,115 @@
+AuthType Basic
+AuthUserFile /web/foo.passwd
+AuthGroupFile /dev/null
+AuthName "creative commons intranet"
+<limit GET POST>
+#require valid-user
+</limit>
+
+
+# BEGIN WordPress
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^.*$ - [S=81]
+RewriteRule ^(weblog|press-releases)/entry/([0-9]+)/? /index.php?category_name=$1&p=$2 [L,P]
+RewriteRule ^(weblog|press-releases)/archive/([0-9]{4})/([0-9]{1,2})/page/?([0-9]{1,}) /index.php?category_name=$1&year=$2&monthnum=$3&paged=$4 [QSA,L]
+RewriteRule ^(weblog|press-releases)/archive/([0-9]{4})/([0-9]{1,2}) /index.php?category_name=$1&year=$2&monthnum=$3 [QSA,L]
+RewriteRule ^(weblog|press-releases)/archive/page/?([0-9]{1,})/?$ /index.php?category_name=$1&paged=$2 [QSA,L]
+RewriteRule ^(weblog|press-releases)/archive/([0-9]{4})/page/?([0-9]{1,})/?$ /index.php?category_name=$1&year=$2&paged=$3 [QSA,L]
+RewriteRule ^(weblog|press-releases)/archive/([0-9]{4}) /index.php?category_name=$1&year=$2 [QSA,L]
+RewriteRule ^(weblog|press-releases)/rss /index.php?category_name=$1&feed=rss2 [QSA,L]
+RewriteRule ^(weblog|press-releases)/? /index.php?category_name=$1 [QSA,L]
+RewriteRule ^(about/people)/trackback/?$ /index.php?pagename=$1&tb=1 [QSA,L]
+RewriteRule ^(about/people)/feed/(feed|rdf|rss|rss2|atom)/?$ /index.php?pagename=$1&feed=$2 [QSA,L]
+RewriteRule ^(about/people)/(feed|rdf|rss|rss2|atom)/?$ /index.php?pagename=$1&feed=$2 [QSA,L]
+RewriteRule ^(about/people)/page/?([0-9]{1,})/?$ /index.php?pagename=$1&paged=$2 [QSA,L]
+RewriteRule ^(about/people)(/[0-9]+)?/?$ /index.php?pagename=$1&page=$2 [QSA,L]
+RewriteRule ^about/people/attachment/([^/]+)/?$ /index.php?attachment=$1 [QSA,L]
+RewriteRule ^about/people/attachment/([^/]+)/trackback/?$ /index.php?attachment=$1&tb=1 [QSA,L]
+RewriteRule ^about/people/attachment/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$ /index.php?attachment=$1&feed=$2 [QSA,L]
+RewriteRule ^about/people/attachment/([^/]+)/(feed|rdf|rss|rss2|atom)/?$ /index.php?attachment=$1&feed=$2 [QSA,L]
+RewriteRule ^(about)/trackback/?$ /index.php?pagename=$1&tb=1 [QSA,L]
+RewriteRule ^(about)/feed/(feed|rdf|rss|rss2|atom)/?$ /index.php?pagename=$1&feed=$2 [QSA,L]
+RewriteRule ^(about)/(feed|rdf|rss|rss2|atom)/?$ /index.php?pagename=$1&feed=$2 [QSA,L]
+RewriteRule ^(about)/page/?([0-9]{1,})/?$ /index.php?pagename=$1&paged=$2 [QSA,L]
+RewriteRule ^(about)(/[0-9]+)?/?$ /index.php?pagename=$1&page=$2 [QSA,L]
+RewriteRule ^about/attachment/([^/]+)/?$ /index.php?attachment=$1 [QSA,L]
+RewriteRule ^about/attachment/([^/]+)/trackback/?$ /index.php?attachment=$1&tb=1 [QSA,L]
+RewriteRule ^about/attachment/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$ /index.php?attachment=$1&feed=$2 [QSA,L]
+RewriteRule ^about/attachment/([^/]+)/(feed|rdf|rss|rss2|atom)/?$ /index.php?attachment=$1&feed=$2 [QSA,L]
+RewriteRule ^feed/(feed|rdf|rss|rss2|atom)/?$ /index.php?&feed=$1 [QSA,L]
+RewriteRule ^(feed|rdf|rss|rss2|atom)/?$ /index.php?&feed=$1 [QSA,L]
+RewriteRule ^page/?([0-9]{1,})/?$ /index.php?&paged=$1 [QSA,L]
+RewriteRule ^comments/feed/(feed|rdf|rss|rss2|atom)/?$ /index.php?&feed=$1&withcomments=1 [QSA,L]
+RewriteRule ^comments/(feed|rdf|rss|rss2|atom)/?$ /index.php?&feed=$1&withcomments=1 [QSA,L]
+RewriteRule ^comments/page/?([0-9]{1,})/?$ /index.php?&paged=$1 [QSA,L]
+RewriteRule ^search/(.+)/feed/(feed|rdf|rss|rss2|atom)/?$ /index.php?s=$1&feed=$2 [QSA,L]
+RewriteRule ^search/(.+)/(feed|rdf|rss|rss2|atom)/?$ /index.php?s=$1&feed=$2 [QSA,L]
+RewriteRule ^search/(.+)/page/?([0-9]{1,})/?$ /index.php?s=$1&paged=$2 [QSA,L]
+RewriteRule ^search/(.+)/?$ /index.php?s=$1 [QSA,L]
+RewriteRule ^category/(.+)/feed/(feed|rdf|rss|rss2|atom)/?$ /index.php?category_name=$1&feed=$2 [QSA,L]
+RewriteRule ^category/(.+)/(feed|rdf|rss|rss2|atom)/?$ /index.php?category_name=$1&feed=$2 [QSA,L]
+RewriteRule ^category/(.+)/page/?([0-9]{1,})/?$ /index.php?category_name=$1&paged=$2 [QSA,L]
+RewriteRule ^category/(.+)/?$ /index.php?category_name=$1 [QSA,L]
+RewriteRule ^author/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$ /index.php?author_name=$1&feed=$2 [QSA,L]
+RewriteRule ^author/([^/]+)/(feed|rdf|rss|rss2|atom)/?$ /index.php?author_name=$1&feed=$2 [QSA,L]
+RewriteRule ^author/([^/]+)/page/?([0-9]{1,})/?$ /index.php?author_name=$1&paged=$2 [QSA,L]
+RewriteRule ^author/([^/]+)/?$ /index.php?author_name=$1 [QSA,L]
+RewriteRule ^([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/feed/(feed|rdf|rss|rss2|atom)/?$ /index.php?year=$1&monthnum=$2&day=$3&feed=$4 [QSA,L]
+RewriteRule ^([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/(feed|rdf|rss|rss2|atom)/?$ /index.php?year=$1&monthnum=$2&day=$3&feed=$4 [QSA,L]
+RewriteRule ^([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/page/?([0-9]{1,})/?$ /index.php?year=$1&monthnum=$2&day=$3&paged=$4 [QSA,L]
+RewriteRule ^([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/?$ /index.php?year=$1&monthnum=$2&day=$3 [QSA,L]
+RewriteRule ^([0-9]{4})/([0-9]{1,2})/feed/(feed|rdf|rss|rss2|atom)/?$ /index.php?year=$1&monthnum=$2&feed=$3 [QSA,L]
+RewriteRule ^([0-9]{4})/([0-9]{1,2})/(feed|rdf|rss|rss2|atom)/?$ /index.php?year=$1&monthnum=$2&feed=$3 [QSA,L]
+RewriteRule ^([0-9]{4})/([0-9]{1,2})/page/?([0-9]{1,})/?$ /index.php?year=$1&monthnum=$2&paged=$3 [QSA,L]
+RewriteRule ^([0-9]{4})/([0-9]{1,2})/?$ /index.php?year=$1&monthnum=$2 [QSA,L]
+RewriteRule ^([0-9]{4})/feed/(feed|rdf|rss|rss2|atom)/?$ /index.php?year=$1&feed=$2 [QSA,L]
+RewriteRule ^([0-9]{4})/(feed|rdf|rss|rss2|atom)/?$ /index.php?year=$1&feed=$2 [QSA,L]
+RewriteRule ^([0-9]{4})/page/?([0-9]{1,})/?$ /index.php?year=$1&paged=$2 [QSA,L]
+RewriteRule ^([0-9]{4})/?$ /index.php?year=$1 [QSA,L]
+RewriteRule ^(.+)/([0-9]{4})/([0-9]{1,2})/([^/]+)/trackback/?$ /index.php?category_name=$1&year=$2&monthnum=$3&name=$4&tb=1 [QSA,L]
+RewriteRule ^(.+)/([0-9]{4})/([0-9]{1,2})/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$ /index.php?category_name=$1&year=$2&monthnum=$3&name=$4&feed=$5 [QSA,L]
+RewriteRule ^(.+)/([0-9]{4})/([0-9]{1,2})/([^/]+)/(feed|rdf|rss|rss2|atom)/?$ /index.php?category_name=$1&year=$2&monthnum=$3&name=$4&feed=$5 [QSA,L]
+RewriteRule ^(.+)/([0-9]{4})/([0-9]{1,2})/([^/]+)/page/?([0-9]{1,})/?$ /index.php?category_name=$1&year=$2&monthnum=$3&name=$4&paged=$5 [QSA,L]
+RewriteRule ^(.+)/([0-9]{4})/([0-9]{1,2})/([^/]+)(/[0-9]+)?/?$ /index.php?category_name=$1&year=$2&monthnum=$3&name=$4&page=$5 [QSA,L]
+RewriteRule ^.+/[0-9]{4}/[0-9]{1,2}/[^/]+/([^/]+)/?$ /index.php?attachment=$1 [QSA,L]
+RewriteRule ^.+/[0-9]{4}/[0-9]{1,2}/[^/]+/([^/]+)/trackback/?$ /index.php?attachment=$1&tb=1 [QSA,L]
+RewriteRule ^.+/[0-9]{4}/[0-9]{1,2}/[^/]+/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$ /index.php?attachment=$1&feed=$2 [QSA,L]
+RewriteRule ^.+/[0-9]{4}/[0-9]{1,2}/[^/]+/([^/]+)/(feed|rdf|rss|rss2|atom)/?$ /index.php?attachment=$1&feed=$2 [QSA,L]
+RewriteRule ^.+/[0-9]{4}/[0-9]{1,2}/[^/]+/attachment/([^/]+)/?$ /index.php?attachment=$1 [QSA,L]
+RewriteRule ^.+/[0-9]{4}/[0-9]{1,2}/[^/]+/attachment/([^/]+)/trackback/?$ /index.php?attachment=$1&tb=1 [QSA,L]
+RewriteRule ^.+/[0-9]{4}/[0-9]{1,2}/[^/]+/attachment/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$ /index.php?attachment=$1&feed=$2 [QSA,L]
+RewriteRule ^.+/[0-9]{4}/[0-9]{1,2}/[^/]+/attachment/([^/]+)/(feed|rdf|rss|rss2|atom)/?$ /index.php?attachment=$1&feed=$2 [QSA,L]
+RewriteRule ^(.+)/([0-9]{4})/([0-9]{1,2})/feed/(feed|rdf|rss|rss2|atom)/?$ /index.php?category_name=$1&year=$2&monthnum=$3&feed=$4 [QSA,L]
+RewriteRule ^(.+)/([0-9]{4})/([0-9]{1,2})/(feed|rdf|rss|rss2|atom)/?$ /index.php?category_name=$1&year=$2&monthnum=$3&feed=$4 [QSA,L]
+RewriteRule ^(.+)/([0-9]{4})/([0-9]{1,2})/page/?([0-9]{1,})/?$ /index.php?category_name=$1&year=$2&monthnum=$3&paged=$4 [QSA,L]
+RewriteRule ^(.+)/([0-9]{4})/([0-9]{1,2})/?$ /index.php?category_name=$1&year=$2&monthnum=$3 [QSA,L]
+RewriteRule ^(.+)/([0-9]{4})/feed/(feed|rdf|rss|rss2|atom)/?$ /index.php?category_name=$1&year=$2&feed=$3 [QSA,L]
+RewriteRule ^(.+)/([0-9]{4})/(feed|rdf|rss|rss2|atom)/?$ /index.php?category_name=$1&year=$2&feed=$3 [QSA,L]
+RewriteRule ^(.+)/([0-9]{4})/page/?([0-9]{1,})/?$ /index.php?category_name=$1&year=$2&paged=$3 [QSA,L]
+RewriteRule ^(.+)/([0-9]{4})/?$ /index.php?category_name=$1&year=$2 [QSA,L]
+RewriteRule ^(.+)/feed/(feed|rdf|rss|rss2|atom)/?$ /index.php?category_name=$1&feed=$2 [QSA,L]
+RewriteRule ^(.+)/(feed|rdf|rss|rss2|atom)/?$ /index.php?category_name=$1&feed=$2 [QSA,L]
+RewriteRule ^(.+)/page/?([0-9]{1,})/?$ /index.php?category_name=$1&paged=$2 [QSA,L]
+RewriteRule ^(.+)/?$ /index.php?category_name=$1 [QSA,L]
+</IfModule>
+
+# END WordPress
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
