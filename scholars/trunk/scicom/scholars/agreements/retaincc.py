@@ -166,8 +166,8 @@ settings, will be imposed to prevent copying or printing of the document.""",
 
         agreement = "%s %s" % (self.NAME, self.VERSION)
         doc.build(Story, 
-                  onFirstPage=lambda x,y: pageInfo(agreement, x, y), 
-                  onLaterPages=lambda x,y: pageInfo(agreement, x, y))
+                  onFirstPage=lambda x,y: sparcPageInfo(agreement, x, y), 
+                  onLaterPages=lambda x,y: sparcPageInfo(agreement, x, y))
 
 if __name__ == '__main__':
     retaincc("test.pdf", "Extraordinary Measures",

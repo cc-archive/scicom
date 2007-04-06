@@ -77,6 +77,32 @@ def pageInfo (agreement_name, canvas, doc):
         pass
 
     canvas.drawString(0.6 * inch, inch*.5, agreement_name)
+    canvas.drawString(0.6 * inch, inch*.375, 'www.sciencecommons.org')
+
+    canvas.restoreState()
+
+def sparcPageInfo(agreement_name, canvas, doc):
+
+    # draw the basics
+    pageInfo(agreement_name, canvas, doc)
+
+    # draw the SPARC logo and name
+    canvas.saveState()
+
+    canvas.setFont('Times-Roman', 8)
+    try:
+        canvas.drawImage(os.path.abspath(os.path.join(
+                    os.path.dirname(scicom.scholars.static.__file__), 'images',
+                    'sparc-wordmark.png')), PAGE_WIDTH - inch * 1.6, 
+                         inch * 0.625,
+                         width=inch, height=inch*.25)
+    except:
+        pass
+
+    canvas.drawRightString(PAGE_WIDTH - 0.6 * inch, inch*.5, 'SPARC Author Addendum 3.0')
+    canvas.drawRightString(PAGE_WIDTH - 0.6 * inch, inch*.375, 'www.ari.org/sparc/')
+    
+    # restore the starting state of the canvas
     canvas.restoreState()
 
 def BoxedText(contents):
