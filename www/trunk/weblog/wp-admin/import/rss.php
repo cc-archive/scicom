@@ -19,15 +19,17 @@ class RSS_Import {
 		$trans_tbl = array_flip($trans_tbl);
 		return strtr($string, $trans_tbl);
 	}
-	
+
 	function greet() {
-		echo '<p>'.__('Howdy! This importer allows you to extract posts from any RSS 2.0 file into your blog. This is useful if you want to import your posts from a system that is not handled by a custom import tool. Pick an RSS file to upload and click Import.').'</p>';
+		echo '<div class="narrow">';
+		echo '<p>'.__('Howdy! This importer allows you to extract posts from an RSS 2.0 file into your blog. This is useful if you want to import your posts from a system that is not handled by a custom import tool. Pick an RSS file to upload and click Import.').'</p>';
 		wp_import_upload_form("admin.php?import=rss&amp;step=1");
+		echo '</div>';
 	}
 
 	function get_posts() {
 		global $wpdb;
-		
+
 		set_magic_quotes_runtime(0);
 		$datalines = file($this->file); // Read the file into an array
 		$importdata = implode('', $datalines); // squish it
@@ -38,21 +40,22 @@ class RSS_Import {
 		$index = 0;
 		foreach ($this->posts as $post) {
 			preg_match('|<title>(.*?)</title>|is', $post, $post_title);
-			$post_title = $wpdb->escape(trim($post_title[1]));
+			$post_title = str_replace(array('<![CDATA[', ']]>'), '', $wpdb->escape( trim($post_title[1]) ));
 
-			preg_match('|<pubdate>(.*?)</pubdate>|is', $post, $post_date);
+			preg_match('|<pubdate>(.*?)</pubdate>|is', $post, $post_date_gmt);
 
-			if ($post_date) {
-				$post_date = strtotime($post_date[1]);
+			if ($post_date_gmt) {
+				$post_date_gmt = strtotime($post_date_gmt[1]);
 			} else {
 				// if we don't already have something from pubDate
-				preg_match('|<dc:date>(.*?)</dc:date>|is', $post, $post_date);
-				$post_date = preg_replace('|([-+])([0-9]+):([0-9]+)$|', '\1\2\3', $post_date[1]);
-				$post_date = str_replace('T', ' ', $post_date);
-				$post_date = strtotime($post_date);
+				preg_match('|<dc:date>(.*?)</dc:date>|is', $post, $post_date_gmt);
+				$post_date_gmt = preg_replace('|([-+])([0-9]+):([0-9]+)$|', '\1\2\3', $post_date_gmt[1]);
+				$post_date_gmt = str_replace('T', ' ', $post_date_gmt);
+				$post_date_gmt = strtotime($post_date_gmt);
 			}
 
-			$post_date = gmdate('Y-m-d H:i:s', $post_date);
+			$post_date_gmt = gmdate('Y-m-d H:i:s', $post_date_gmt);
+			$post_date = get_date_from_gmt( $post_date_gmt );
 
 			preg_match_all('|<category>(.*?)</category>|is', $post, $categories);
 			$categories = $categories[1];
@@ -90,7 +93,7 @@ class RSS_Import {
 
 			$post_author = 1;
 			$post_status = 'publish';
-			$this->posts[$index] = compact('post_author', 'post_date', 'post_content', 'post_title', 'post_status', 'guid', 'categories');
+			$this->posts[$index] = compact('post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_status', 'guid', 'categories');
 			$index++;
 		}
 	}
@@ -134,7 +137,7 @@ class RSS_Import {
 		$this->get_posts();
 		$this->import_posts();
 		wp_import_cleanup($file['id']);
-		
+
 		echo '<h3>';
 		printf(__('All done. <a href="%s">Have fun!</a>'), get_option('home'));
 		echo '</h3>';
@@ -147,7 +150,7 @@ class RSS_Import {
 			$step = (int) $_GET['step'];
 
 		$this->header();
-		
+
 		switch ($step) {
 			case 0 :
 				$this->greet();
@@ -156,16 +159,16 @@ class RSS_Import {
 				$this->import();
 				break;
 		}
-		
+
 		$this->footer();
 	}
 
 	function RSS_Import() {
-		// Nothing.	
+		// Nothing.
 	}
 }
 
 $rss_import = new RSS_Import();
 
-register_importer('rss', 'RSS', __('Import posts from an RSS feed'), array ($rss_import, 'dispatch'));
+register_importer('rss', __('RSS'), __('Import posts from an RSS feed'), array ($rss_import, 'dispatch'));
 ?>
