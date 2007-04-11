@@ -5,6 +5,7 @@
 
 <title>Generate Materials Transfer Agreement</title>
 
+
 <link rel="stylesheet" type="text/css" href="yui/build/reset/reset.css" />
 <link rel="stylesheet" type="text/css" href="yui/build/fonts/fonts.css" /> 
 <link rel="stylesheet" type="text/css" 
@@ -24,49 +25,29 @@
 <script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/element/element-beta-min.js"></script>
 <script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/button/button-beta-min.js"></script>
 
-<script type="text/javascript" src="./prechooser.js"></script>
 </head>
 
 <body>
 
 <h1>Materials Transfer Agreement</h1>
 
-<p>Science Commons Materials Transfer Agreements allow you to blah, blah,
+<p>Academic institutions have two options when executing material transfer 
+agreements: the UBMTA and the SLA.  Blah, blah,
 lorem ipsum, yada, yada...</p>
 
-<div id="pre-selector">
+<table border="0" cellpadding="10">
+  <tr>
+    <td>
+      <xi:include href="ubmta.html" />
+    </td>
 
-<div class="section_header">Organization Information</div>
+    <td>
+      <xi:include href="sla.html" />
+    </td>
 
-<form id="frm_preselector" action="">
+  </tr>
+</table>
 
-<p>
-    <label for="source">Are you an academic institution?</label>
-  <select id="source" size="1" name="source">
-    <option value="---">---</option>
-    <option value="acad">Yes</option>
-    <option value="nonacad">No</option>
-  </select>
-</p>
-<p>
-    <label for="recipient">Are you transferring materials to an academic institution?</label>
-  <select id="recipient" name="recipient" size="1">
-    <option value="---">---</option>
-    <option value="acad">Yes</option>
-    <option value="nonacad">No</option>
-  </select>
-</p>
+</body>
 
-<p>
-<span id="btn_continue" class="yuibutton">
-    <span class="first-child">
-        <button type="button">continue</button>
-    </span>
-</span>
-</p>
-</form>
-
-</div>
-
-
-</body></html>
+</html>
