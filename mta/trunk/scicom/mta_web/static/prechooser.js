@@ -34,7 +34,7 @@ getSettings = function() {
 		} else {
 
 		    // commercial to academic
-		    document.getElementById('frm_preselector').action = \
+		    document.getElementById('frm_preselector').action = 
 			"./compare"
 			}
 	    } else {
@@ -66,7 +66,7 @@ getSettings = function() {
 
 	// call updateSelector in case we came back to this page
 	// and the form isn't in it's default state
-	updateSelector();
+	YAHOO.mta.updateSelector();
 
     } // init
 

@@ -1,6 +1,6 @@
 
 var mta = new SciComMta();
-var getEl = YAHOO.ext.Element.get;
+var getEl = Ext.Element.get;
 
 getSettings = function() {
 
@@ -9,7 +9,9 @@ getSettings = function() {
 
   for (key in SciComMta.prototype._field_order) {
      field_name = SciComMta.prototype._field_order[key];
-     result[field_name] = document.getElementById(field_name).value;
+     element = document.getElementById(field_name);
+
+     if (element) result[field_name] = element.value;
   }
 
 // alert(result);
@@ -125,3 +127,5 @@ update_field = function(field_name) {
 	updateMta();
 
     } // initChooser
+
+YAHOO.util.Event.onDOMReady(initChooser); 

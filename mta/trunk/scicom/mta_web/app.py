@@ -92,9 +92,42 @@ class MtaWeb(object):
                   'tools.staticdir.root':STATIC_DIR,
                   'tools.staticdir.dir':''}
 
-    # map the root path to the static file index.html
-    index = cherrypy.tools.staticfile.handler(
-        os.path.join(STATIC_DIR, 'index.html'))
+    # root page -- pre-chooser
+    @cherrypy.expose
+    def index(self):
+        template = self.__loader.load(
+            os.path.join(STATIC_DIR, "index.html"))
+        return template.generate().render('xhtml')
+        
+    # academic chooser (UBMTA, SLA)
+    @cherrypy.expose
+    def academic(self, source, recipient, **kwargs):
+
+        template = self.__loader.load(
+            os.path.join(STATIC_DIR, "academic.html"))
+        stream = template.generate(source=source, recipient=recipient)
+
+        return stream.render("xhtml")
+
+    # to academic chooser (SciCom, UBMTA, SLA)
+    @cherrypy.expose
+    def compare(self, source, recipient, **kwargs):
+
+        template = self.__loader.load(
+            os.path.join(STATIC_DIR, "triple.html"))
+        stream = template.generate(source=source, recipient=recipient)
+
+        return stream.render("xhtml")
+
+    # scicom chooser
+    @cherrypy.expose
+    def select(self, source, recipient, **kwargs):
+
+        template = self.__loader.load(
+            os.path.join(STATIC_DIR, "select.html"))
+        stream = template.generate(source=source, recipient=recipient)
+
+        return stream.render("xhtml")
 
     # MTA deeds and legalcode
     @cherrypy.expose
@@ -105,7 +138,7 @@ class MtaWeb(object):
 
         return stream.render("xhtml")
 
-def serve(host='localhost', port=8082):
+def serve(host='', port=8082):
 
     cherrypy.tree.mount(MtaWeb())
 
