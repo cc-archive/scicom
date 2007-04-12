@@ -28,7 +28,7 @@ p {
 #metadata {
    border: 1px solid;
    font-size: 85%;   
-   width: 500px;
+   width: 47%;
 }
 
 .sub_selector {
@@ -55,4 +55,8 @@ p {
    padding-bottom: 5px;
    padding-left: 5px;
    margin-bottom: 10px;
+}
+
+.choose_button {
+   text-align: center;
 }
