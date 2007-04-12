@@ -69,7 +69,46 @@ class MtaMaterial(object):
         stream = template.generate(material=material[0])
 
         return stream.render('xhtml')
-    
+
+class MtaSelector(object):
+    """Support select views for each MTA class."""
+
+    def __init__(self):
+
+        # create a template loader instance
+        self.__loader = genshi.template.TemplateLoader([TEMPLATE_DIR])
+
+    # scicom chooser
+    @cherrypy.expose
+    def index(self, source, recipient, **kwargs):
+
+        template = self.__loader.load(
+            os.path.join(TEMPLATE_DIR, "select.html"))
+        stream = template.generate(source=source, recipient=recipient)
+
+        return stream.render("xhtml")
+
+    # ubmta
+    @cherrypy.expose
+    def ubmta(self, source, recipient, **kwargs):
+
+        template = self.__loader.load(
+            os.path.join(TEMPLATE_DIR, "select_ubmta.html"))
+        stream = template.generate(source=source, recipient=recipient)
+
+        return stream.render("xhtml")
+
+    # scicom chooser
+    @cherrypy.expose
+    def sla(self, source, recipient, **kwargs):
+
+        template = self.__loader.load(
+            os.path.join(TEMPLATE_DIR, "select_sla.html"))
+        stream = template.generate(source=source, recipient=recipient)
+
+        return stream.render("xhtml")
+
+
 class MtaWeb(object):
 
     def __init__(self):
@@ -78,6 +117,7 @@ class MtaWeb(object):
         self.__loader = genshi.template.TemplateLoader([TEMPLATE_DIR])
 
         # create sub-objects for areas of functionality
+        self.select = MtaSelector()
 
         # Material Registration
         self.material = MtaMaterial(self.__loader)
@@ -115,16 +155,6 @@ class MtaWeb(object):
 
         template = self.__loader.load(
             os.path.join(TEMPLATE_DIR, "triple.html"))
-        stream = template.generate(source=source, recipient=recipient)
-
-        return stream.render("xhtml")
-
-    # scicom chooser
-    @cherrypy.expose
-    def select(self, source, recipient, **kwargs):
-
-        template = self.__loader.load(
-            os.path.join(TEMPLATE_DIR, "select.html"))
         stream = template.generate(source=source, recipient=recipient)
 
         return stream.render("xhtml")

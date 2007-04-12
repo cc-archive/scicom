@@ -1,0 +1,87 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+<head>
+
+<title>Select Materials Transfer Agreement</title>
+
+
+<link rel="stylesheet" type="text/css" href="yui/build/reset/reset.css" />
+<link rel="stylesheet" type="text/css" href="yui/build/fonts/fonts.css" /> 
+<link rel="stylesheet" type="text/css" 
+      href="yui/build/container/assets/container.css" /> 
+<style type="text/css">
+<!--
+  @import url(/mta.css);
+-->
+</style>
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" 
+      href="http://yui.yahooapis.com/2.2.1/build/fonts/fonts-min.css" />
+<link rel="stylesheet" type="text/css" 
+      href="http://yui.yahooapis.com/2.2.1/build/button/assets/button.css" />
+
+<script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/element/element-beta-min.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/button/button-beta-min.js"></script>
+<script src="http://yui.yahooapis.com/2.2.1/build/animation/animation-min.js">
+</script> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/connection/connection-min.js"></script> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/autocomplete/autocomplete-min.js"></script> 
+
+<script type="text/javascript" src="/ext/adapter/yui/ext-yui-adapter.js">
+</script>
+<script type="text/javascript" src="/ext/ext-all.js"></script>
+
+<script type="text/javascript" src="/mta.js"></script>
+<script type="text/javascript" src="/chooser.js"></script>
+
+</head>
+
+<body>
+
+<h1>Materials Transfer Agreement</h1>
+
+<p>You chose the SLA.</p>
+
+<p>blah, blah, ubmta, blah</p>
+
+<div id="selector">
+
+<div class="section_header">Material Information</div>
+
+<p>
+    <label for="material_desc">Description:</label>
+    <input type="textbox" id="material_desc" />
+</p>
+<p>
+    <label for="material_provider">Provider:</label>
+    <input type="textbox" id="material_provider"/>
+</p>
+<p>
+    <label for="material_uri">Material URL:</label>
+    <input type="textbox" id="material_uri" /> 
+    [<a href="#">More Information</a>] <br/>
+    <button id="generate_material_uri"
+       title="Generate a stable material URI for use with metadata.">
+      generate</button>
+</p>
+
+</div>
+
+<div id="results">
+
+<p>You have selected the 
+<a href="#" id="mta_link">UBMTA</a> agreement.  You can 
+copy and paste the metadata below into your web page to include a link to 
+the agreement.</p>
+
+<textarea id="metadata" rows="10" cols="50">
+</textarea>
+
+</div>
+
+
+</body>
+
+</html>
