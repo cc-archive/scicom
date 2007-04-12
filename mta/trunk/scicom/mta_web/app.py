@@ -96,7 +96,7 @@ class MtaWeb(object):
     @cherrypy.expose
     def index(self):
         template = self.__loader.load(
-            os.path.join(STATIC_DIR, "index.html"))
+            os.path.join(TEMPLATE_DIR, "index.html"))
         return template.generate().render('xhtml')
         
     # academic chooser (UBMTA, SLA)
@@ -104,7 +104,7 @@ class MtaWeb(object):
     def academic(self, source, recipient, **kwargs):
 
         template = self.__loader.load(
-            os.path.join(STATIC_DIR, "academic.html"))
+            os.path.join(TEMPLATE_DIR, "academic.html"))
         stream = template.generate(source=source, recipient=recipient)
 
         return stream.render("xhtml")
@@ -114,7 +114,7 @@ class MtaWeb(object):
     def compare(self, source, recipient, **kwargs):
 
         template = self.__loader.load(
-            os.path.join(STATIC_DIR, "triple.html"))
+            os.path.join(TEMPLATE_DIR, "triple.html"))
         stream = template.generate(source=source, recipient=recipient)
 
         return stream.render("xhtml")
@@ -124,7 +124,7 @@ class MtaWeb(object):
     def select(self, source, recipient, **kwargs):
 
         template = self.__loader.load(
-            os.path.join(STATIC_DIR, "select.html"))
+            os.path.join(TEMPLATE_DIR, "select.html"))
         stream = template.generate(source=source, recipient=recipient)
 
         return stream.render("xhtml")
