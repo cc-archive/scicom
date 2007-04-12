@@ -1,0 +1,53 @@
+<html><head><title>LoadMask.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>LoadMask.js</h1><pre class="highlighted"><code>Ext.LoadMask = <b>function</b>(el, config){
+    <b>this</b>.el = Ext.get(el);
+    Ext.apply(<b>this</b>, config);
+    <b>if</b>(this.store){
+        <b>this</b>.store.on('beforeload', <b>this</b>.onBeforeLoad, <b>this</b>);
+        <b>this</b>.store.on('load', <b>this</b>.onLoad, <b>this</b>);
+        <b>this</b>.store.on('loadexception', <b>this</b>.onLoad, <b>this</b>);
+    }<b>else</b>{
+        <b>var</b> um = <b>this</b>.el.getUpdateManager();
+        um.showLoadIndicator = false; <i>// disable the <b>default</b> indicator</i>
+        um.on('beforeupdate', <b>this</b>.onBeforeLoad, <b>this</b>);
+        um.on('update', <b>this</b>.onLoad, <b>this</b>);
+        um.on('failure', <b>this</b>.onLoad, <b>this</b>);
+    }
+};
+
+Ext.LoadMask.prototype = {
+    msg : 'Loading...',
+    msgCls : 'x-mask-loading',
+    disabled: false,
+
+    disable : <b>function</b>(){
+       <b>this</b>.disabled = true;
+    },
+
+    enable : <b>function</b>(){
+        <b>this</b>.disabled = false;
+    },
+
+    onLoad : <b>function</b>(){
+        <b>this</b>.el.unmask();
+    },
+
+    onBeforeLoad : <b>function</b>(){
+        <b>if</b>(!<b>this</b>.disabled){
+            <b>this</b>.el.mask(<b>this</b>.msg, <b>this</b>.msgCls);
+        }
+    },
+
+    destroy : <b>function</b>(){
+        <b>if</b>(this.store){
+            <b>this</b>.store.un('beforeload', <b>this</b>.onBeforeLoad, <b>this</b>);
+            <b>this</b>.store.un('load', <b>this</b>.onLoad, <b>this</b>);
+            <b>this</b>.store.un('loadexception', <b>this</b>.onLoad, <b>this</b>);
+        }<b>else</b>{
+            <b>var</b> um = <b>this</b>.el.getUpdateManager();
+            um.un('beforeupdate', <b>this</b>.onBeforeLoad, <b>this</b>);
+            um.un('update', <b>this</b>.onLoad, <b>this</b>);
+            um.un('failure', <b>this</b>.onLoad, <b>this</b>);
+        }
+    }
+};</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>
