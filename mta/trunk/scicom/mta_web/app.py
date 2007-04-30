@@ -139,6 +139,10 @@ class MtaWeb(object):
             os.path.join(TEMPLATE_DIR, "index.html"))
         return template.generate().render('xhtml')
         
+    # map the root path to the static file index.html
+    index = cherrypy.tools.staticfile.handler(
+        os.path.join(TEMPLATE_DIR, 'index.html'))
+
     # academic chooser (UBMTA, SLA)
     @cherrypy.expose
     def academic(self, source, recipient, **kwargs):
