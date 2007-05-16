@@ -67,15 +67,126 @@ update_field = function(field_name) {
 
 } // update_field
 
-    YAHOO.mta.pnl_finish_activate = function(obj) {
-	YAHOO.mta.dlg_offer.btn_next.setText("Finish");
-    } // pnl_finish_activate
+    YAHOO.mta.change_agr_type = function(event) {
 
-    YAHOO.mta.pnl_finish_deactivate = function(obj) {
-	YAHOO.mta.dlg_offer.btn_next.setText("Next");
-    } // pnl_finish_deactivate
+	// show/hide the "custom" field as necessary
+	Ext.Element.get("custom_url_info").setVisible(
+			      event.getTarget().id == 'agr_custom', true);
+
+    } // change_agr_type
+
+    YAHOO.mta.pnl_welcome_activate = function(obj) {
+
+	Ext.Element.get("offer_to_nonprofit").dom.checked = true;
+
+    } // pnl_welcome_activate
+
+    YAHOO.mta.pnl_type_activate = function(obj) {
+
+	var get = Ext.Element.get;
+
+	// set all active
+	get("agr_scicom").dom.disabled = false;
+	get("agr_ubmta").dom.disabled = false;
+	get("agr_sla").dom.disabled = false;
+	get("agr_custom").dom.disabled = false;
+
+	// filter out the list based on the provider and recipient
+	if (get("offer_to_nonprofit").dom.checked) {
+	    // offer to a non-profit
+	    get("agr_scicom").dom.disabled = true;
+	    get("agr_custom").dom.disabled = true;
+
+	    get('agr_ubmta').dom.checked = true;
+
+	}  else {
+	    // general offer 
+	    get("agr_ubmta").dom.checked = true;
+	    get("agr_sla").dom.disabled = true;
+
+	}
+
+	// set the default
+
+    } // pnl_type_activate
 
 
+    YAHOO.mta.get_offer_name = function() {
+
+	var get = Ext.Element.get;
+
+	// convenience function to return the offer name for the current offer
+	if (get("agr_sla").dom.checked) {
+	    // sla
+	    return "SLA"
+	} else if (get("agr_ubmta").dom.checked) {
+	    // ubmta
+	    return "UBMTA";
+	} else if (get("agr_custom").dom.checked) {
+	    // custom
+	    return "Custom";
+	} else if (get("agr_scicom").dom.checked) {
+	    // science commons
+	    // return the fully name here
+	    return "Science Commons";
+	}
+
+    } // get_offer_name
+
+    YAHOO.mta.get_offer_target = function() {
+	// convenience function to return the target for the current offer
+	// returns true for public, false for non-profit only
+
+	return Ext.Element.get("offer_to_all").dom.checked;
+
+    } // get_offer_name
+
+    YAHOO.mta.update_metadata = function() { 
+    } // update_metadata
+
+    YAHOO.mta.remove_offer = function(offer_name) {
+
+	// find the offer to remove
+	for (var i = 0; i < YAHOO.mta.offer_list.length; i++) {
+	    if (YAHOO.mta.offer_list[i].id == offer_name) {
+
+		// remove this offer
+		offer = YAHOO.mta.offer_list[i];
+		offer.hide(true);
+		YAHOO.mta.offer_list.pop(offer);
+		offer.destroy();
+		return;
+	    }
+
+	} // for each offer...
+
+    } // remove offer
+
+    YAHOO.mta.finish_offer = function() {
+	
+	var agr_name = YAHOO.mta.get_offer_name();
+	var offer_to_public = YAHOO.mta.get_offer_target();
+	var mod_name = agr_name + "_" + offer_to_public;
+
+	// create a "module" to contain the offer
+	var new_offer = new YAHOO.widget.Module(mod_name);
+	new_offer.setHeader(agr_name + '<span class="delete_offer" onclick="YAHOO.mta.remove_offer(\'' + mod_name + '\');">X</span>'); 
+	new_offer.setBody(" to " + (offer_to_public ? "the public"
+						 : "non-profit institutions") );
+	new_offer.render("offer_container");
+	new_offer.show();
+
+	// store the URI, etc
+	// XXX
+
+	// push the offer onto the stack
+	YAHOO.mta.offer_list.push(new_offer);
+
+	// update the metadata
+	YAHOO.mta.update_metadata();
+
+    } // finish_offer
+	    
     YAHOO.mta.bind_events = function() {
 	// bind widget events for the add offer dialog
 
@@ -87,11 +198,14 @@ YAHOO.mta.add_offer = function(event) {
     if (!YAHOO.mta.dlg_offer) {
 	YAHOO.mta.dlg_offer = new Ext.LayoutDialog("add-offer-dlg", {
 		modal:true,
-		width:300,
+		width:450,
 		height:300,
                 shadow:true,
                 minWidth:300,
                 minHeight:300,
+		closable:false,
+		collapsible:false,
+		resizable:false,
                 proxyDrag: true,
 	        center: {
 		    autoScroll:true,
@@ -102,9 +216,21 @@ YAHOO.mta.add_offer = function(event) {
 
 	YAHOO.mta.dlg_offer.update_buttons = function() {
 
+	    // disable/enable the back button
 	    YAHOO.mta.dlg_offer.btn_back.setDisabled(
                (YAHOO.mta.dlg_offer.panel_history.length == 0) 
 						     );
+
+	    // update the next/finish label
+	    
+	    if (YAHOO.mta.dlg_offer.getLayout().
+		getRegion("center").getActivePanel().getId() == "finish") {
+
+		YAHOO.mta.dlg_offer.btn_next.setText("Finish");
+
+	    } else {
+		YAHOO.mta.dlg_offer.btn_next.setText("Next");
+	    }
 
 	} // update_buttons
 
@@ -158,7 +284,13 @@ YAHOO.mta.add_offer = function(event) {
 		    // science commons
 		    next_panel = "scicom_chooser";
 		}
-	       
+
+	    } else if (current == "finish") {
+		// finish the offer creation process
+		YAHOO.mta.finish_offer();
+		dialog.getLayout().getRegion("center").remove(current);
+		YAHOO.mta.dlg_offer.hide();
+		return;
 	    } else {
 		// all others go to the finish next
 		next_panel = "finish";
@@ -188,7 +320,6 @@ YAHOO.mta.add_offer = function(event) {
 	    YAHOO.mta.dlg_offer.addButton('Back', 
 					  YAHOO.mta.dlg_offer.on_back, 
 					  YAHOO.mta.dlg_offer);
-	YAHOO.mta.dlg_offer.panel_history = new Array();
 	YAHOO.mta.dlg_offer.btn_back.disable();
 
 	YAHOO.mta.dlg_offer.btn_next = 
@@ -201,16 +332,29 @@ YAHOO.mta.add_offer = function(event) {
 	YAHOO.mta.dlg_offer.wiz_panels = new Array();
 	YAHOO.mta.dlg_offer.wiz_panels['welcome'] = 
 	    new Ext.ContentPanel('welcome');
+	YAHOO.mta.dlg_offer.wiz_panels['welcome'].addListener('activate',
+					  YAHOO.mta.pnl_welcome_activate);
+	
 	YAHOO.mta.dlg_offer.wiz_panels['agreement_type'] = 
 	    new Ext.ContentPanel('agreement_type');
+	YAHOO.mta.dlg_offer.wiz_panels['agreement_type'].addListener('activate',
+					  YAHOO.mta.pnl_type_activate);
+
+
+	Ext.Element.get("agr_ubmta").addListener("change", 
+						 YAHOO.mta.change_agr_type);
+	Ext.Element.get("agr_sla").addListener("change", 
+						 YAHOO.mta.change_agr_type);
+	Ext.Element.get("agr_scicom").addListener("change", 
+						 YAHOO.mta.change_agr_type);
+	Ext.Element.get("agr_custom").addListener("change", 
+						 YAHOO.mta.change_agr_type);
+
 	YAHOO.mta.dlg_offer.wiz_panels['scicom_chooser'] = 
 	    new Ext.ContentPanel('scicom_chooser');
 	YAHOO.mta.dlg_offer.wiz_panels['finish'] = 
 	    new Ext.ContentPanel('finish');
-	YAHOO.mta.dlg_offer.wiz_panels['finish'].addListener("activate",
-					  YAHOO.mta.pnl_finish_activate);
-	YAHOO.mta.dlg_offer.wiz_panels['finish'].addListener("deactivate",
-					  YAHOO.mta.pnl_finish_deactivate);
+
     } // if dialog not created
 
     // set the initial panel
@@ -218,7 +362,11 @@ YAHOO.mta.add_offer = function(event) {
     layout.beginUpdate();
     layout.add('center', YAHOO.mta.dlg_offer.wiz_panels['welcome']);
     layout.endUpdate();
-    
+
+    // reset the page history
+    YAHOO.mta.dlg_offer.panel_history = new Array();
+
+    // show the dialog
     YAHOO.mta.dlg_offer.show();
 
 } // YAHOO.mta.add_offer
@@ -282,6 +430,9 @@ YAHOO.mta.init = function() {
 	new YAHOO.widget.Button("btn_generate_material_uri", 
             { onclick: { fn: YAHOO.mta.generate_material_uri } });
 
+
+	// initialize the stack of offers
+	YAHOO.mta.offer_list = new Array();
 
 	// call updateMta to generate the information for the base MTA
 	updateMta();

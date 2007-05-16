@@ -14,7 +14,13 @@
 <!--
   @import url(/ext/resources/css/ext-all.css);
   @import url(/mta.css);
+
+.yui-module { border:1px dotted black;padding:5px;margin:10px; }
+.yui-module .hd { border-bottom:1px dotted red;padding:5px; }
+.yui-module .bd {  }
+.yui-module .ft {  }
 -->
+
 </style>
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" 
@@ -71,6 +77,11 @@ lorem ipsum, yada, yada...</p>
 </p>
 
 <p>
+    <label for="material_provider_url">Provider URL:</label>
+    <input type="textbox" id="material_provider_url"/>
+</p>
+
+<p>
     <label for="nonprofit_provider">Are you a non-profit institution?</label>
     <input id="nonprofit_provider" type="checkbox" />
 </p>
@@ -102,7 +113,9 @@ lorem ipsum, yada, yada...</p>
 <p>An Offer is an agreement which a recipient can take advantage of...
 lorem, ipsum, all that jazz.</p>
 
-<p>Offers</p>
+<div id="offer_container">
+</div>
+
 <p>
 <label>&nbsp;</label>
 <span id="btn_add_offer" class="yuibutton">
@@ -137,8 +150,8 @@ the agreement.</p>
       <p>Welcome; this wizard will walk you through the offer configuration 
       process.</p>
       <p>Whom is this offer made to?</p>
-      <label><input type="radio" name="offer_to" value="to_non_profit"/> Non-profit institutions</label><br/>
-      <label><input type="radio" name="offer_to" value="to_all"/> All institutions</label><br/>
+      <label><input type="radio" name="offer_to" id="offer_to_nonprofit" value="to_non_profit"/> Non-profit institutions</label><br/>
+      <label><input type="radio" name="offer_to" id="offer_to_all" value="to_all"/> All institutions</label><br/>
     </div>
 
     <div id="agreement_type" 
@@ -151,9 +164,11 @@ the agreement.</p>
       <label><input type="radio" name="agreement_type" id="agr_scicom"
 		    value="agr_scicom"/> Science Commons</label><br/>
       <label><input type="radio" name="agreement_type" id="agr_custom"
-		    value="agr_custom"/> Custom</label><br/>
+		    value="agr_custom"/> Custom</label>
+      <div id="custom_url_info" style="visibility:hidden;">
       <label for="agr_custom_url">Agreement URL:</label>
         <input name="agr_custom_url" width="50" />
+      </div>
     </div>
 
     <div id="scicom_chooser" 
