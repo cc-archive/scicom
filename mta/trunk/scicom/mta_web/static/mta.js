@@ -1,14 +1,120 @@
+// Agreement Classes
+
+// Base -- Prototype
+
+function MtaClass() {
+
+    this.class_id = 'basic';
+    this.class_name = 'Basic Agreement';
+
+    this.is_enabled = function(np_recipient) {
+	// return true if this agreement is enabled for the source/recipient;
+	// np_source and np_recipient are true if they are non-profit
+
+	return true;
+    };
+
+    this.get_id = function() {
+	// return the simple string identifier for this class
+	return this.class_id;
+    };
+
+    this.get_name = function() {
+	// return the human readable name for this class
+	return this.class_name;
+    };
+
+    this.get_uri = function() {
+	return 'http://example.com/mta/1.0/';
+    };
+
+    this.get_info_panel = function () {
+	// if this class requires additional parameters, return the UI panel
+	// otherwise return null
+
+	return null;
+    };
+
+    this.get_dom_id = function() {
+
+	return "agr_" + this.get_id();
+    }; 
+
+    this.get_dom_element = function() {
+
+	if (!this._dom_element) {
+	    // create the element
+	    this._dom_element = new Ext.form.Radio({
+		    boxLabel : this.get_name(),
+		    name : 'agreement_type',
+		    id : this.get_dom_id(),
+		});
+	} // if not previously created
+
+	return this._dom_element;
+
+    };
+    
+}; // MtaClass
+
+function UbmtaClass() {
+
+    this.class_id = 'ubmta';
+    this.class_name = 'UBMTA';
+
+    this.is_enabled = function(np_recipient) {
+	// return true if this agreement is enabled for the source/recipient;
+	// np_source and np_recipient are true if they are non-profit
+
+	return np_recipient;
+    };
+
+}; // UbmtaClass
+UbmtaClass.prototype = new MtaClass;
+
+function SlaClass() {
+
+    this.class_id = 'sla';
+    this.class_name = 'SLA';
+
+    this.is_enabled = function(np_recipient) {
+	// return true if this agreement is enabled for the source/recipient;
+	// np_source and np_recipient are true if they are non-profit
+
+	return np_recipient;
+    };
+
+}; // SlaClass
+SlaClass.prototype = new MtaClass;
+
+
+function CustomMta() {
+
+    this.class_id = 'custom';
+    this.class_name = 'Custom Agreement';
+
+    this.is_enabled = function(np_recipient) {
+	// return true if this agreement is enabled for the source/recipient;
+	// np_source and np_recipient are true if they are non-profit
+
+	return !np_recipient;
+    };
+
+}; // SlaClass
+CustomMta.prototype = new MtaClass;
+
 // SciComMta
 // 
 // 
 
-SciComMta = function() {
+function SciComMta() {
 
   // MTA Generation Control Structures
   this._CURRENT_VERSION = "1.0";
   this._BASE_URI = "http://mta.sciencecommons.org/agreement/";
 
   // this._field_order = ["field", "scaling", "term", "retain", "publication"];
+  this._field_order = ["field", "scaling", "term", "retain"];  
   this._field_values = new Array();
   
   // parameter: field
@@ -32,13 +138,18 @@ SciComMta = function() {
   this._field_values['retain']['yes'] = ['', ''];
   this._field_values['retain']['no']  = ['No Retention', 'NoRetention'];
 
-  // parameter: publication
-  this._field_values['publication'] = new Array();
-  this._field_values['publication']['yes'] = ['', ''];
-  this._field_values['publication']['no'] = ['No Publication', 'NoPublication'];
-
   // current settings
   this._settings = new Array();
+
+    this.class_id = 'scicom';
+    this.class_name = 'Science Commons';
+
+    this.is_enabled = function(np_recipient) {
+	// return true if this agreement is enabled for the source/recipient;
+	// np_source and np_recipient are true if they are non-profit
+
+	return !np_recipient;
+    };
 
   // ******************************************************************
 
@@ -185,7 +296,6 @@ SciComMta = function() {
 	  result.push('<prohibits rdf:resource="http://web.resource.org/cc/Retention" />');
       }
 
-      // publication
 
       result.push("</TransferAgreement>");
       result.push("");
@@ -204,8 +314,11 @@ SciComMta = function() {
 
 
 } // SciComMta
+SciComMta.prototype = new MtaClass;
 
-// specify the order for fields in constructing the URI and Name
-SciComMta.prototype._field_order = ["field", "scaling", 
-				    "term", "retain", "publication"];
+
+// specify the list of all available agreements
+YAHOO.namespace('mta');
+YAHOO.mta.AGREEMENT_CLASSES = [new UbmtaClass(), new SlaClass(),
+			       new SciComMta(), new CustomMta()];
 

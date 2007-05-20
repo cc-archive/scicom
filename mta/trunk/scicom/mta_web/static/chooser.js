@@ -31,8 +31,8 @@ updateMta = function() {
   mta.update_settings(mta_settings);
 
   // update the display information
-  document.getElementById('mta_link').setAttribute('href', mta.get_uri());
-  document.getElementById('mta_link').innerHTML = mta.get_name();
+  // document.getElementById('mta_link').setAttribute('href', mta.get_uri());
+  // document.getElementById('mta_link').innerHTML = mta.get_name();
 
   document.getElementById("metadata").innerHTML = mta.get_metadata();
 
@@ -70,8 +70,8 @@ update_field = function(field_name) {
     YAHOO.mta.change_agr_type = function(event) {
 
 	// show/hide the "custom" field as necessary
-	Ext.Element.get("custom_url_info").setVisible(
-			      event.getTarget().id == 'agr_custom', true);
+	//	Ext.Element.get("custom_url_info").setVisible(
+	//	      event.getTarget().id == 'agr_custom', true);
 
     } // change_agr_type
 
@@ -85,53 +85,45 @@ update_field = function(field_name) {
 
 	var get = Ext.Element.get;
 
-	// set all active
-	get("agr_scicom").dom.disabled = false;
-	get("agr_ubmta").dom.disabled = false;
-	get("agr_sla").dom.disabled = false;
-	get("agr_custom").dom.disabled = false;
+	// update the enabled status of the agreements
+	for (i = 0; i < YAHOO.mta.AGREEMENT_CLASSES.length; i++) {
+	    
+	    agr_class = YAHOO.mta.AGREEMENT_CLASSES[i];
+	    agr_class.get_dom_element().setDisabled(
+		!(agr_class.is_enabled(get("offer_to_nonprofit").dom.checked))
+						    );
 
-	// filter out the list based on the provider and recipient
-	if (get("offer_to_nonprofit").dom.checked) {
-	    // offer to a non-profit
-	    get("agr_scicom").dom.disabled = true;
-	    get("agr_custom").dom.disabled = true;
-
-	    get('agr_ubmta').dom.checked = true;
-
-	}  else {
-	    // general offer 
-	    get("agr_ubmta").dom.checked = true;
-	    get("agr_sla").dom.disabled = true;
-
-	}
-
-	// set the default
+	} // for each agreement class
 
     } // pnl_type_activate
 
 
-    YAHOO.mta.get_offer_name = function() {
+    YAHOO.mta.get_selected_offer_type = function() {
 
-	var get = Ext.Element.get;
+	for (i = 0; i < YAHOO.mta.AGREEMENT_CLASSES.length; i++) {
 
-	// convenience function to return the offer name for the current offer
-	if (get("agr_sla").dom.checked) {
-	    // sla
-	    return "SLA"
-	} else if (get("agr_ubmta").dom.checked) {
-	    // ubmta
-	    return "UBMTA";
-	} else if (get("agr_custom").dom.checked) {
-	    // custom
-	    return "Custom";
-	} else if (get("agr_scicom").dom.checked) {
-	    // science commons
-	    // return the fully name here
-	    return "Science Commons";
-	}
+	    agr_class = YAHOO.mta.AGREEMENT_CLASSES[i];
+	    if (agr_class.get_dom_element().checked) {
+		return agr_class;
+		    }
 
-    } // get_offer_name
+	} // for each agreement class
+
+	return null;
+
+    } // get_selected_offer_type
+
+    YAHOO.mta.get_new_offer_name = function() {
+
+	return YAHOO.mta.get_selected_offer_type().get_name();
+
+    } // get_new_offer_name
+
+    YAHOO.mta.get_new_offer_uri = function() {
+
+	return YAHOO.mta.get_selected_offer_type().get_uri();
+
+    } // get_new_offer_uri
 
     YAHOO.mta.get_offer_target = function() {
 	// convenience function to return the target for the current offer
@@ -164,13 +156,14 @@ update_field = function(field_name) {
 
     YAHOO.mta.finish_offer = function() {
 	
-	var agr_name = YAHOO.mta.get_offer_name();
+	var agr_name = YAHOO.mta.get_new_offer_name();
+	var agr_uri = YAHOO.mta.get_new_offer_uri();
 	var offer_to_public = YAHOO.mta.get_offer_target();
 	var mod_name = agr_name + "_" + offer_to_public;
 
 	// create a "module" to contain the offer
 	var new_offer = new YAHOO.widget.Module(mod_name);
-	new_offer.setHeader(agr_name + '<span class="delete_offer" onclick="YAHOO.mta.remove_offer(\'' + mod_name + '\');">X</span>'); 
+	new_offer.setHeader('<a href="' + agr_uri + '">' + agr_name + '</a><span class="delete_offer" onclick="YAHOO.mta.remove_offer(\'' + mod_name + '\');">X</span>'); 
 	new_offer.setBody(" to " + (offer_to_public ? "the public"
 						 : "non-profit institutions") );
 	new_offer.render("offer_container");
@@ -265,24 +258,15 @@ YAHOO.mta.add_offer = function(event) {
 	    current = dialog.getLayout().
 	       getRegion("center").getActivePanel().getId();
 
-	    var next_panel = "";
+	    var next_panel = null;
 	    if (current == "welcome") {
-		next_panel = "agreement_type";
+		next_panel = dialog.wiz_panels["agreement_type"];
 	    } else if (current == "agreement_type") {
 		// check the agreement type and determine if we're done
-
-		if (get("agr_sla").dom.checked) {
-		    // sla
-		    next_panel = "finish";
-		} else if (get("agr_ubmta").dom.checked) {
-		    // ubmta
-		    next_panel = "finish";
-		} else if (get("agr_custom").dom.checked) {
-		    // custom
-		    next_panel = "finish";
-		} else if (get("agr_scicom").dom.checked) {
-		    // science commons
-		    next_panel = "scicom_chooser";
+		if (YAHOO.mta.get_selected_offer_type().get_info_panel()) {
+		    next_panel = YAHOO.mta.get_selected_offer_type().get_info_panel();
+		} else {
+		    next_panel = dialog.wiz_panels['finish'];
 		}
 
 	    } else if (current == "finish") {
@@ -293,7 +277,7 @@ YAHOO.mta.add_offer = function(event) {
 		return;
 	    } else {
 		// all others go to the finish next
-		next_panel = "finish";
+		next_panel = dialog.wiz_panels["finish"];
 	    }
 
 	    // store the current panel in the history
@@ -302,8 +286,8 @@ YAHOO.mta.add_offer = function(event) {
 	    // show the next panel
 	    dialog.getLayout().beginUpdate();
 	    dialog.getLayout().getRegion("center").remove(current);
-	    dialog.getLayout().add("center", dialog.wiz_panels[next_panel]);
-	    dialog.getLayout().getRegion("center").showPanel(next_panel);
+	    dialog.getLayout().add("center", next_panel);
+	    dialog.getLayout().getRegion("center").showPanel(next_panel.id);
 	    dialog.getLayout().endUpdate();
 
 	    // update the back button
@@ -340,15 +324,13 @@ YAHOO.mta.add_offer = function(event) {
 	YAHOO.mta.dlg_offer.wiz_panels['agreement_type'].addListener('activate',
 					  YAHOO.mta.pnl_type_activate);
 
+	// add the selectors for each agreement type
+	for (i = 0; i < YAHOO.mta.AGREEMENT_CLASSES.length; i++) {
+	    agr_radio = YAHOO.mta.AGREEMENT_CLASSES[i].get_dom_element();
+	    agr_radio.render("agreement_type");
+	    agr_radio.addListener("change", YAHOO.mta.change_agr_type);
 
-	Ext.Element.get("agr_ubmta").addListener("change", 
-						 YAHOO.mta.change_agr_type);
-	Ext.Element.get("agr_sla").addListener("change", 
-						 YAHOO.mta.change_agr_type);
-	Ext.Element.get("agr_scicom").addListener("change", 
-						 YAHOO.mta.change_agr_type);
-	Ext.Element.get("agr_custom").addListener("change", 
-						 YAHOO.mta.change_agr_type);
+	} // for each class
 
 	YAHOO.mta.dlg_offer.wiz_panels['scicom_chooser'] = 
 	    new Ext.ContentPanel('scicom_chooser');
@@ -365,6 +347,9 @@ YAHOO.mta.add_offer = function(event) {
 
     // reset the page history
     YAHOO.mta.dlg_offer.panel_history = new Array();
+
+    // update the buttons
+    YAHOO.mta.dlg_offer.update_buttons();
 
     // show the dialog
     YAHOO.mta.dlg_offer.show();

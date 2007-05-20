@@ -129,10 +129,9 @@ lorem, ipsum, all that jazz.</p>
 
 <div id="results">
 
-<p>You have selected the Science Commons
-<a href="#" id="mta_link">Material Transfer Agreement 1.0</a> agreement.  You can 
-copy and paste the metadata below into your web page to include a link to 
-the agreement.</p>
+<p>You can include information about the offers on your web page; just copy
+and paste the HTML below into your page.  The HTML includes machine-readable
+metadata which software can discover and aggregate.</p>
 
 <textarea id="metadata" rows="10" cols="50">
 </textarea>
@@ -157,6 +156,8 @@ the agreement.</p>
     <div id="agreement_type" 
 	 class="x-layout-inactive-content" style="padding:10px;">
       <p>What type of agreement are you offering?</p>
+
+<!--
       <label><input type="radio" name="agreement_type" id="agr_ubmta" checked=""
 		    value="agr_ubmta"/> UBMTA</label><br/>
       <label><input type="radio" name="agreement_type" id="agr_sla"
@@ -169,6 +170,8 @@ the agreement.</p>
       <label for="agr_custom_url">Agreement URL:</label>
         <input name="agr_custom_url" width="50" />
       </div>
+-->
+
     </div>
 
     <div id="scicom_chooser" 
@@ -232,21 +235,12 @@ Contract Term: <input id="term_fixed" />
  [<a href="">More information</a>]
 </p>
 
-<p>
-  <label for="publication">Will materials be use for published research?</label>
-  <select id="publication" size="1" onchange="updateMta();">
-    <option value="yes">Yes</option>
-    <option value="no">No</option>
-  </select>
-  [<a href="">More information</a>]
-</p>
-
-
     </div>
 
     <div id="finish" 
 	 class="x-layout-inactive-content" style="padding:10px;">
-      <p>Done.</p>
+      <p>We've collected all the information required for your offer.  Click
+	<em>Finish</em> to add the offer.</p>
     </div>
 
 

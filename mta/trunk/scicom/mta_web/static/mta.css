@@ -60,3 +60,12 @@ p {
 .choose_button {
    text-align: center;
 }
+
+.delete_offer {
+   float: right;
+   border: 1px #333 solid;
+   background: white;
+   padding-left:3px;
+   padding-right:3px;
+   margin-top: -20px;
+}
