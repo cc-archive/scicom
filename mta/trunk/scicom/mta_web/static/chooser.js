@@ -134,12 +134,33 @@ update_field = function(field_name) {
     } // get_offer_name
 
     YAHOO.mta.update_metadata = function() { 
+	
+	var mtrl_uri = '';
+	var mtrl_name = '';
+	var metadata = 'The material <a href="' + mtrl_uri + '">' + 
+	mtrl_name + '</a> is available under the following offers:<br/>\n<ul xmlns:cc="http://creativecommons.org/ns#">\n';
+
+	for (var i=0; i < YAHOO.mta.offer_list.length; i++) {
+
+	    offer = YAHOO.mta.offer_list[i];
+
+	    metadata = metadata + '<li><a rel="cc:agreement" href="' + 
+		offer.uri + '">' + offer.name + '</a></li>\n';
+
+	} // for each agreement
+
+	metadata = metadata + "</ul>\n";
+
+	// iterate over the offers
+	document.getElementById("metadata").innerHTML = metadata;
+	document.getElementById("metadata_preview").innerHTML = metadata;
+	
     } // update_metadata
 
     YAHOO.mta.remove_offer = function(offer_name) {
 
 	// find the offer to remove
-	for (var i = 0; i < YAHOO.mta.offer_list.length; i++) {
+	for (var i=0; i < YAHOO.mta.offer_list.length; i++) {
 	    if (YAHOO.mta.offer_list[i].id == offer_name) {
 
 		// remove this offer
@@ -147,6 +168,8 @@ update_field = function(field_name) {
 		offer.hide(true);
 		YAHOO.mta.offer_list.pop(offer);
 		offer.destroy();
+
+		YAHOO.mta.update_metadata();
 		return;
 	    }
 
@@ -170,7 +193,8 @@ update_field = function(field_name) {
 	new_offer.show();
 
 	// store the URI, etc
-	// XXX
+	new_offer.uri = agr_uri;
+	new_offer.name = agr_name;
 
 	// push the offer onto the stack
 	YAHOO.mta.offer_list.push(new_offer);
