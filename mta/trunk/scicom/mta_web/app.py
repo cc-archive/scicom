@@ -88,27 +88,6 @@ class MtaSelector(object):
 
         return stream.render("xhtml")
 
-    # ubmta
-    @cherrypy.expose
-    def ubmta(self, source, recipient, **kwargs):
-
-        template = self.__loader.load(
-            os.path.join(TEMPLATE_DIR, "select_ubmta.html"))
-        stream = template.generate(source=source, recipient=recipient)
-
-        return stream.render("xhtml")
-
-    # scicom chooser
-    @cherrypy.expose
-    def sla(self, source, recipient, **kwargs):
-
-        template = self.__loader.load(
-            os.path.join(TEMPLATE_DIR, "select_sla.html"))
-        stream = template.generate(source=source, recipient=recipient)
-
-        return stream.render("xhtml")
-
-
 class MtaWeb(object):
 
     def __init__(self):
