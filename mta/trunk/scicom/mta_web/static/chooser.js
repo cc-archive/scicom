@@ -23,7 +23,7 @@ getSettings = function() {
 updateMta = function() {
 
   // determine the selected MTA and update the link and metadata
-
+    return;
   // get the current MTA selection settings
   var mta_settings = getSettings();
 
@@ -263,7 +263,7 @@ YAHOO.mta.add_offer = function(event) {
 		next_panel = dialog.wiz_panels["agreement_type"];
 	    } else if (current == "agreement_type") {
 		// check the agreement type and determine if we're done
-		if (YAHOO.mta.get_selected_offer_type().get_info_panel()) {
+		if (YAHOO.mta.get_selected_offer_type().has_info_panel()) {
 		    next_panel = YAHOO.mta.get_selected_offer_type().get_info_panel();
 		} else {
 		    next_panel = dialog.wiz_panels['finish'];
@@ -326,6 +326,7 @@ YAHOO.mta.add_offer = function(event) {
 
 	// add the selectors for each agreement type
 	for (i = 0; i < YAHOO.mta.AGREEMENT_CLASSES.length; i++) {
+
 	    agr_radio = YAHOO.mta.AGREEMENT_CLASSES[i].get_dom_element();
 	    agr_radio.render("agreement_type");
 	    agr_radio.addListener("change", YAHOO.mta.change_agr_type);
