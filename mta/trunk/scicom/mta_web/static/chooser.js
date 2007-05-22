@@ -145,7 +145,7 @@ update_field = function(field_name) {
 	    offer = YAHOO.mta.offer_list[i];
 
 	    metadata = metadata + '<li><a rel="cc:agreement" href="' + 
-		offer.uri + '">' + offer.name + '</a></li>\n';
+	       offer.uri + '">' + offer.name + '</a> ' + offer.body.innerHTML + '</li>\n';
 
 	} // for each agreement
 
