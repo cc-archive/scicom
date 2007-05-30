@@ -49,3 +49,7 @@ You can then run the test server by running the ``mta`` wrapper script which
 buildout generates ::
 
   $ ./bin/mta
+
+[mt: this script doesn't seem to get built, but "server" does]
+The server runs on port 8082.
+
