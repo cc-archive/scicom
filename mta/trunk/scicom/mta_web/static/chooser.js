@@ -92,6 +92,8 @@ update_field = function(field_name) {
 	    agr_class.get_dom_element().setDisabled(
 		!(agr_class.is_enabled(get("offer_to_nonprofit").dom.checked))
 						    );
+	    // mt add, try to fix check persistence problem
+	    agr_class.get_dom_element().checked = false;
 
 	} // for each agreement class
 
@@ -103,8 +105,11 @@ update_field = function(field_name) {
 	for (i = 0; i < YAHOO.mta.AGREEMENT_CLASSES.length; i++) {
 
 	    agr_class = YAHOO.mta.AGREEMENT_CLASSES[i];
-	    if (agr_class.get_dom_element().checked) {
-		return agr_class;
+	    radiobutton = agr_class.get_dom_element();
+	    // +++ bug here, buttons that were checked and are now unchecked still have .checked tre
+	    // checking enabled only fixes some cases. 
+	    if (radiobutton.checked) {
+		return agr_class;	
 		    }
 
 	} // for each agreement class

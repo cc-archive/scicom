@@ -62,40 +62,44 @@
 
 <body>
 
+<img src="http://sciencecommons.org/wp-content/themes/scowp/images/logo.gif">
+<p>
+
 <h1>Materials Transfer Agreement</h1>
 
-<p>Science Commons Materials Transfer Agreements allow you to blah, blah,
-lorem ipsum, yada, yada...</p>
-
+<p>Science Commons Materials Transfer Agreements (MTAs) are contracts that govern the transfer of tangible research materials from one research institution (the provider) to another (the recipient).  They are most commonly employed in the transfer of "unique research resources" such as ’¡Ècell lines, monoclonal antibodies, reagents, animal models, growth factors, combinatorial chemistry and DNA libraries, clones and cloning tools (such as PCR), methods, laboratory equipment and machines. Non-biological and synthetic materials, such as certain nano-materials, chemical reagents, and chemical substrates may be shared under MTAs as well.   </p>
 <div id="selector">
 
 <div class="section_header">Provider Information</div>
 
 <p>
-    <label for="material_provider">Provider:</label>
-    <input type="textbox" id="material_provider"/>
+    <label for="material_provider" class="fieldlabel">Provider:</label>
+    <input type="textbox" id="material_provider" size=50/>
+    <br>ex: Jones Lab, Manischevitz Institute of Technocracy
 </p>
 
 <p>
-    <label for="material_provider_url">Provider URL:</label>
-    <input type="textbox" id="material_provider_url"/>
+    <label for="material_provider_url" class="fieldlabel">Provider URL:</label>
+    <input type="textbox" id="material_provider_url" size=50/>
+    <br>ex: http://msvt.edu/jones/black-gunk
 </p>
 
 <p>
-    <label for="nonprofit_provider">Are you a non-profit institution?</label>
+    <label for="nonprofit_provider" class="fieldlabel">Are you a non-profit institution?</label>
     <input id="nonprofit_provider" type="checkbox" />
 </p>
 
 <div class="section_header">Material Information</div>
 
 <p>
-    <label for="material_desc">Description:</label>
-    <input type="textbox" id="material_desc" />
+    <label for="material_desc" class="fieldlabel">Description:</label>
+    <input type="textbox" id="material_desc" size=50 />
+    <br>ex: Intriguing gunk
 </p>
 <p>
-    <label for="material_uri">Material URL:</label>
-    <input type="textbox" id="material_uri" /> 
-    [<a href="#">More Information</a>]
+    <label for="material_uri" class="fieldlabel">Material URL:</label>
+    <input type="textbox" id="material_uri" size=50/> 
+    <br><a href="#">More Information</a>
 </p>
 
 <p>
@@ -159,28 +163,15 @@ metadata which software can discover and aggregate.</p>
 	 class="x-layout-inactive-content" style="padding:10px;">
       <p>What type of agreement are you offering?</p>
 
-<!--
-      <label><input type="radio" name="agreement_type" id="agr_ubmta" checked=""
-		    value="agr_ubmta"/> UBMTA</label><br/>
-      <label><input type="radio" name="agreement_type" id="agr_sla"
-		    value="agr_sla"/> SLA</label><br/>
-      <label><input type="radio" name="agreement_type" id="agr_scicom"
-		    value="agr_scicom"/> Science Commons</label><br/>
-      <label><input type="radio" name="agreement_type" id="agr_custom"
-		    value="agr_custom"/> Custom</label>
-      <div id="custom_url_info" style="visibility:hidden;">
-      <label for="agr_custom_url">Agreement URL:</label>
-        <input name="agr_custom_url" width="50" />
-      </div>
--->
+<!-- Buttons are generated from classes -->
 
     </div>
 
     <div id="scicom_chooser" 
 	 class="x-layout-inactive-content" style="padding:10px;">
 
-
-<p><label for="field">Specify a field of use:</label>
+	 <p>
+	 <label for="field">Specify a field of use:</label>
 
   <select id="field" size="1" onchange="updateMta(); update_field('field');">
     <option value="all">All Research Uses</option>
