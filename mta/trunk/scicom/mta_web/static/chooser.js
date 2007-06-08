@@ -140,10 +140,10 @@ update_field = function(field_name) {
 
     YAHOO.mta.update_metadata = function() { 
 	
-	var mtrl_uri = '';
-	var mtrl_name = '';
-	var metadata = 'The material <a href="' + mtrl_uri + '">' + 
-	mtrl_name + '</a> is available under the following offers:<br/>\n<ul xmlns:cc="http://creativecommons.org/ns#">\n';
+	var mtrl_uri = document.getElementById("material_uri").value;
+	var mtrl_name = document.getElementById("material_desc").value;
+	var metadata = '<div xmlns:cc="http://creativecommons.org/ns#">The material <a href="' + mtrl_uri + '">' + 
+	mtrl_name + '</a> is available under the following offers:<br/>\n<ul>\n';
 
 	for (var i=0; i < YAHOO.mta.offer_list.length; i++) {
 
@@ -154,7 +154,7 @@ update_field = function(field_name) {
 
 	} // for each agreement
 
-	metadata = metadata + "</ul>\n";
+	metadata = metadata + "</ul>\n</div>\n";
 
 	// iterate over the offers
 	document.getElementById("metadata").innerHTML = metadata;
@@ -404,6 +404,8 @@ YAHOO.mta.generate_material_uri = function(event) {
 	// make sure we have a description and provider
 	var description = document.getElementById("material_desc").value;
 	var provider = document.getElementById("material_provider").value;
+	var provider_url = document.getElementById("material_provider_url").value;
+	var provider_nonprofit = document.getElementById("nonprofit_provider").value;
 
 	if (!description || !provider) {
 	    // show error message
@@ -414,11 +416,25 @@ YAHOO.mta.generate_material_uri = function(event) {
 	// make the async call to generate a URI
 	req_url = "/material/add?description=" + description;
 	req_url += "&provider=" + provider;
+	req_url += "&provider_url=" + provider_url;
+	req_url += "&provider_nonprofit=" + provider_nonprofit;
 
 	var transaction = YAHOO.util.Connect.asyncRequest("GET", req_url,
 				   YAHOO.mta.generate_material_callback, null);
 
     } // generate_material_uri
+
+// temp
+YAHOO.mta.generate_implementing_letter = function(event) {
+    
+    var description = document.getElementById("material_desc").value;
+    var provider = document.getElementById("material_provider").value;
+
+    // apparently don't need to urlencode fields, it gets done automatically
+    url = "/implementing_letter?providerOrg=" + provider + "&materialDesc=" + description;
+    window.open(url, "letter");
+
+}
 
 YAHOO.mta.init = function() {
 
@@ -445,6 +461,10 @@ YAHOO.mta.init = function() {
 	new YAHOO.widget.Button("btn_generate_material_uri", 
             { onclick: { fn: YAHOO.mta.generate_material_uri } });
 
+
+	// temp
+	new YAHOO.widget.Button("btn_implementing_letter",
+	{ onclick: { fn: YAHOO.mta.generate_implementing_letter } });
 
 	// initialize the stack of offers
 	YAHOO.mta.offer_list = new Array();

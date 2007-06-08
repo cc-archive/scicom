@@ -8,8 +8,13 @@ import cherrypy
 import simplejson
 import genshi.template
 
+
 import scicom.mta
 import scicom.mta.mesh
+
+# import mthack
+import letters.letter
+
 
 STATIC_DIR = os.path.abspath(
     os.path.join(os.path.dirname(__file__), 'static',)
@@ -44,11 +49,11 @@ class MtaMaterial(object):
         self.__loader = loader
 
     @cherrypy.expose
-    def add(self, description, provider, more_info=None):
+    def add(self, description, provider, provider_url=None, provider_nonprofit=False, more_info=None):
 
         # create the new material
         new_material = scicom.mta.material.Material(
-            description, provider, more_info)
+            description, provider, provider_url, provider_nonprofit, more_info)
 
         # store the material
         self.session.save(new_material)
@@ -122,7 +127,17 @@ class MtaWeb(object):
     index = cherrypy.tools.staticfile.handler(
         os.path.join(TEMPLATE_DIR, 'index.html'))
 
+    @cherrypy.expose
+    # +++ many more parameters
+    def implementing_letter(self, letterType='', providerOrg='', materialDesc=''):
+        # for now, ignore letterType...
+        l = letters.letter.UBMTALetter()
+        l.pdf_prepare_response('implementing-letter')
+        return l(providerOrg=providerOrg, materialDesc=materialDesc)
+    
+
     # academic chooser (UBMTA, SLA)
+    # mt+++ These things are no longer used...
     @cherrypy.expose
     def academic(self, source, recipient, **kwargs):
 
@@ -154,6 +169,10 @@ class MtaWeb(object):
 def serve(host='', port=8082):
 
     cherrypy.tree.mount(MtaWeb())
+
+
+    # mt temp
+    #    cherrypy.tree.mount(mthack.MT(), "/mt")    
 
     cherrypy.server.socket_host = host
     cherrypy.server.socket_port = port

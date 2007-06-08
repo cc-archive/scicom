@@ -1,5 +1,14 @@
 <html>
+<head>
+<style type="text/css">
+th {
+   text-align: right;
+   padding-right: 5px;
+}
+</style>
+</head>
 <body>
+<img src="http://sciencecommons.org/wp-content/themes/scowp/images/logo.gif">
 <h1>Material Registry</h1>
 <table>
   <tr>
@@ -8,7 +17,11 @@
   </tr>
   <tr>
     <th>Provider:</th>
-    <td>${material.provider}</td>
+    <td><a href='${material.provider_url}'>${material.provider}</a></td>
+  </tr>
+  <tr>
+    <th>Provider Nonprofit:</th>
+    <td>${material.provider_nonprofit}</td>
   </tr>
   <tr>
     <th>For more information:</th>

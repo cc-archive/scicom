@@ -31,6 +31,7 @@ setup(
                         'simplejson',
                         'Genshi',
                         'zdaemon',
+                        'Reportlab>=2.1',  #mt +++
                         'scicom.mta',
                         ],
 

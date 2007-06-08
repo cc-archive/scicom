@@ -14,6 +14,8 @@ def connect_session():
                   Column('material_id', Integer, primary_key=True),
                   Column('description', String(100)),
                   Column('provider', String(100)),
+                  Column('provider_url', String(200)),
+                  Column('provider_nonprofit', Boolean),
                   Column('more_info', String(255)),
                   Column('identifier', String(255)),
                   )

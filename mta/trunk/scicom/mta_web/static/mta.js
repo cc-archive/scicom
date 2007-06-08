@@ -21,6 +21,10 @@ function MtaClass() {
 	return 'http://mta.sciencecommons.org/mta/';
     };
 
+    this.get_implementing_uri = function() {
+	return null;
+    }
+
     this.has_info_panel = function() {
 	// return true if this class has an additional information panel
 	return this._has_info_panel;
@@ -86,6 +90,7 @@ function UbmtaClass() {
     };
 
 }; // UbmtaClass
+
 UbmtaClass.prototype = new NonProfitMtaClass;
 UbmtaClass.prototype.class_id = 'ubmta';
 UbmtaClass.prototype.class_name = 'UBMTA';
