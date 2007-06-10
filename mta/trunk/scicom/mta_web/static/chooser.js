@@ -11,10 +11,8 @@ getSettings = function() {
   for (key in SciComMta.prototype._field_order) {
      field_name = SciComMta.prototype._field_order[key];
      element = document.getElementById(field_name);
-
      if (element) result[field_name] = element.value;
   }
-
 // alert(result);
   return result;
 
@@ -67,186 +65,183 @@ update_field = function(field_name) {
 
 } // update_field
 
-    YAHOO.mta.change_agr_type = function(event) {
+YAHOO.mta.change_agr_type = function(event) {
 
 	// show/hide the "custom" field as necessary
 	//	Ext.Element.get("custom_url_info").setVisible(
 	//	      event.getTarget().id == 'agr_custom', true);
+} // change_agr_type
 
-    } // change_agr_type
+YAHOO.mta.pnl_welcome_activate = function(obj) {
 
-    YAHOO.mta.pnl_welcome_activate = function(obj) {
+    Ext.Element.get("offer_to_nonprofit").dom.checked = true;
 
-	Ext.Element.get("offer_to_nonprofit").dom.checked = true;
+} // pnl_welcome_activate
 
-    } // pnl_welcome_activate
+YAHOO.mta.pnl_type_activate = function(obj) {
 
-    YAHOO.mta.pnl_type_activate = function(obj) {
+    var get = Ext.Element.get;
 
-	var get = Ext.Element.get;
-
-	// update the enabled status of the agreements
-	for (i = 0; i < YAHOO.mta.AGREEMENT_CLASSES.length; i++) {
+    // update the enabled status of the agreements
+    for (i = 0; i < YAHOO.mta.AGREEMENT_CLASSES.length; i++) {
 	    
-	    agr_class = YAHOO.mta.AGREEMENT_CLASSES[i];
-	    agr_class.get_dom_element().setDisabled(
-		!(agr_class.is_enabled(get("offer_to_nonprofit").dom.checked))
-						    );
-	    // mt add, try to fix check persistence problem
-	    agr_class.get_dom_element().checked = false;
+	agr_class = YAHOO.mta.AGREEMENT_CLASSES[i];
+	agr_class.get_dom_element().setDisabled(
+						!(agr_class.is_enabled(get("offer_to_nonprofit").dom.checked))
+						);
+	// mt add, try to fix check persistence problem
+	agr_class.get_dom_element().checked = false;
+    } // for each agreement class
 
-	} // for each agreement class
-
-    } // pnl_type_activate
+} // pnl_type_activate
 
 
-    YAHOO.mta.get_selected_offer_type = function() {
+YAHOO.mta.get_selected_offer_type = function() {
 
-	for (i = 0; i < YAHOO.mta.AGREEMENT_CLASSES.length; i++) {
+    for (i = 0; i < YAHOO.mta.AGREEMENT_CLASSES.length; i++) {
 
-	    agr_class = YAHOO.mta.AGREEMENT_CLASSES[i];
-	    radiobutton = agr_class.get_dom_element();
-	    // +++ bug here, buttons that were checked and are now unchecked still have .checked tre
-	    // checking enabled only fixes some cases. 
-	    if (radiobutton.checked) {
-		return agr_class;	
-		    }
+	agr_class = YAHOO.mta.AGREEMENT_CLASSES[i];
+	radiobutton = agr_class.get_dom_element();
+	// +++ bug here, buttons that were checked and are now unchecked still have .checked tre
+	// checking enabled only fixes some cases. 
+	if (radiobutton.checked) {
+	    return agr_class;	
+	}
 
-	} // for each agreement class
+    } // for each agreement class
 
-	return null;
+    return null;
 
-    } // get_selected_offer_type
+} // get_selected_offer_type
 
-    YAHOO.mta.get_new_offer_name = function() {
+YAHOO.mta.get_new_offer_name = function() {
 
-	return YAHOO.mta.get_selected_offer_type().get_name();
+    return YAHOO.mta.get_selected_offer_type().get_name();
 
-    } // get_new_offer_name
+} // get_new_offer_name
 
-    YAHOO.mta.get_new_offer_uri = function() {
+YAHOO.mta.get_new_offer_uri = function() {
 
-	return YAHOO.mta.get_selected_offer_type().get_uri();
+    return YAHOO.mta.get_selected_offer_type().get_uri();
 
-    } // get_new_offer_uri
+} // get_new_offer_uri
 
-    YAHOO.mta.get_offer_target = function() {
-	// convenience function to return the target for the current offer
-	// returns true for public, false for non-profit only
+YAHOO.mta.get_offer_target = function() {
+    // convenience function to return the target for the current offer
+    // returns true for public, false for non-profit only
 
-	return Ext.Element.get("offer_to_all").dom.checked;
+    return Ext.Element.get("offer_to_all").dom.checked;
 
-    } // get_offer_name
+} // get_offer_name
 
-    YAHOO.mta.update_metadata = function() { 
+YAHOO.mta.update_metadata = function() { 
 	
-	var mtrl_uri = document.getElementById("material_uri").value;
-	var mtrl_name = document.getElementById("material_desc").value;
-	var metadata = '<div xmlns:cc="http://creativecommons.org/ns#">The material <a href="' + mtrl_uri + '">' + 
-	mtrl_name + '</a> is available under the following offers:<br/>\n<ul>\n';
+    var mtrl_uri = document.getElementById("material_uri").value;
+    var mtrl_name = document.getElementById("material_desc").value;
+    var metadata = '<div xmlns:cc="http://creativecommons.org/ns#">The material <a href="' + mtrl_uri + '">' + 
+    mtrl_name + '</a> is available under the following offers:<br/>\n<ul>\n';
 
-	for (var i=0; i < YAHOO.mta.offer_list.length; i++) {
+    for (var i=0; i < YAHOO.mta.offer_list.length; i++) {
 
+	offer = YAHOO.mta.offer_list[i];
+
+	metadata = metadata + '<li><a rel="cc:agreement" href="' + 
+	    offer.uri + '">' + offer.name + '</a> ' + offer.body.innerHTML + '</li>\n';
+
+    } // for each agreement
+
+    metadata = metadata + "</ul>\n</div>\n";
+
+    // iterate over the offers
+    document.getElementById("metadata").innerHTML = metadata;
+    document.getElementById("metadata_preview").innerHTML = metadata;
+	
+} // update_metadata
+
+YAHOO.mta.remove_offer = function(offer_name) {
+
+    // find the offer to remove
+    for (var i=0; i < YAHOO.mta.offer_list.length; i++) {
+	if (YAHOO.mta.offer_list[i].id == offer_name) {
+
+	    // remove this offer
 	    offer = YAHOO.mta.offer_list[i];
+	    offer.hide(true);
+	    YAHOO.mta.offer_list.pop(offer);
+	    offer.destroy();
 
-	    metadata = metadata + '<li><a rel="cc:agreement" href="' + 
-	       offer.uri + '">' + offer.name + '</a> ' + offer.body.innerHTML + '</li>\n';
+	    YAHOO.mta.update_metadata();
+	    return;
+	}
 
-	} // for each agreement
+    } // for each offer...
 
-	metadata = metadata + "</ul>\n</div>\n";
+} // remove offer
 
-	// iterate over the offers
-	document.getElementById("metadata").innerHTML = metadata;
-	document.getElementById("metadata_preview").innerHTML = metadata;
+YAHOO.mta.finish_offer = function() {
 	
-    } // update_metadata
+    var agr_name = YAHOO.mta.get_new_offer_name();
+    var agr_uri = YAHOO.mta.get_new_offer_uri();
+    var offer_to_public = YAHOO.mta.get_offer_target();
+    var mod_name = agr_name + "_" + offer_to_public;
 
-    YAHOO.mta.remove_offer = function(offer_name) {
-
-	// find the offer to remove
-	for (var i=0; i < YAHOO.mta.offer_list.length; i++) {
-	    if (YAHOO.mta.offer_list[i].id == offer_name) {
-
-		// remove this offer
-		offer = YAHOO.mta.offer_list[i];
-		offer.hide(true);
-		YAHOO.mta.offer_list.pop(offer);
-		offer.destroy();
-
-		YAHOO.mta.update_metadata();
-		return;
-	    }
-
-	} // for each offer...
-
-    } // remove offer
-
-    YAHOO.mta.finish_offer = function() {
-	
-	var agr_name = YAHOO.mta.get_new_offer_name();
-	var agr_uri = YAHOO.mta.get_new_offer_uri();
-	var offer_to_public = YAHOO.mta.get_offer_target();
-	var mod_name = agr_name + "_" + offer_to_public;
-
-	// create a "module" to contain the offer
-	var new_offer = new YAHOO.widget.Module(mod_name);
-	new_offer.setHeader('<a href="' + agr_uri + '">' + agr_name + '</a><span class="delete_offer" onclick="YAHOO.mta.remove_offer(\'' + mod_name + '\');">X</span>'); 
-	new_offer.setBody(" to " + (offer_to_public ? "the public"
+    // create a "module" to contain the offer
+    var new_offer = new YAHOO.widget.Module(mod_name);
+    new_offer.setHeader('<a href="' + agr_uri + '">' + agr_name + '</a><span class="delete_offer" onclick="YAHOO.mta.remove_offer(\'' + mod_name + '\');">X</span>'); 
+    new_offer.setBody(" to " + (offer_to_public ? "the public"
 						 : "non-profit institutions") );
-	new_offer.render("offer_container");
-	new_offer.show();
+    new_offer.render("offer_container");
+    new_offer.show();
 
-	// store the URI, etc
-	new_offer.uri = agr_uri;
-	new_offer.name = agr_name;
+    // store the URI, etc
+    new_offer.uri = agr_uri;
+    new_offer.name = agr_name;
 
-	// push the offer onto the stack
-	YAHOO.mta.offer_list.push(new_offer);
+    // push the offer onto the stack
+    YAHOO.mta.offer_list.push(new_offer);
 
-	// update the metadata
-	YAHOO.mta.update_metadata();
+    // update the metadata
+    YAHOO.mta.update_metadata();
 
-    } // finish_offer
+} // finish_offer
 	    
-    YAHOO.mta.bind_events = function() {
-	// bind widget events for the add offer dialog
+YAHOO.mta.bind_events = function() {
+    // bind widget events for the add offer dialog
 
-    } // bind_events
+} // bind_events
 
 YAHOO.mta.add_offer = function(event) {
     
     // lazy initialize the add wizard
     if (!YAHOO.mta.dlg_offer) {
 	YAHOO.mta.dlg_offer = new Ext.LayoutDialog("add-offer-dlg", {
-		modal:true,
-		width:450,
-		height:300,
-                shadow:true,
-                minWidth:300,
-                minHeight:300,
-		closable:false,
-		collapsible:false,
-		resizable:false,
-                proxyDrag: true,
-	        center: {
-		    autoScroll:true,
-		    preservePanels:true,
-		}
-	    });
+	    modal:true,
+	    width:450,
+	    height:300,
+	    shadow:true,
+	    minWidth:300,
+	    minHeight:300,
+	    closable:false,
+	    collapsible:false,
+	    resizable:false,
+	    proxyDrag: true,
+	    center: {
+		autoScroll:true,
+		preservePanels:true,
+	    }
+	});
 	YAHOO.mta.dlg_offer.addKeyListener(27, YAHOO.mta.dlg_offer.hide, YAHOO.mta.dlg_offer);
 
 	YAHOO.mta.dlg_offer.update_buttons = function() {
 
 	    // disable/enable the back button
-	    YAHOO.mta.dlg_offer.btn_back.setDisabled(
-               (YAHOO.mta.dlg_offer.panel_history.length == 0) 
-						     );
+	    YAHOO.mta.dlg_offer.btn_back.
+   	      setDisabled((YAHOO.mta.dlg_offer.panel_history.length == 0));
 
 	    // update the next/finish label
 	    
 	    if (YAHOO.mta.dlg_offer.getLayout().
-		getRegion("center").getActivePanel().getId() == "finish") {
+		  getRegion("center").getActivePanel().getId() == "finish") {
 
 		YAHOO.mta.dlg_offer.btn_next.setText("Finish");
 
@@ -442,7 +437,6 @@ YAHOO.mta.init = function() {
 	var dsMeSH = new YAHOO.widget.DS_XHR("/mesh/json",
 					 ["Result", "Description", "LookupKey"]
 					 );
-	
 	var diseaseAutoComp = new YAHOO.widget.AutoComplete("field_disease",
 							    "field_disease_ac",
 							    dsMeSH);
@@ -453,6 +447,7 @@ YAHOO.mta.init = function() {
 	diseaseAutoComp.formatResult = function(aResultItem, sQuery) {
 	    return aResultItem[0] + " (" + aResultItem[1] + ")";
 	} // formatResult
+
 
 	// initialize the add offer button
 	new YAHOO.widget.Button("btn_add_offer", {onclick: {fn: YAHOO.mta.add_offer } });
@@ -472,6 +467,43 @@ YAHOO.mta.init = function() {
 	// call updateMta to generate the information for the base MTA
 	updateMta();
 
+        YAHOO.mta.init_help_text('material_provider_hl', 'material_provider_help');	
+        YAHOO.mta.init_help_text('material_provider_url_hl', 'material_provider_url_help');	
+        YAHOO.mta.init_help_text('material_desc_hl', 'material_desc_help');	
+        YAHOO.mta.init_help_text('material_uri_hl', 'material_uri_help');	
+
     } // initChooser
+
+// convenience function for creating help tool tips
+// from scholars
+YAHOO.mta.init_help_text = function(link_id, help_id) {
+
+    // make sure we have an array to hold the list of panels
+    if (!YAHOO.mta.help_panels) {
+	YAHOO.mta.help_panels = new Array();
+    }
+
+    // create the new panel and position it
+    var new_panel = new YAHOO.widget.Panel(help_id, 
+{close: false, visible: false, draggable: false, width:200,
+ effect:{effect:YAHOO.widget.ContainerEffect.FADE,duration:0.35} } ); 
+
+    var link_xy = YAHOO.util.Dom.getXY(link_id);
+    new_panel.cfg.setProperty('xy',[link_xy[0] + 15, link_xy[1]] );
+    var item_idx = YAHOO.mta.help_panels.push(new_panel) - 1;
+
+    YAHOO.mta.help_panels[item_idx].render();
+
+    // connect the event handlers
+    YAHOO.util.Event.addListener(link_id, "mouseover", 
+				 function(e) {YAHOO.mta.help_panels[item_idx].show();});
+   YAHOO.util.Event.addListener(link_id, "mouseout", 
+				function(e) {window.setTimeout("YAHOO.mta.help_panels[" + item_idx + "].hide();", 500);});
+
+    // disable clicks
+    YAHOO.util.Event.addListener(link_id, 'click', function(e){YAHOO.util.Event.preventDefault(e);});
+
+} // init_help_text
+
 
 YAHOO.util.Event.onDOMReady(YAHOO.mta.init); 

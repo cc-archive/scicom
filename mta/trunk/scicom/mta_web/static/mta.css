@@ -59,11 +59,28 @@ p {
 	
 }
 
+.field {
+   padding-top: 5px;
+   padding-bottom: 5px;
+   margin-top: 5px;
+   margin-bottom: 5px;
+}
+
 .fieldlabel {
    text-align: right;
    padding-right: 10px;
 }
 
+
+input {
+   border: 1px solid;
+   padding: 2px
+}
+
+ul {
+  list-style-position: inside;
+  list-style-type: disc
+}
 
 .choose_button {
    text-align: center;
@@ -84,4 +101,13 @@ p {
   padding: 5px;
    width: 47%;
 float:right;
+}
+
+.helpLink {
+  background-color: #80b3ff;
+  color: white;
+  text-decoration: none;
+  margin-bottom: 2px;
+  padding-left:2px;
+  padding-right:2px;
 }

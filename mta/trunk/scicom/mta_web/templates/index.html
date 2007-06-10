@@ -5,11 +5,12 @@
 
 <title>Generate Materials Transfer Agreement</title>
 
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.2.1/build/reset/reset-min.css" />
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.2.1/build/fonts/fonts-min.css" />
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.2.1/build/button/assets/button.css" />
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.2.2/build/container/assets/container.css"/> 
 
-<link rel="stylesheet" type="text/css" href="yui/build/reset/reset.css" />
-<link rel="stylesheet" type="text/css" href="yui/build/fonts/fonts.css" /> 
-<link rel="stylesheet" type="text/css" 
-      href="yui/build/container/assets/container.css" /> 
 <style type="text/css">
 <!--
   @import url(/ext/resources/css/ext-all.css);
@@ -22,24 +23,26 @@
 -->
 
 </style>
-<!-- CSS -->
-<link rel="stylesheet" type="text/css" 
-      href="http://yui.yahooapis.com/2.2.1/build/fonts/fonts-min.css" />
-<link rel="stylesheet" type="text/css" 
-      href="http://yui.yahooapis.com/2.2.1/build/button/assets/button.css" />
-<link rel="stylesheet" type="text/css" 
-      href="http://yui.yahooapis.com/2.2.2/build/container/assets/container.css"/> 
+
+<!-- Real version -->
 <script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/yahoo-dom-event/yahoo-dom-event.js"></script>
 <script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/element/element-beta-min.js"></script>
 <script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/button/button-beta-min.js"></script>
-<script src="http://yui.yahooapis.com/2.2.1/build/animation/animation-min.js">
-</script> 
-<script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/connection/connection-min.js"></script> 
-<script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/autocomplete/autocomplete-min.js"></script> 
-<script type="text/javascript" src="http://yui.yahooapis.com/2.2.2/build/container/container-min.js"></script> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/animation/animation-min.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/connection/connection-min.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/autocomplete/autocomplete-min.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/2.2.2/build/container/container-min.js"></script>
 
-<script type="text/javascript" src="/ext/adapter/yui/ext-yui-adapter.js">
-</script>
+<!-- Debugging version - requires link in static directory -->
+<!-- <script type="text/javascript" src="yui/build/yahoo-dom-event/yahoo-dom-event.js"></script> -->
+<!-- <script type="text/javascript" src="yui/build/element/element-beta-debug.js"></script> -->
+<!-- <script type="text/javascript" src="yui/build/button/button-beta-debug.js"></script> -->
+<!-- <script type="text/javascript" src="yui/build/animation/animation-debug.js"></script>  -->
+<!-- <script type="text/javascript" src="yui/build/connection/connection-debug.js"></script>  -->
+<!-- <script type="text/javascript" src="yui/build/autocomplete/autocomplete-debug.js"></script> -->
+<!-- <script type="text/javascript" src="yui/build/container/container-debug.js"></script>  -->
+
+<script type="text/javascript" src="/ext/adapter/yui/ext-yui-adapter.js"></script>
 <script type="text/javascript" src="/ext/ext-all.js"></script>
 
 <style type="text/css">
@@ -72,58 +75,100 @@
 
 <div class="section_header">Provider Information</div>
 
-<p>
+<div class="field">
     <label for="material_provider" class="fieldlabel">Provider:</label>
     <input type="textbox" id="material_provider" size=50/>
-    <a href="" class="helpLink" id="provider" name="Provider">?</a>
-    <br>ex: Jones Lab, Manischevitz Institute of Technocracy
-</p>
+    <a href="" class="helpLink" id="material_provider_hl">?</a>
+</div>
 
-<p>
+<div id="material_provider_help">
+  <div class="hd">Material Provider</div>
+  <div class="bd">
+     <p>Type the name of the institution, laboratory, or person who is providing the material.</p>
+     <p>Example: <i>Jones Lab, Manischevitz Institute of Technocracy</i></p>
+  </div>
+</div>
+
+
+<div class="field">
     <label for="material_provider_url" class="fieldlabel">Provider URL:</label>
     <input type="textbox" id="material_provider_url" size=50/>
-    <br>ex: http://msvt.edu
-</p>
+    <a href="" class="helpLink" id="material_provider_url_hl">?</a>
+</div>
 
-<p>
+<div id="material_provider_url_help">
+  <div class="hd">Material Provider URL</div>
+  <div class="bd">
+     <p>Type the URL of the institution, laboratory, or person who is providing the material.</p>
+     <p>Example: <i>http://msvt.edu/joneslab</i></p>
+  </div>
+</div>
+
+<div class="field">
     <label for="nonprofit_provider" class="fieldlabel">Are you a non-profit institution?</label>
     <input id="nonprofit_provider" type="checkbox" />
-</p>
+</div>
 
 <div class="section_header">Material Information</div>
 
-<p>
+<div class="field">
     <label for="material_desc" class="fieldlabel">Description:</label>
     <input type="textbox" id="material_desc" size=50 />
-    <br>ex: Intriguing gunk
-</p>
-<p>
+    <a href="" class="helpLink" id="material_desc_hl">?</a>
+</div>
+
+<div id="material_desc_help">
+  <div class="hd">Material Description</div>
+  <div class="bd">
+     <p>Type a description of the material being made available.</p>
+     <p>Example: <i>Rat liver puree</i></p>
+  </div>
+</div>
+
+
+<div class="field">
     <label for="material_uri" class="fieldlabel">Material URL:</label>
     <input type="textbox" id="material_uri" size=50/> 
-    <br><a href="#">More Information</a>
-</p>
+    <a href="" class="helpLink" id="material_uri_hl">?</a>
+</div>
+
+<div id="material_uri_help">
+  <div class="hd">Material URL</div>
+  <div class="bd">
+     <p>Enter a URL corresponding to the material being made available. If you don't have one, click the Generate URL button and we will create a page for your material on the Science Commons material repository.</p>
+     <p>Example: <i>http://msvt.edu/joneslab/material/23</i></p>
+  </div>
+</div>
+
+
 
 <p>
 <label>&nbsp;</label>
 <span id="btn_generate_material_uri" class="yuibutton">
     <span class="first-child">
-        <button type="button" name="generate_material_uri">generate a url</button>
+        <button type="button" name="generate_material_uri">generate a URL</button>
     </span>
 </span>
 
 </p>
 
-<div class="section_header">Debugging</div>
+<div class="section_header">Debugging & Experiments (<b>Turn off for release)</b></div>
 
 <span id="btn_implementing_letter" class="yuibutton">
         <button type="button" name="implementing_letter">Implementing Letter</button>
 </span>
 
+<div>
+        
+Disease Field: <span id="ysearchautocomplete"><input id="field_disease" type="text"/>
+
+   <div id="field_disease_ac"></div></span>
+</div>
+
 
 <div class="section_header">Transfer Offers</div>
 
-<p>An Offer is an agreement which a recipient can take advantage of...
-lorem, ipsum, all that jazz.</p>
+<p>An offer provides a material under a specifc legal agreement. You can create multiple offers for your material.</p>
 
 <div id="offer_container">
 </div>
@@ -155,43 +200,42 @@ metadata which software can discover and aggregate.</p>
 <!-- Add Offer dialog -->
 <div id="add-offer-dlg" style="visibility:hidden;">
   <div class="x-dlg-hd">Add Offer</div>
-
   <div class="x-dlg-bd">
 
-    <div id="welcome" 
-	 class="x-layout-inactive-content" style="padding:10px;">
-      <p>Welcome; this wizard will walk you through the offer configuration 
-      process.</p>
+  <!-- first panel -->
+    <div id="welcome" class="x-layout-inactive-content" style="padding:10px;">
+      <p>Welcome; this wizard will walk you through the offer configuration process.</p>
       <p>Whom is this offer made to?</p>
       <label><input type="radio" name="offer_to" id="offer_to_nonprofit" value="to_non_profit"/> Non-profit institutions</label><br/>
       <label><input type="radio" name="offer_to" id="offer_to_all" value="to_all"/> All institutions</label><br/>
     </div>
 
+    <!-- second panel -->
     <div id="agreement_type" 
 	 class="x-layout-inactive-content" style="padding:10px;">
       <p>What type of agreement are you offering?</p>
 
-<!-- Buttons are generated from classes -->
-
+      <!-- Buttons are generated from classes -->
     </div>
 
+    <!-- APPARENTLY NOT USED? -->
     <div id="scicom_chooser" 
 	 class="x-layout-inactive-content" style="padding:10px;">
 
 	 <p>
-	 <label for="field">Specify a field of use:</label>
+	 <label for="field">Specify a field of use?:</label>
 
   <select id="field" size="1" onchange="updateMta(); update_field('field');">
     <option value="all">All Research Uses</option>
     <option value="disease">Disease Field of Use</option>
     <option value="protocol">Restricted Protocol</option>
   </select> 
- [<a href="">More information</a>]
-</p>
+   [<a href="">More information</a>]
+   </p>
 
-<p id="field_all_detail" class="sub_selector"/>
+   <p id="field_all_detail" class="sub_selector"/>
 
-<div id="field_disease_detail" class="sub_selector">
+   <div id="field_disease_detail" class="sub_selector">
         
 Disease Field: <span id="ysearchautocomplete"><input id="field_disease" type="text"/>
 
@@ -238,6 +282,7 @@ Contract Term: <input id="term_fixed" />
 
     </div>
 
+    <!-- last panel -->
     <div id="finish" 
 	 class="x-layout-inactive-content" style="padding:10px;">
       <p>We've collected all the information required for your offer.  Click
