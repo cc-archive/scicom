@@ -1,8 +1,9 @@
 YAHOO.namespace("mta");
 
-var mta = new SciComMta();
+// var mta = new SciComMta();
 var getEl = Ext.Element.get;
 
+/* dead code
 getSettings = function() {
 
   // return an associative array of the current form settings
@@ -18,6 +19,8 @@ getSettings = function() {
 
 } // getSettings
 
+
+
 updateMta = function() {
 
   // determine the selected MTA and update the link and metadata
@@ -26,6 +29,7 @@ updateMta = function() {
   var mta_settings = getSettings();
 
   // update our MTA
+
   mta.update_settings(mta_settings);
 
   // update the display information
@@ -36,6 +40,7 @@ updateMta = function() {
 
 } // updateMta
 
+// +++ dead? called from some apparently dead stuff in index.html
 update_field = function(field_name) {
 
     // get the field value
@@ -64,6 +69,8 @@ update_field = function(field_name) {
     } // for i...
 
 } // update_field
+
+*/
 
 YAHOO.mta.change_agr_type = function(event) {
 
@@ -100,18 +107,15 @@ YAHOO.mta.get_selected_offer_type = function() {
 
     for (i = 0; i < YAHOO.mta.AGREEMENT_CLASSES.length; i++) {
 
-	agr_class = YAHOO.mta.AGREEMENT_CLASSES[i];
-	radiobutton = agr_class.get_dom_element();
-	// +++ bug here, buttons that were checked and are now unchecked still have .checked tre
+	var agr_class = YAHOO.mta.AGREEMENT_CLASSES[i];
+	var radiobutton = agr_class.get_dom_element();
+	// +++ bug here, buttons that were checked and are now unchecked still have checked true!
 	// checking enabled only fixes some cases. 
 	if (radiobutton.checked) {
 	    return agr_class;	
 	}
-
     } // for each agreement class
-
     return null;
-
 } // get_selected_offer_type
 
 YAHOO.mta.get_new_offer_name = function() {
@@ -136,21 +140,27 @@ YAHOO.mta.get_offer_target = function() {
 
 YAHOO.mta.update_metadata = function() { 
 	
-    var mtrl_uri = document.getElementById("material_uri").value;
-    var mtrl_name = document.getElementById("material_desc").value;
-    var metadata = '<div xmlns:cc="http://creativecommons.org/ns#">The material <a href="' + mtrl_uri + '">' + 
-    mtrl_name + '</a> is available under the following offers:<br/>\n<ul>\n';
+    // constant, we don't have to really make this each time
+    var template = new Ext.Template(
+				    '<div xmlns:cc="http://creativecommons.org/ns# xmlns:sc="http://sciencecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">\n' +
+				    '<div class=sc:Material about="{material_uri}">' +
+				    'The material <a href="{material_uri}">{material_description}</a>' +
+				    ' is available from <a href="{provider_url}">{provider_name}</a> under the following offers:<br/>\n<ul>\n');
+
+
+    var info = YAHOO.mta.agreement_info();
+    
+    var metadata = template.apply(info);
 
     for (var i=0; i < YAHOO.mta.offer_list.length; i++) {
 
-	offer = YAHOO.mta.offer_list[i];
+	var offer = YAHOO.mta.offer_list[i];
 
-	metadata = metadata + '<li><a rel="cc:agreement" href="' + 
-	    offer.uri + '">' + offer.name + '</a> ' + offer.body.innerHTML + '</li>\n';
+	metadata = metadata + offer.get_metadata();
 
-    } // for each agreement
+    } // for each offer
 
-    metadata = metadata + "</ul>\n</div>\n";
+    metadata = metadata + "</ul>\n</div>\n</div>\n";
 
     // iterate over the offers
     document.getElementById("metadata").innerHTML = metadata;
@@ -158,17 +168,17 @@ YAHOO.mta.update_metadata = function() {
 	
 } // update_metadata
 
-YAHOO.mta.remove_offer = function(offer_name) {
+YAHOO.mta.remove_offer = function(offer_id) {
 
     // find the offer to remove
     for (var i=0; i < YAHOO.mta.offer_list.length; i++) {
-	if (YAHOO.mta.offer_list[i].id == offer_name) {
+	if (YAHOO.mta.offer_list[i].offer_id == offer_id) {
 
 	    // remove this offer
-	    offer = YAHOO.mta.offer_list[i];
-	    offer.hide(true);
-	    YAHOO.mta.offer_list.pop(offer);
-	    offer.destroy();
+	    var offer = YAHOO.mta.offer_list[i];
+	    offer.module.hide(true);
+	    YAHOO.mta.offer_list.splice(i, 1); // remove offer from array
+	    offer.module.destroy();
 
 	    YAHOO.mta.update_metadata();
 	    return;
@@ -178,27 +188,31 @@ YAHOO.mta.remove_offer = function(offer_name) {
 
 } // remove offer
 
+
 YAHOO.mta.finish_offer = function() {
 	
-    var agr_name = YAHOO.mta.get_new_offer_name();
-    var agr_uri = YAHOO.mta.get_new_offer_uri();
-    var offer_to_public = YAHOO.mta.get_offer_target();
-    var mod_name = agr_name + "_" + offer_to_public;
+    // new stuff -- offer is actual offer object
+    //    var offer = new (YAHOO.mta.get_selected_offer_type().constructor)();
+
+    var agr_name = current_offer.get_name();
+    var implementing_uri = current_offer.get_implementing_uri();
 
     // create a "module" to contain the offer
-    var new_offer = new YAHOO.widget.Module(mod_name);
-    new_offer.setHeader('<a href="' + agr_uri + '">' + agr_name + '</a><span class="delete_offer" onclick="YAHOO.mta.remove_offer(\'' + mod_name + '\');">X</span>'); 
-    new_offer.setBody(" to " + (offer_to_public ? "the public"
-						 : "non-profit institutions") );
-    new_offer.render("offer_container");
-    new_offer.show();
+    var module = new YAHOO.widget.Module('offer' + current_offer.offer_id);
+    module.setHeader(agr_name + "  " +
+		     "<a href='" + implementing_uri + "'>implementing letter (PDF)</a>" +
+		     '<span class="delete_offer" onclick="YAHOO.mta.remove_offer(\'' + current_offer.offer_id + '\');">X</span>'); 
 
-    // store the URI, etc
-    new_offer.uri = agr_uri;
-    new_offer.name = agr_name;
+    var body = current_offer.get_metadata();
+
+    module.setBody(body);
+    module.render("offer_container");
+    module.show();
+
+    current_offer.module = module;
 
     // push the offer onto the stack
-    YAHOO.mta.offer_list.push(new_offer);
+    YAHOO.mta.offer_list.push(current_offer);
 
     // update the metadata
     YAHOO.mta.update_metadata();
@@ -209,6 +223,8 @@ YAHOO.mta.bind_events = function() {
     // bind widget events for the add offer dialog
 
 } // bind_events
+
+var current_offer;
 
 YAHOO.mta.add_offer = function(event) {
     
@@ -272,6 +288,7 @@ YAHOO.mta.add_offer = function(event) {
 
 	} // on_back
 	
+
 	YAHOO.mta.dlg_offer.on_next = function(context) {
 
 	    var get = Ext.Element.get;
@@ -280,19 +297,35 @@ YAHOO.mta.add_offer = function(event) {
 
 	    // determine the next panel to display
 	    current = dialog.getLayout().
-	       getRegion("center").getActivePanel().getId();
+	    getRegion("center").getActivePanel().getId();
 
 	    var next_panel = null;
 	    if (current == "welcome") {
+
+		// clear out buttons
+		for (i = 0; i < YAHOO.mta.AGREEMENT_CLASSES.length; i++) {
+
+		    var agr_class = YAHOO.mta.AGREEMENT_CLASSES[i];
+		    var radiobutton = agr_class.get_dom_element();
+		    // +++ bug here, buttons that were checked and are now unchecked still have checked true!
+		    // checking enabled only fixes some cases. 
+		    radiobutton.setValue("off");
+		}
 		next_panel = dialog.wiz_panels["agreement_type"];
+
 	    } else if (current == "agreement_type") {
 		// check the agreement type and determine if we're done
-		if (YAHOO.mta.get_selected_offer_type().has_info_panel()) {
-		    next_panel = YAHOO.mta.get_selected_offer_type().get_info_panel();
+		// +++ make sure user checked something!
+		current_offer = new (YAHOO.mta.get_selected_offer_type().constructor)();
+
+		if (current_offer.has_info_panel()) {
+		    next_panel = current_offer.get_info_panel();
 		} else {
 		    next_panel = dialog.wiz_panels['finish'];
 		}
 
+		// +++ TEMP for debugging, let me see this pupply.
+		//		next_panel = dialog.wiz_panels['scicom_chooser'];
 	    } else if (current == "finish") {
 		// finish the offer creation process
 		YAHOO.mta.finish_offer();
@@ -357,8 +390,9 @@ YAHOO.mta.add_offer = function(event) {
 
 	} // for each class
 
-	YAHOO.mta.dlg_offer.wiz_panels['scicom_chooser'] = 
-	    new Ext.ContentPanel('scicom_chooser');
+	// not used (+++ delete from index.html)
+// 	YAHOO.mta.dlg_offer.wiz_panels['scicom_chooser'] = 
+// 	    new Ext.ContentPanel('scicom_chooser');
 	YAHOO.mta.dlg_offer.wiz_panels['finish'] = 
 	    new Ext.ContentPanel('finish');
 
@@ -397,25 +431,22 @@ YAHOO.mta.generate_material_callback = {
 YAHOO.mta.generate_material_uri = function(event) {
 
 	// make sure we have a description and provider
-	var description = document.getElementById("material_desc").value;
-	var provider = document.getElementById("material_provider").value;
-	var provider_url = document.getElementById("material_provider_url").value;
-	var provider_nonprofit = document.getElementById("nonprofit_provider").value;
+    var info = YAHOO.mta.agreement_info();
 
-	if (!description || !provider) {
-	    // show error message
-	    Ext.MessageBox.alert('Error', 'Please enter the Provider and Description.');
-	    return false;
-	}
+    if (!info.material_description || !info.provider_name) {
+	// show error message
+	Ext.MessageBox.alert('Error', 'Please enter the Provider and Description.');
+	return false;
+    }
 
-	// make the async call to generate a URI
-	req_url = "/material/add?description=" + description;
-	req_url += "&provider=" + provider;
-	req_url += "&provider_url=" + provider_url;
-	req_url += "&provider_nonprofit=" + provider_nonprofit;
+    // make the async call to generate a URI
+    req_url = "/material/add?description=" + info.material_description;
+    req_url += "&provider=" + info.provider_name;
+    req_url += "&provider_url=" + info.provider_url;
+    req_url += "&provider_nonprofit=" + info.provider_nonprofit;
 
-	var transaction = YAHOO.util.Connect.asyncRequest("GET", req_url,
-				   YAHOO.mta.generate_material_callback, null);
+    var transaction = YAHOO.util.Connect.asyncRequest("GET", req_url,
+						      YAHOO.mta.generate_material_callback, null);
 
     } // generate_material_uri
 
@@ -429,6 +460,18 @@ YAHOO.mta.generate_implementing_letter = function(event) {
     url = "/implementing_letter?providerOrg=" + provider + "&materialDesc=" + description;
     window.open(url, "letter");
 
+}
+
+// this should take care of most "reaching into the dom" functionality.
+YAHOO.mta.agreement_info = function() {
+    var info =
+    {"provider_name": document.getElementById("material_provider").value,
+     "provider_url":  document.getElementById("material_provider_url").value,
+     "provider_nonprofit": document.getElementById("nonprofit_provider").value,
+     "material_description": document.getElementById("material_desc").value,
+     "material_uri": document.getElementById("material_uri").value
+    }
+    return info
 }
 
 YAHOO.mta.init = function() {
@@ -465,7 +508,8 @@ YAHOO.mta.init = function() {
 	YAHOO.mta.offer_list = new Array();
 
 	// call updateMta to generate the information for the base MTA
-	updateMta();
+	// apparently dead? +++
+	//	updateMta();
 
         YAHOO.mta.init_help_text('material_provider_hl', 'material_provider_help');	
         YAHOO.mta.init_help_text('material_provider_url_hl', 'material_provider_url_help');	

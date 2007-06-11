@@ -1,11 +1,17 @@
-// Agreement Classes
+// Offer Classes
 
 // Base -- Prototype
 
+offer_counter = 0;
+
+
 function MtaClass() {
+
+    this.offer_id = offer_counter++;
 
     // override to true if you need to collect additional information
     this._has_info_panel = false;
+
 
     this.get_id = function() {
 	// return the simple string identifier for this class
@@ -21,8 +27,42 @@ function MtaClass() {
 	return 'http://mta.sciencecommons.org/mta/';
     };
 
+    // returns a dictionary with relevant values
+    this.get_info = function() {
+	var result = 
+	{ agreement_name: this.get_name(),
+	  agreement_uri: this.get_uri()	}
+	return result
+    }
+
+    this.get_metadata_template = function() {
+	return new Ext.Template(
+"<li class='sc:Offer' rel='sc:offer'>\n" +
+"  <a rel=sc:agreement href='{agreement_uri}'>{agreement_name}</a> to non-profit institutions.\n" +
+this.get_metadata_template_additional() +
+"</li>");
+    }
+					  
+    // subclasses override this to add metadata
+    this.get_metadata_template_additional = function() {
+	return '';
+    }
+
+    this.get_metadata = function() {
+	var info = this.get_info();
+	return this.get_metadata_template().apply(info);
+    }
+
+    // +++ subclasses need to be able to modify this...not sure javascript can handle it
+    // +++ might want base url to vary based on python limits at the other end...
     this.get_implementing_uri = function() {
-	return null;
+	var info = YAHOO.mta.agreement_info();
+	var agr_type = this.get_name();
+        var url = "/implementing_letter?" +
+        "agreementType=" + agr_type +       // +++ not yet implemented on other end...
+        "&providerOrg=" + info.provider_name + 
+	"&materialDesc=" + info.material_description;
+	return url;
     }
 
     this.has_info_panel = function() {
@@ -74,6 +114,7 @@ function NonProfitMtaClass() {
     // "enabled" function for non-profit-only offers.
 
 }
+
 NonProfitMtaClass.prototype = new MtaClass;
 NonProfitMtaClass.prototype.is_enabled = function(np_recipient) {
 	// return true if this agreement is enabled for the source/recipient;
@@ -94,7 +135,7 @@ function UbmtaClass() {
 UbmtaClass.prototype = new NonProfitMtaClass;
 UbmtaClass.prototype.class_id = 'ubmta';
 UbmtaClass.prototype.class_name = 'UBMTA';
-
+UbmtaClass.prototype.constructor = UbmtaClass; // get around JavaScript weirdness
 
 function SlaClass() {
 
@@ -106,14 +147,14 @@ function SlaClass() {
 SlaClass.prototype = new NonProfitMtaClass;
 SlaClass.prototype.class_id = 'sla';
 SlaClass.prototype.class_name = 'SLA';
-
+SlaClass.prototype.constructor = SlaClass; // get around JavaScript weirdness
 
 function CustomMta() {
 
 
     this.get_uri = function() {
 
-	return this._url_form.findField('agreement_url').getValue();
+	return this.get_info()['agreement_url'];
     }
 
     this._has_info_panel = true;
@@ -122,33 +163,39 @@ function CustomMta() {
 	if (this._info_panel) return this._info_panel;
 
 	// the info panel was not previously created
+	this._url_form = new Ext.form.Form();
 
-
-	    this._url_form = new Ext.form.Form();
-
-	    this._url_form.add(
-		     new Ext.form.TextField({
+	this._url_form.add(
+			   new Ext.form.TextField({
 			     fieldLabel: 'Agreement URL',
-				 name: 'agreement_url',
-				 width:175,
-				 allowBlank:false
-				 })
-			 );
-
+			     name: 'agreement_url',
+			     width:200,
+		             allowBlank:false
+					     })
+			   );
 	this._info_panel = new Ext.ContentPanel("info_" + this.get_id(),
-    {autoCreate:true,
-     fitToFrame:true});
+
+	    {autoCreate:true,
+	     fitToFrame:true});
 	this._url_form.render(this._info_panel.getEl());
 
 	return this._info_panel;
 
     }; // get_info_panel
 
+    // I'm being too clever by half here...
+    this.get_info = function() {
+	// call the "superclass" method, and tack new stuff onto it.
+	var maininfo = this.constructor.prototype.get_info();
+	maininfo['agreement_url'] = this._url_form.findField('agreement_url').getValue();
+	return maininfo;
+    }
+
 }; // CustomMta
 CustomMta.prototype = new MtaClass;
 CustomMta.prototype.class_id = 'custom';
 CustomMta.prototype.class_name = 'Custom Agreement';
-
+CustomMta.prototype.constructor = CustomMta; // get around JavaScript weirdness
 
 // SciComMta
 // 
@@ -156,79 +203,116 @@ CustomMta.prototype.class_name = 'Custom Agreement';
 function SciComMta() {
 
     this._has_info_panel = true;
+
     this.get_info_panel = function() {
 
 	// see if we've created it previously
 	if (this._info_panel) return this._info_panel;
 
 	// we haven't, create now
-	this._url_form = new Ext.form.Form({
-		labelWidth:200});
+	var form = new Ext.form.Form({
+	    labelAlign: 'right',
+            labelWidth: 150});
 
-	this._url_form.add(
-			   new Ext.form.ComboBox({
-				   fieldLabel:'Specify a field of use:',
-				       forceSelection:true,
-				       mode:'local',
-				       displayField:'label',
-				       store: new Ext.data.SimpleStore({
-					       fields:['value', 'label'],
-						   data:[['all', 'All Research Uses'],
-							 ['disease', 'Disease Field of Use'],
-							 ['protocol', 'Restricted Protocol']]
-						   })
+	// save for later
+	this._info_form = form;  
+
+	form.add(
+		 new Ext.form.TextField({
+                                       fieldLabel:'Restrict to specific disease',
+						      width:175,
+						      name: 'disease'
+
 				       }),
 
-			   new Ext.form.ComboBox({
-				   fieldLabel:'Is Scaling Up allows?',
-				       forceSelection:true,
-				       mode:'local',
-				       displayField:'label',
-				       store: new Ext.data.SimpleStore({
-					       fields:['value', 'label'],
-						   data:[[true, 'Yes'],
-							 [false,'No']]
-						   })
+		 new Ext.form.TextField({
+                                       fieldLabel:'Restrict to specific protocol',
+						      width:175,
+						      name: 'protocol'
+
 				       }),
 
-			   new Ext.form.ComboBox({
-				   fieldLabel:'What is the duration of the permitted use?',
-				       forceSelection:true,
-				       displayField:'label',
-				       mode:'local',
-				       store: new Ext.data.SimpleStore({
-					       fields:['value', 'label'],
-						   data:[['completion', 'Until Completion'], 
-							 ['fixed','Fixed Term']]
-						   })
+
+			   new Ext.form.DateField({
+			       name: 'endDate',
+					 fieldLabel:'End date',
+					 width:175
 				       }),
 
-			   new Ext.form.ComboBox({
-				   fieldLabel:'Is the recipient permitted to retain Materials at the end of the permitted use?',
-				       forceSelection:true,
-				       displayField:'label',
-				       mode:'local',
-				       store: new Ext.data.SimpleStore({
-					       fields:['value', 'label'],
-						   data:[[true, 'Yes'], 
-							 [false, 'No']]
-						   })
+			   new Ext.form.Checkbox({
+			       name: 'scaleUpAllowed',
+					 fieldLabel:'Is Scaling Up allows?'
+				       }),
+
+
+			   new Ext.form.Checkbox({
+			       name: 'retentionAllowed',
+					 fieldLabel:'Is the recipient permitted to retain Materials at the end of the permitted use?'
 				       })
+
 			   );
 
 	this._info_panel = new Ext.ContentPanel("info_" + this.get_id(),
-    {autoCreate:true,
-     fitToFrame:true});
-	this._url_form.render(this._info_panel.getEl());
+	    {autoCreate:true,
+	     fitToFrame:true});
+	form.render(this._info_panel.getEl());
 
 	return this._info_panel;
 
     }; // get_info_panel
 
+    // I'm being too clever by half here...
+    this.get_info = function() {
+	// call the "superclass" method, and tack new stuff onto it.
+	var maininfo = this.constructor.prototype.get_info();
+	// get field values +++
+	Ext.apply(maininfo, this._info_form.getValues());
+	return maininfo;
+    }
+
+    this.get_metadata_template_additional = function() {
+	var info = this.get_info();
+	var result = '';
+	// note: scaleup isn't actually going to be here, it's in the license
+	if (info['endDate'] != '') {
+	    result = result + '<br>Permission expires on <span property=cc:expires">{endDate}</span>';
+	}
+	if (info['protocol'] != '') {
+	    result = result + '<br><span ref="cc:requires" class="sc:ProtocolRequirement">Restricted to protocol <span property="sc:protocol">{protocol}</span></span>';
+	}
+	if (info['disease'] != '') {
+	    result = result + '<br><span ref="cc:requires" class="sc:DiseaseRequirement">Restricted to disease <span property="sc:disease">{disease}</span></span>';
+	}
+	if (info['scaleUpAllowed'] == "on") {
+	    result = result + '<br><span rel=cc:permits class="sc:ScalingUp">Scaling up is permitted</span>';
+	}
+	if (info['retentionAllowed'] == "on") {
+	    result = result + '<br><span rel=cc:permits class="sc:Retention">Retention of unused materials is permitted</span>';
+	}
+
+	// +++ more here
+	return result
+    }
+
+    // +++ url should get parameterized based on metadata...here we're just experimenting
+    this.get_uri = function() {
+	var info = this.get_info();
+	var uri = 'http://mta.sciencecommons.org/mta/sc?ignore=this';
+	
+	if (info['disease'] != '') {
+	    uri = uri + '&disease=' + info['disease'];
+	}
+
+ 	return uri;
+    };
+
+
+
 }; // SciComMta
 SciComMta.prototype = new MtaClass;
 SciComMta.prototype.class_id = 'scicom';
 SciComMta.prototype.class_name = 'Science Commons';
+SciComMta.prototype.constructor = SciComMta; // get around JavaScript weirdness
 
 // specify the list of all available agreements
 YAHOO.namespace('mta');

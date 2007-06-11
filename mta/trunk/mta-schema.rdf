@@ -67,14 +67,6 @@
         <dc:description>An offer is an instantiation of an agreement.  It offers to transfer a particular material from a provider to a recipient.</dc:description>
     </rdfs:Class>
 
-    <!-- No, let's do it the other way since that's closer to the UI -->
-<!--     <rdf:Property rdf:about="material"> -->
-<!--         <dc:title>The material being offered</dc:title> -->
-<!--         <rdfs:domain rdf:resource="cc:Offer"/> -->
-<!--         <rdfs:range rdf:resource="Material"/> -->
-<!--     </rdf:Property> -->
-    
-
     <rdf:Property rdf:about="recipient">
         <dc:title>the recipient of the material</dc:title>
         <rdfs:domain rdf:resource="cc:Offer"/>
@@ -122,7 +114,6 @@
     <cc:Permission rdf:about="Retention">
       <dc:description>Retaining unused or incorporated materials after completion of research</dc:description>
     </cc:Permission>
-
 
     <cc:Prohibition rdf:about="CommercialUser">
       <dc:description>Use in connection with sale of products or services</dc:description>

@@ -43,7 +43,8 @@
 <!-- <script type="text/javascript" src="yui/build/container/container-debug.js"></script>  -->
 
 <script type="text/javascript" src="/ext/adapter/yui/ext-yui-adapter.js"></script>
-<script type="text/javascript" src="/ext/ext-all.js"></script>
+<!-- <script type="text/javascript" src="/ext/ext-all.js"></script> -->
+<script type="text/javascript" src="/ext/ext-all-debug.js"></script>
 
 <style type="text/css">
             #field_disease_detail {z-index:9050;padding-bottom:10px;}
@@ -77,7 +78,7 @@
 
 <div class="field">
     <label for="material_provider" class="fieldlabel">Provider:</label>
-    <input type="textbox" id="material_provider" size=50/>
+    <input type="textbox" id="material_provider" size=50 tabindex=1/>
     <a href="" class="helpLink" id="material_provider_hl">?</a>
 </div>
 
@@ -92,7 +93,7 @@
 
 <div class="field">
     <label for="material_provider_url" class="fieldlabel">Provider URL:</label>
-    <input type="textbox" id="material_provider_url" size=50/>
+    <input type="textbox" id="material_provider_url" size=50 tabindex=2/>
     <a href="" class="helpLink" id="material_provider_url_hl">?</a>
 </div>
 
@@ -106,14 +107,14 @@
 
 <div class="field">
     <label for="nonprofit_provider" class="fieldlabel">Are you a non-profit institution?</label>
-    <input id="nonprofit_provider" type="checkbox" />
+    <input id="nonprofit_provider" type="checkbox"  tabindex=3/>
 </div>
 
 <div class="section_header">Material Information</div>
 
 <div class="field">
     <label for="material_desc" class="fieldlabel">Description:</label>
-    <input type="textbox" id="material_desc" size=50 />
+    <input type="textbox" id="material_desc" size=50 tabindex=4 />
     <a href="" class="helpLink" id="material_desc_hl">?</a>
 </div>
 
@@ -128,7 +129,7 @@
 
 <div class="field">
     <label for="material_uri" class="fieldlabel">Material URL:</label>
-    <input type="textbox" id="material_uri" size=50/> 
+    <input type="textbox" id="material_uri" size=50 tabindex=5/> 
     <a href="" class="helpLink" id="material_uri_hl">?</a>
 </div>
 
@@ -146,7 +147,7 @@
 <label>&nbsp;</label>
 <span id="btn_generate_material_uri" class="yuibutton">
     <span class="first-child">
-        <button type="button" name="generate_material_uri">generate a URL</button>
+        <button type="button" name="generate_material_uri">Generate a URL</button>
     </span>
 </span>
 
@@ -165,22 +166,24 @@ Disease Field: <span id="ysearchautocomplete"><input id="field_disease" type="te
    <div id="field_disease_ac"></div></span>
 </div>
 
+<button type="button" onclick="YAHOO.mta.update_metadata()">Update metadata</button>
 
 <div class="section_header">Transfer Offers</div>
 
 <p>An offer provides a material under a specifc legal agreement. You can create multiple offers for your material.</p>
 
-<div id="offer_container">
-</div>
 
 <p>
 <label>&nbsp;</label>
 <span id="btn_add_offer" class="yuibutton">
     <span class="first-child">
-        <button type="button" name="add_offer">add</button>
+        <button type="button" name="add_offer">Add an offer</button>
     </span>
 </span>
 </p>
+
+<div id="offer_container">
+</div>
 
 </div>
 
@@ -222,63 +225,41 @@ metadata which software can discover and aggregate.</p>
     <div id="scicom_chooser" 
 	 class="x-layout-inactive-content" style="padding:10px;">
 
-	 <p>
-	 <label for="field">Specify a field of use?:</label>
+	 <table>
+	 <tr>
+	 <td class="fieldlabel"><label>Restrict to disease</label></td>
+	 <td><input type=checkbox id="restrict_to_disease"/></td>
+	 <td><span id="ysearchautocomplete"><input id="field_disease" type="text"/></span></td>
+         </tr>
 
-  <select id="field" size="1" onchange="updateMta(); update_field('field');">
-    <option value="all">All Research Uses</option>
-    <option value="disease">Disease Field of Use</option>
-    <option value="protocol">Restricted Protocol</option>
-  </select> 
-   [<a href="">More information</a>]
-   </p>
+	 <tr>
+	 <td class="fieldlabel"><label>Restrict to protocol</label></td>
+	 <td><input type=checkbox id="restrict_to_protocol" /></td>
+	 <td><input id="field_disease" type="text"/></td>
+         </tr>
 
-   <p id="field_all_detail" class="sub_selector"/>
+	 <tr>
+	 <td class="fieldlabel"><label>Allow scaling up?</label></td>
+	 <td><input type=checkbox id="allow_scaling" /></td>
+	 <td></td>
+         </tr>
 
-   <div id="field_disease_detail" class="sub_selector">
-        
-Disease Field: <span id="ysearchautocomplete"><input id="field_disease" type="text"/>
+	 <tr>
+	 <td class="fieldlabel"><label>Fixed end date?</label></td>
+	 <td><input type=checkbox id="fixed_time" /></td>
+	 <td><input id="fixed_time_value" type="text"/></td>
+         </tr>
 
-   <div id="field_disease_ac"></div></span>
-</div>
+	 <tr>
+	 <td class="fieldlabel"><label>Allow retention?</label></td>
+	 <td><input type=checkbox id="allow_retention" /></td>
+	 <td></td>
 
-<p id="field_protocol_detail" class="sub_selector">
-Research Protocol: <input id="field_protocol" />
-</p>
+         </tr>
 
-<p><label for="scaling">Is Scaling Up allowed?</label>
+	 </table>
+	  <div id="field_disease_ac"></div>
 
-  <select id="scaling" size="1" onchange="updateMta();">
-    <option value="yes">Yes</option>
-    <option value="no">No</option>
-  </select>
- [<a href="">More information</a>]
-
-</p>
-
-<p><label for="term">What is the duration of the permitted use? </label>
-  <select id="term" size="1" onchange="updateMta(); update_field('term');">
-    <option value="variable">Until Completion</option>
-    <option value="fixed">Fixed Term</option>
-  </select>
-  [<a href="">More information</a>]
-</p>
-
-<p id="term_variable_detail" class="sub_selector" />
-<p id="term_fixed_detail"  class="sub_selector">
-Contract Term: <input id="term_fixed" />
-</p>
-
-<p>
-  <label for="retain">Is the recipient permitted to retain Materials 
-    at the end of the permitted use?</label>
-
-  <select id="retain" size="1" onchange="updateMta();">
-    <option value="yes">Yes</option>
-    <option value="no">No</option>
-  </select>
- [<a href="">More information</a>]
-</p>
 
     </div>
 
