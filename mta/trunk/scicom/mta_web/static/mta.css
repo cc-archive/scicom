@@ -78,8 +78,10 @@ input {
 }
 
 ul {
-  list-style-position: inside;
-  list-style-type: disc
+  list-style-position: outside;
+  list-style-type: disc;
+  padding-left: 10pt
+	
 }
 
 .choose_button {

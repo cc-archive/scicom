@@ -7,7 +7,11 @@ offer_counter = 0;
 
 function MtaClass() {
 
-    this.offer_id = offer_counter++;
+    // if I was a better JavaScript hacker I'd know how to do this in a constructor
+    // so subclasses got it too...but instead, it's called from the "factory" point.
+    this.uniquify = function() {
+	this.offer_id = offer_counter++;
+    }
 
     // override to true if you need to collect additional information
     this._has_info_panel = false;
@@ -30,19 +34,19 @@ function MtaClass() {
     // returns a dictionary with relevant values
     this.get_info = function() {
 	var result = 
-	{ agreement_name: this.get_name(),
-	  agreement_uri: this.get_uri()	}
+	    { agreement_name: this.get_name(),
+	      agreement_uri: this.get_uri()	}
 	return result
     }
 
     this.get_metadata_template = function() {
 	return new Ext.Template(
-"<li class='sc:Offer' rel='sc:offer'>\n" +
-"  <a rel=sc:agreement href='{agreement_uri}'>{agreement_name}</a> to non-profit institutions.\n" +
-this.get_metadata_template_additional() +
-"</li>");
+	    "<li class='sc:Offer' rel='sc:offer'>\n" +
+		"  <a rel=sc:agreement href='{agreement_uri}'>{agreement_name}</a> to non-profit institutions.\n" +
+		this.get_metadata_template_additional() +
+		"</li>");
     }
-					  
+    
     // subclasses override this to add metadata
     this.get_metadata_template_additional = function() {
 	return '';
@@ -59,11 +63,23 @@ this.get_metadata_template_additional() +
 	var info = YAHOO.mta.agreement_info();
 	var agr_type = this.get_name();
         var url = "/implementing_letter?" +
-        "agreementType=" + agr_type +       // +++ not yet implemented on other end...
-        "&providerOrg=" + info.provider_name + 
-	"&materialDesc=" + info.material_description;
+            "agreementType=" + agr_type +       // +++ not yet implemented on other end...
+            "&providerOrg=" + info.provider_name + 
+	    "&materialDesc=" + info.material_description;
 	return url;
     }
+
+    // none of this implemented on server yet.
+    this.get_legal_uri = function() {
+	var info = YAHOO.mta.agreement_info();
+	var agr_type = this.get_name();
+        var url = "/legal?" +
+            "agreementType=" + agr_type +       // +++ not yet implemented on other end...
+            "&providerOrg=" + info.provider_name + 
+	    "&materialDesc=" + info.material_description;
+	return url;
+    }
+
 
     this.has_info_panel = function() {
 	// return true if this class has an additional information panel
@@ -87,10 +103,10 @@ this.get_metadata_template_additional() +
 	if (!this._dom_element) {
 	    // create the element
 	    this._dom_element = new Ext.form.Radio({
-		    boxLabel : this.get_name(),
-		    name : 'agreement_type',
-		    id : this.get_dom_id(),
-		});
+		boxLabel : this.get_name(),
+		name : 'agreement_type',
+		id : this.get_dom_id(),
+	    });
 	} // if not previously created
 
 	return this._dom_element;
@@ -106,7 +122,7 @@ MtaClass.prototype.is_enabled = function(np_recipient) {
 
     // default behavior disables the class for (potentially) for-profit 
     return !np_recipient;
-    };
+};
 
 function NonProfitMtaClass() {
 
@@ -117,11 +133,11 @@ function NonProfitMtaClass() {
 
 NonProfitMtaClass.prototype = new MtaClass;
 NonProfitMtaClass.prototype.is_enabled = function(np_recipient) {
-	// return true if this agreement is enabled for the source/recipient;
-	// np_source and np_recipient are true if they are non-profit
+    // return true if this agreement is enabled for the source/recipient;
+    // np_source and np_recipient are true if they are non-profit
 
-	return np_recipient;
-    };
+    return np_recipient;
+};
 
 
 function UbmtaClass() {
@@ -166,17 +182,18 @@ function CustomMta() {
 	this._url_form = new Ext.form.Form();
 
 	this._url_form.add(
-			   new Ext.form.TextField({
-			     fieldLabel: 'Agreement URL',
-			     name: 'agreement_url',
-			     width:200,
-		             allowBlank:false
-					     })
-			   );
-	this._info_panel = new Ext.ContentPanel("info_" + this.get_id(),
+	    new Ext.form.TextField({
+		fieldLabel: 'Agreement URL',
+		name: 'agreement_url',
+		width:200,
+		allowBlank:false
+	    })
+	);
+	// +++ create anew for each trip through....
+	this._info_panel = new Ext.ContentPanel("info_" + this.get_id() + this.offer_id,
 
-	    {autoCreate:true,
-	     fitToFrame:true});
+						{autoCreate:true,
+						 fitToFrame:true});
 	this._url_form.render(this._info_panel.getEl());
 
 	return this._info_panel;
@@ -212,49 +229,49 @@ function SciComMta() {
 	// we haven't, create now
 	var form = new Ext.form.Form({
 	    labelAlign: 'right',
-            labelWidth: 150});
+            labelWidth: 200});
 
 	// save for later
 	this._info_form = form;  
 
 	form.add(
-		 new Ext.form.TextField({
-                                       fieldLabel:'Restrict to specific disease',
-						      width:175,
-						      name: 'disease'
+	    new Ext.form.TextField({
+                fieldLabel:'Restrict to specific disease',
+		width:175,
+		name: 'disease'
 
-				       }),
+	    }),
 
-		 new Ext.form.TextField({
-                                       fieldLabel:'Restrict to specific protocol',
-						      width:175,
-						      name: 'protocol'
+	    new Ext.form.TextField({
+                fieldLabel:'Restrict to specific protocol',
+		width:175,
+		name: 'protocol'
 
-				       }),
-
-
-			   new Ext.form.DateField({
-			       name: 'endDate',
-					 fieldLabel:'End date',
-					 width:175
-				       }),
-
-			   new Ext.form.Checkbox({
-			       name: 'scaleUpAllowed',
-					 fieldLabel:'Is Scaling Up allows?'
-				       }),
+	    }),
 
 
-			   new Ext.form.Checkbox({
-			       name: 'retentionAllowed',
-					 fieldLabel:'Is the recipient permitted to retain Materials at the end of the permitted use?'
-				       })
+	    new Ext.form.DateField({
+		name: 'endDate',
+		fieldLabel:'End date',
+		width:175
+	    }),
 
-			   );
+	    new Ext.form.Checkbox({
+		name: 'scaleUpAllowed',
+		fieldLabel:'Is scaling up allowed?'
+	    }),
 
-	this._info_panel = new Ext.ContentPanel("info_" + this.get_id(),
-	    {autoCreate:true,
-	     fitToFrame:true});
+
+	    new Ext.form.Checkbox({
+		name: 'retentionAllowed',
+		fieldLabel:'Is the recipient permitted to retain material?'
+	    })
+
+	);
+
+	this._info_panel = new Ext.ContentPanel("info_" + this.get_id() + this.offer_id,
+						{autoCreate:true,
+						 fitToFrame:true});
 	form.render(this._info_panel.getEl());
 
 	return this._info_panel;
