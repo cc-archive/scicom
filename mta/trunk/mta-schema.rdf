@@ -37,7 +37,8 @@
     <rdfs:Class rdf:about="MaterialUser">
         <dc:title>Provider</dc:title>
         <dc:description>A provider or recipient of some scientific material (lab, institution, researcher)</dc:description>
-	<rdfs:subClassOf rdf:resource="cc:Agent"/>
+	<!-- Nathan says don't do this. -->
+<!-- 	<rdfs:subClassOf rdf:resource="cc:Agent"/> -->
     </rdfs:Class>
 
     <rdf:Property rdf:about="nonprofit">
@@ -136,8 +137,6 @@
     </cc:Prohibition>
 
     <!-- Requirements  -->
-
-    <!-- Note: aren't disease and protocol really PROHIBITIONS rather than requirements? -->
 
     <!-- Class of disease requirements (necessary to define disease property -->
     <rdfs:Class rdf:about="DiseaseRequirement">		       

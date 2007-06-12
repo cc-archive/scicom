@@ -45,11 +45,13 @@ class MtaMaterial(object):
 
         # get a handle to the database session
         self.session = scicom.mta.connect_session()
-
         self.__loader = loader
 
     @cherrypy.expose
     def add(self, description, provider, provider_url=None, provider_nonprofit=False, more_info=None):
+        # only has to be done once, but (apparently) has to be done in a request
+        # make material relocatable
+        scicom.mta.material.Material.BASE_URI = cherrypy.request.base + '/material/view'
 
         # create the new material
         new_material = scicom.mta.material.Material(
@@ -65,6 +67,10 @@ class MtaMaterial(object):
     @cherrypy.expose
     def view(self, id):
 
+        # only has to be done once, but (apparently) has to be done in a request
+        # make material relocatable
+        scicom.mta.material.Material.BASE_URI = cherrypy.request.base + '/material/view'
+
         # get the Material
         query = self.session.query(scicom.mta.material.Material)
         material = query.select_by(material_id=id)
@@ -75,23 +81,39 @@ class MtaMaterial(object):
 
         return stream.render('xhtml')
 
-class MtaSelector(object):
-    """Support select views for each MTA class."""
-
-    def __init__(self):
-
-        # create a template loader instance
-        self.__loader = genshi.template.TemplateLoader([TEMPLATE_DIR])
-
-    # scicom chooser
+    # a crude index page of known materials
+    # todo: same thing with search, sort, grid view
     @cherrypy.expose
-    def index(self, source, recipient, **kwargs):
+    def index(self):
 
-        template = self.__loader.load(
-            os.path.join(TEMPLATE_DIR, "select.html"))
-        stream = template.generate(source=source, recipient=recipient)
+        # only has to be done once, but (apparently) has to be done in a request
+        # make material relocatable
+        scicom.mta.material.Material.BASE_URI = cherrypy.request.base + '/material/view'
 
-        return stream.render("xhtml")
+        query = self.session.query(scicom.mta.material.Material)
+        materials = query.select()
+        template = self.__loader.load('material-index.html')
+        stream = template.generate(materials=materials)
+        return stream.render('xhtml')
+
+# dead remnant
+# class MtaSelector(object):
+#     """Support select views for each MTA class."""
+
+#     def __init__(self):
+
+#         # create a template loader instance
+#         self.__loader = genshi.template.TemplateLoader([TEMPLATE_DIR])
+
+#     # scicom chooser
+#     @cherrypy.expose
+#     def index(self, source, recipient, **kwargs):
+
+#         template = self.__loader.load(
+#             os.path.join(TEMPLATE_DIR, "select.html"))
+#         stream = template.generate(source=source, recipient=recipient)
+
+#         return stream.render("xhtml")
 
 class MtaWeb(object):
 
@@ -101,7 +123,9 @@ class MtaWeb(object):
         self.__loader = genshi.template.TemplateLoader([TEMPLATE_DIR])
 
         # create sub-objects for areas of functionality
-        self.select = MtaSelector()
+
+        # not actually used...
+        #        self.select = MtaSelector()
 
         # Material Registration
         self.material = MtaMaterial(self.__loader)
@@ -115,21 +139,22 @@ class MtaWeb(object):
     _cp_config = {'tools.staticdir.on':True,
                   'tools.staticdir.root':STATIC_DIR,
                   'tools.staticdir.dir':''}
-
-    # root page -- pre-chooser
-    @cherrypy.expose
-    def index(self):
-        template = self.__loader.load(
-            os.path.join(TEMPLATE_DIR, "index.html"))
-        return template.generate().render('xhtml')
         
+    chooser = cherrypy.tools.staticfile.handler(
+        os.path.join(TEMPLATE_DIR, 'chooser.html'))
+    
     # map the root path to the static file index.html
     index = cherrypy.tools.staticfile.handler(
         os.path.join(TEMPLATE_DIR, 'index.html'))
 
+    # please kill me
+    indexold = cherrypy.tools.staticfile.handler(
+        os.path.join(TEMPLATE_DIR, 'index-old.html'))
+
+
     @cherrypy.expose
     # +++ many more parameters
-    def implementing_letter(self, letterType='', providerOrg='', materialDesc=''):
+    def implementing_letter(self, agreementType='', providerOrg='', materialDesc=''):
         # for now, ignore letterType...
         l = letters.letter.UBMTALetter()
         l.pdf_prepare_response('implementing-letter')
@@ -169,11 +194,8 @@ class MtaWeb(object):
 def serve(host='', port=8082):
 
     cherrypy.tree.mount(MtaWeb())
-
-
     # mt temp
     #    cherrypy.tree.mount(mthack.MT(), "/mt")    
-
     cherrypy.server.socket_host = host
     cherrypy.server.socket_port = port
     cherrypy.server.quickstart()

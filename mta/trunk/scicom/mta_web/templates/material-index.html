@@ -1,0 +1,26 @@
+<html xmlns:cc="http://creativecommons.org/ns#" 
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:sc="http://sciencecommons.org/ns#"
+      xmlns:dc="http://purl.org/dc/elements/1.1/">
+<head>
+
+
+<style type="text/css">
+th {
+   text-align: right;
+   padding-right: 5px;
+}
+</style>
+</head>
+<body>
+<img src="http://sciencecommons.org/wp-content/themes/scowp/images/logo.gif"/>
+<h1>Material Registry</h1>
+
+<ul>
+<li py:for="material in materials">
+ <a href="${material.view_uri()}">${material.description}</a> from <a href="${material.provider_url}">${material.provider}</a>
+</li>
+</ul>
+
+</body>
+</html>
