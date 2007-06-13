@@ -154,42 +154,52 @@ class MtaWeb(object):
 
     @cherrypy.expose
     # +++ many more parameters
-    def implementing_letter(self, agreementType='', providerOrg='', materialDesc=''):
+    def implementing_letter(self, agreementType='', providerOrg='', materialDesc='', **kwargs):
         # for now, ignore letterType...
         l = letters.letter.UBMTALetter()
         l.pdf_prepare_response('implementing-letter')
         return l(providerOrg=providerOrg, materialDesc=materialDesc)
     
+    # MTA deeds 
+    @cherrypy.expose
+    def deed(self,  agreementType, **kwargs):
+
+        template = self.__loader.load("deed.html")
+        stream = template.generate(code=agreementType, version="1.0")
+
+        return stream.render("xhtml")
+
+    # not built out yet -- in reality, will use a static url or per-agreement template, probably
+    # MTA legal code
+    @cherrypy.expose
+    def legal(self, agreementType, **kwargs):
+
+        template = self.__loader.load("legal.html")
+        stream = template.generate(agreementType=agreementType)
+
+        return stream.render("xhtml")
 
     # academic chooser (UBMTA, SLA)
     # mt+++ These things are no longer used...
-    @cherrypy.expose
-    def academic(self, source, recipient, **kwargs):
+#     @cherrypy.expose
+#     def academic(self, source, recipient, **kwargs):
 
-        template = self.__loader.load(
-            os.path.join(TEMPLATE_DIR, "academic.html"))
-        stream = template.generate(source=source, recipient=recipient)
+#         template = self.__loader.load(
+#             os.path.join(TEMPLATE_DIR, "academic.html"))
+#         stream = template.generate(source=source, recipient=recipient)
 
-        return stream.render("xhtml")
+#         return stream.render("xhtml")
 
-    # to academic chooser (SciCom, UBMTA, SLA)
-    @cherrypy.expose
-    def compare(self, source, recipient, **kwargs):
+#     # to academic chooser (SciCom, UBMTA, SLA)
+#     @cherrypy.expose
+#     def compare(self, source, recipient, **kwargs):
 
-        template = self.__loader.load(
-            os.path.join(TEMPLATE_DIR, "triple.html"))
-        stream = template.generate(source=source, recipient=recipient)
+#         template = self.__loader.load(
+#             os.path.join(TEMPLATE_DIR, "triple.html"))
+#         stream = template.generate(source=source, recipient=recipient)
 
-        return stream.render("xhtml")
+#         return stream.render("xhtml")
 
-    # MTA deeds and legalcode
-    @cherrypy.expose
-    def agreement(self, code, version):
-
-        template = self.__loader.load("deed.html")
-        stream = template.generate(code=code, version=version)
-
-        return stream.render("xhtml")
 
 def serve(host='', port=8082):
 

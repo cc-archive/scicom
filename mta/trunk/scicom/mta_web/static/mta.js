@@ -27,15 +27,12 @@ function MtaClass() {
 	return this.class_name;
     };
 
-    this.get_uri = function() {
-	return 'http://mta.sciencecommons.org/mta/';
-    };
 
     // returns a dictionary with relevant values
     this.get_info = function() {
 	var result = 
 	    { agreement_name: this.get_name(),
-	      agreement_uri: this.get_uri()	}
+	      agreement_uri: this.get_deed_uri()	}
 	return result
     }
 
@@ -57,29 +54,33 @@ function MtaClass() {
 	return this.get_metadata_template().apply(info);
     }
 
-    // +++ subclasses need to be able to modify this...not sure javascript can handle it
-    // +++ might want base url to vary based on python limits at the other end...
+    this.get_deed_uri = function() {
+	return this.build_uri("/deed");	
+    };
+
     this.get_implementing_uri = function() {
-	var info = YAHOO.mta.agreement_info();
-	var agr_type = this.get_name();
-        var url = "/implementing_letter?" +
-            "agreementType=" + agr_type +       // +++ not yet implemented on other end...
-            "&providerOrg=" + info.provider_name + 
-	    "&materialDesc=" + info.material_description;
-	return url;
+	return this.build_uri("/implementing_letter");
     }
 
-    // none of this implemented on server yet.
     this.get_legal_uri = function() {
+	return this.build_uri('/legal');
+    }
+
+    this.build_uri = function(base) {
 	var info = YAHOO.mta.agreement_info();
 	var agr_type = this.get_name();
-        var url = "/legal?" +
+        var url = base + "?" +
             "agreementType=" + agr_type +       // +++ not yet implemented on other end...
             "&providerOrg=" + info.provider_name + 
-	    "&materialDesc=" + info.material_description;
+	    "&materialDesc=" + info.material_description +
+	    this.get_additional_uri_parameters();
 	return url;
     }
 
+    // subclasses can override this to add customization
+    this.get_additional_uri_parameters = function() {
+	return '';
+    }
 
     this.has_info_panel = function() {
 	// return true if this class has an additional information panel
@@ -142,9 +143,6 @@ NonProfitMtaClass.prototype.is_enabled = function(np_recipient) {
 
 function UbmtaClass() {
 
-    this.get_uri = function() {
- 	return 'http://mta.sciencecommons.org/mta/ubmta/';
-    };
 
 }; // UbmtaClass
 
@@ -155,11 +153,8 @@ UbmtaClass.prototype.constructor = UbmtaClass; // get around JavaScript weirdnes
 
 function SlaClass() {
 
-    this.get_uri = function() {
- 	return 'http://mta.sciencecommons.org/mta/sla/';
-    };
-
 }; // SlaClass
+
 SlaClass.prototype = new NonProfitMtaClass;
 SlaClass.prototype.class_id = 'sla';
 SlaClass.prototype.class_name = 'SLA';
@@ -168,9 +163,16 @@ SlaClass.prototype.constructor = SlaClass; // get around JavaScript weirdness
 function CustomMta() {
 
 
-    this.get_uri = function() {
-
+    this.get_deed_uri = function() {
 	return this.get_info()['agreement_url'];
+    }
+
+    // I guess these should be empty (and callers should be smart about not displaying links)
+    this.get_implementing_uri = function() {
+	return '';
+    }
+    this.get_legal_uri = function() {
+	return '';
     }
 
     this._has_info_panel = true;
@@ -311,17 +313,12 @@ function SciComMta() {
 	return result
     }
 
-    // +++ url should get parameterized based on metadata...here we're just experimenting
-    this.get_uri = function() {
-	var info = this.get_info();
-	var uri = 'http://mta.sciencecommons.org/mta/sc?ignore=this';
-	
-	if (info['disease'] != '') {
-	    uri = uri + '&disease=' + info['disease'];
-	}
 
- 	return uri;
-    };
+    this.get_additional_uri_parameters = function() {
+	var info = this.get_info();
+	// +++ much more here
+	return '&disease=' + info['disease'];
+    }
 
 
 

@@ -41,19 +41,6 @@ YAHOO.mta.get_selected_offer_type = function() {
     return null;
 } // get_selected_offer_type
 
-/* dead code
-YAHOO.mta.get_new_offer_name = function() {
-
-    return YAHOO.mta.get_selected_offer_type().get_name();
-
-} // get_new_offer_name
-
-YAHOO.mta.get_new_offer_uri = function() {
-
-    return YAHOO.mta.get_selected_offer_type().get_uri();
-
-} // get_new_offer_uri
-*/ 
 
 // currently unused, but maybe will be useful
 YAHOO.mta.get_offer_target = function() {
@@ -124,6 +111,7 @@ YAHOO.mta.finish_offer = function() {
 
     // create a "module" to contain the offer
     var agr_name = current_offer.get_name();
+    // the deed URI is built into the metadata
     var implementing_uri = current_offer.get_implementing_uri();
     var legal_uri = current_offer.get_legal_uri();
 
