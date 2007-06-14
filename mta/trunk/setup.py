@@ -31,10 +31,10 @@ setup(
                         'simplejson',
                         'Genshi',
                         'zdaemon',
-                        'Reportlab>=2.1',  #mt +++
+                        'Reportlab>=2.0', 
                         'scicom.mta',
                         ],
-
+    dependency_links = ['http://www.reportlab.co.uk/svn/public/reportlab/trunk/reportlab#egg=Reportlab-2.0'],
     include_package_data = True,
     namespace_packages = ['scicom'],
     zip_safe = False,
