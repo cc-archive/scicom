@@ -2,7 +2,6 @@ import hashlib
 
 class Material(object):
 
-    # Gets changed by web server so whole thing is relocatable
     BASE_URI = "http://mta.sciencecommons.org/material/view"
     
     def __init__(self, description, provider, provider_url, provider_nonprofit, more_info=None, identifier=None):

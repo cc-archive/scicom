@@ -49,10 +49,6 @@ class MtaMaterial(object):
 
     @cherrypy.expose
     def add(self, description, provider, provider_url=None, provider_nonprofit=False, more_info=None):
-        # only has to be done once, but (apparently) has to be done in a request
-        # make material relocatable
-        scicom.mta.material.Material.BASE_URI = cherrypy.request.base + '/material/view'
-
         # create the new material
         new_material = scicom.mta.material.Material(
             description, provider, provider_url, provider_nonprofit, more_info)
@@ -66,10 +62,6 @@ class MtaMaterial(object):
 
     @cherrypy.expose
     def view(self, id):
-
-        # only has to be done once, but (apparently) has to be done in a request
-        # make material relocatable
-        scicom.mta.material.Material.BASE_URI = cherrypy.request.base + '/material/view'
 
         # get the Material
         query = self.session.query(scicom.mta.material.Material)
@@ -85,10 +77,6 @@ class MtaMaterial(object):
     # todo: same thing with search, sort, grid view
     @cherrypy.expose
     def index(self):
-
-        # only has to be done once, but (apparently) has to be done in a request
-        # make material relocatable
-        scicom.mta.material.Material.BASE_URI = cherrypy.request.base + '/material/view'
 
         query = self.session.query(scicom.mta.material.Material)
         materials = query.select()
