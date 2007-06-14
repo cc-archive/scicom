@@ -24,50 +24,13 @@
 
 </style>
 
-<!-- Real version -->
-<script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/yahoo-dom-event/yahoo-dom-event.js"></script>
-<script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/element/element-beta-min.js"></script>
-<script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/button/button-beta-min.js"></script>
-<script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/animation/animation-min.js"></script>
-<script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/connection/connection-min.js"></script>
-<script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/autocomplete/autocomplete-min.js"></script>
-<script type="text/javascript" src="http://yui.yahooapis.com/2.2.2/build/container/container-min.js"></script>
-
-<!-- Debugging version - requires link in static directory -->
-<!-- <script type="text/javascript" src="yui/build/yahoo-dom-event/yahoo-dom-event.js"></script> -->
-<!-- <script type="text/javascript" src="yui/build/element/element-beta-debug.js"></script> -->
-<!-- <script type="text/javascript" src="yui/build/button/button-beta-debug.js"></script> -->
-<!-- <script type="text/javascript" src="yui/build/animation/animation-debug.js"></script>  -->
-<!-- <script type="text/javascript" src="yui/build/connection/connection-debug.js"></script>  -->
-<!-- <script type="text/javascript" src="yui/build/autocomplete/autocomplete-debug.js"></script> -->
-<!-- <script type="text/javascript" src="yui/build/container/container-debug.js"></script>  -->
-
-<script type="text/javascript" src="/ext/adapter/yui/ext-yui-adapter.js"></script>
-<!-- <script type="text/javascript" src="/ext/ext-all.js"></script> -->
-<script type="text/javascript" src="/ext/ext-all-debug.js"></script>
-
-<style type="text/css">
-            #field_disease_detail {z-index:9050;padding-bottom:10px;}
-            #ysearchautocomplete {position:relative;}
-            #field_disease {position:relative;width:20em;height:1.4em;}
-            #field_disease_ac {position:absolute;left:0;top:1.7em;display:inline;}
-            #field_disease_ac .yui-ac-content {position:absolute;left:0;top:0;width:20em;border:1px solid #404040;background:#fff;overflow:hidden;text-align:left;z-index:9050;}
-            #field_disease_ac .yui-ac-shadow {position:absolute;left:0;top:0;margin:.3em;background:#a0a0a0;z-index:9049;}
-            #field_disease_ac ul {padding:5px 0;width:100%;}
-            #field_disease_ac li {padding:0 5px;cursor:default;white-space:nowrap;}
-            #field_disease_ac li.yui-ac-highlight {background:#ff0;}
-            #ysearchsubmit {position:relative;}
-</style>
-
-<script type="text/javascript" src="/mta.js"></script>
-<script type="text/javascript" src="/chooser.js"></script>
 
 </head>
 
 <body>
 
-<img src="http://sciencecommons.org/wp-content/themes/scowp/images/logo.gif">
-<p>
+<img src="http://sciencecommons.org/wp-content/themes/scowp/images/logo.gif" alt="Science Commons"/>
+<p/>
 
 <h1>Materials Transfer Agreement</h1>
 
@@ -78,7 +41,7 @@
 
 <div class="field">
     <label for="material_provider" class="fieldlabel">Provider:</label>
-    <input type="textbox" id="material_provider" size=50 tabindex=1/>
+    <input type="text" id="material_provider" size="50" tabindex="1"/>
     <a href="" class="helpLink" id="material_provider_hl">?</a>
 </div>
 
@@ -93,7 +56,7 @@
 
 <div class="field">
     <label for="material_provider_url" class="fieldlabel">Provider URL:</label>
-    <input type="textbox" id="material_provider_url" size=50 tabindex=2/>
+    <input type="text" id="material_provider_url" size="50" tabindex="2"/>
     <a href="" class="helpLink" id="material_provider_url_hl">?</a>
 </div>
 
@@ -107,14 +70,14 @@
 
 <div class="field">
     <label for="nonprofit_provider" class="fieldlabel">Are you a non-profit institution?</label>
-    <input id="nonprofit_provider" type="checkbox"  tabindex=3/>
+    <input id="nonprofit_provider" type="checkbox"  tabindex="3"/>
 </div>
 
 <div class="section_header">Material Information</div>
 
 <div class="field">
     <label for="material_desc" class="fieldlabel">Description:</label>
-    <input type="textbox" id="material_desc" size=50 tabindex=4 />
+    <input type="text" id="material_desc" size="50" tabindex="4" />
     <a href="" class="helpLink" id="material_desc_hl">?</a>
 </div>
 
@@ -129,7 +92,7 @@
 
 <div class="field">
     <label for="material_uri" class="fieldlabel">Material URL:</label>
-    <input type="textbox" id="material_uri" size=50 tabindex=5/> 
+    <input type="text" id="material_uri" size="50" tabindex="5"/> 
     <a href="" class="helpLink" id="material_uri_hl">?</a>
 </div>
 
@@ -143,7 +106,7 @@
 
 
 <p>
-<label>&nbsp;</label>
+<label>  </label>
 <span id="btn_generate_material_uri" class="yuibutton">
     <span class="first-child">
         <button type="button" name="generate_material_uri">Generate a URL</button>
@@ -161,7 +124,7 @@
 
 
 <p>
-<label>&nbsp;</label>
+<label>  </label>
 <span id="btn_add_offer" class="yuibutton">
     <span class="first-child">
         <button type="button" name="add_offer">Add an offer</button>
@@ -172,12 +135,13 @@
 <div id="offer_container"></div>
 </div> 
 
-<div class="section_header">Debugging & Experiments (<b>Turn off for release)</b></div>
+<div py:if="debug" class="section_header">Debugging and Experiments <b>Turn off for release</b></div>
 
-<div>
+<div py:if="debug" >
         
-   Disease Field: <span id="ysearchautocomplete"><input id="field_disease" type="text"/>
-   <div id="field_disease_ac"></div></span>
+   Disease Field: <span id="ysearchautocomplete">
+     <input id="field_disease" type="text"/></span>
+   <div id="field_disease_ac"></div>
 
    <button type="button" onclick="YAHOO.mta.update_metadata()">Update metadata</button>
 
@@ -196,7 +160,7 @@ metadata which software can discover and aggregate.</p>
 </textarea>
 
 <div>Preview:
-<div id="metadata_preview"></div>
+  <div id="metadata_preview"></div>
 </div>
 
 <!-- Add Offer dialog -->
@@ -220,47 +184,6 @@ metadata which software can discover and aggregate.</p>
       <!-- Buttons are generated from classes -->
     </div>
 
-    <!-- APPARENTLY NOT USED? -->
-    <div id="scicom_chooser" 
-	 class="x-layout-inactive-content" style="padding:10px;">
-
-	 <table>
-	 <tr>
-	 <td class="fieldlabel"><label>Restrict to disease</label></td>
-	 <td><input type=checkbox id="restrict_to_disease"/></td>
-	 <td><span id="ysearchautocomplete"><input id="field_disease" type="text"/></span></td>
-         </tr>
-
-	 <tr>
-	 <td class="fieldlabel"><label>Restrict to protocol</label></td>
-	 <td><input type=checkbox id="restrict_to_protocol" /></td>
-	 <td><input id="field_disease" type="text"/></td>
-         </tr>
-
-	 <tr>
-	 <td class="fieldlabel"><label>Allow scaling up?</label></td>
-	 <td><input type=checkbox id="allow_scaling" /></td>
-	 <td></td>
-         </tr>
-
-	 <tr>
-	 <td class="fieldlabel"><label>Fixed end date?</label></td>
-	 <td><input type=checkbox id="fixed_time" /></td>
-	 <td><input id="fixed_time_value" type="text"/></td>
-         </tr>
-
-	 <tr>
-	 <td class="fieldlabel"><label>Allow retention?</label></td>
-	 <td><input type=checkbox id="allow_retention" /></td>
-	 <td></td>
-
-         </tr>
-
-	 </table>
-	  <div id="field_disease_ac"></div>
-
-
-    </div>
 
     <!-- last panel -->
     <div id="finish" 
@@ -268,9 +191,53 @@ metadata which software can discover and aggregate.</p>
       <p>We've collected all the information required for your offer.  Click
 	<em>Finish</em> to add the offer.</p>
     </div>
-
-
   </div>
 </div>
+</div>
+<!-- Real version -->
+<div py:if="not(debug)" py:strip="True" >
+  <script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+  <script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/element/element-beta-min.js"></script>
+  <script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/button/button-beta-min.js"></script>
+  <script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/animation/animation-min.js"></script>
+  <script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/connection/connection-min.js"></script>
+  <script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/autocomplete/autocomplete-min.js"></script>
+  <script type="text/javascript" src="http://yui.yahooapis.com/2.2.2/build/container/container-min.js"></script>
+</div>
 
-</body></html>
+<div py:if="debug" py:strip="True" >
+  <!-- Debugging version - requires link in static directory -->
+  <script type="text/javascript" src="yui/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+  <script type="text/javascript" src="yui/build/element/element-beta-debug.js"></script>
+  <script type="text/javascript" src="yui/build/button/button-beta-debug.js"></script>
+  <script type="text/javascript" src="yui/build/animation/animation-debug.js"></script>
+  <script type="text/javascript" src="yui/build/connection/connection-debug.js"></script>
+  <script type="text/javascript" src="yui/build/autocomplete/autocomplete-debug.js"></script>
+  <script type="text/javascript" src="yui/build/container/container-debug.js"></script>
+</div>
+
+<script type="text/javascript" src="/ext/adapter/yui/ext-yui-adapter.js"></script>
+
+<script py:if="not(debug)" type="text/javascript" src="/ext/ext-all.js"></script>
+<script py:if="debug" type="text/javascript" src="/ext/ext-all-debug.js"></script>
+
+<style type="text/css">
+            #field_disease_detail {z-index:9050;padding-bottom:10px;}
+            #ysearchautocomplete {position:relative;}
+            #field_disease {position:relative;width:20em;height:1.4em;}
+            #field_disease_ac {position:absolute;left:0;top:1.7em;display:inline;}
+            #field_disease_ac .yui-ac-content {position:absolute;left:0;top:0;width:20em;border:1px solid #404040;background:#fff;overflow:hidden;text-align:left;z-index:9050;}
+            #field_disease_ac .yui-ac-shadow {position:absolute;left:0;top:0;margin:.3em;background:#a0a0a0;z-index:9049;}
+            #field_disease_ac ul {padding:5px 0;width:100%;}
+            #field_disease_ac li {padding:0 5px;cursor:default;white-space:nowrap;}
+            #field_disease_ac li.yui-ac-highlight {background:#ff0;}
+            #ysearchsubmit {position:relative;}
+</style>
+
+<script type="text/javascript" src="/mta.js"></script>
+<script type="text/javascript" src="/chooser.js"></script>
+
+</body>
+
+
+</html>

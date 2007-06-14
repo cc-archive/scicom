@@ -140,16 +140,23 @@ class MtaWeb(object):
                   'tools.staticdir.root':STATIC_DIR,
                   'tools.staticdir.dir':''}
         
-    chooser = cherrypy.tools.staticfile.handler(
-        os.path.join(TEMPLATE_DIR, 'chooser.html'))
-    
     # map the root path to the static file index.html
     index = cherrypy.tools.staticfile.handler(
         os.path.join(TEMPLATE_DIR, 'index.html'))
 
-    # please kill me
-    indexold = cherrypy.tools.staticfile.handler(
-        os.path.join(TEMPLATE_DIR, 'index-old.html'))
+    # the chooser
+    @cherrypy.expose
+    def chooser(self):
+        template = self.__loader.load("chooser.html")
+        stream = template.generate(debug=False)
+        return stream.render("xhtml")        
+
+    # debugging version of the chooser
+    @cherrypy.expose
+    def chooser_debug(self):
+        template = self.__loader.load("chooser.html")
+        stream = template.generate(debug=True)
+        return stream.render("xhtml")        
 
 
     @cherrypy.expose
@@ -166,7 +173,6 @@ class MtaWeb(object):
 
         template = self.__loader.load("deed.html")
         stream = template.generate(code=agreementType, version="1.0")
-
         return stream.render("xhtml")
 
     # not built out yet -- in reality, will use a static url or per-agreement template, probably
@@ -178,28 +184,6 @@ class MtaWeb(object):
         stream = template.generate(agreementType=agreementType)
 
         return stream.render("xhtml")
-
-    # academic chooser (UBMTA, SLA)
-    # mt+++ These things are no longer used...
-#     @cherrypy.expose
-#     def academic(self, source, recipient, **kwargs):
-
-#         template = self.__loader.load(
-#             os.path.join(TEMPLATE_DIR, "academic.html"))
-#         stream = template.generate(source=source, recipient=recipient)
-
-#         return stream.render("xhtml")
-
-#     # to academic chooser (SciCom, UBMTA, SLA)
-#     @cherrypy.expose
-#     def compare(self, source, recipient, **kwargs):
-
-#         template = self.__loader.load(
-#             os.path.join(TEMPLATE_DIR, "triple.html"))
-#         stream = template.generate(source=source, recipient=recipient)
-
-#         return stream.render("xhtml")
-
 
 def serve(host='', port=8082):
 
