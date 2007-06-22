@@ -84,24 +84,78 @@ class MtaMaterial(object):
         stream = template.generate(materials=materials)
         return stream.render('xhtml')
 
-# dead remnant
-# class MtaSelector(object):
-#     """Support select views for each MTA class."""
 
-#     def __init__(self):
+class Random():
 
-#         # create a template loader instance
-#         self.__loader = genshi.template.TemplateLoader([TEMPLATE_DIR])
+    @cherrypy.expose
+    def index(self):
+        import random
+        return '%s' % random.random()
 
-#     # scicom chooser
-#     @cherrypy.expose
-#     def index(self, source, recipient, **kwargs):
 
-#         template = self.__loader.load(
-#             os.path.join(TEMPLATE_DIR, "select.html"))
-#         stream = template.generate(source=source, recipient=recipient)
+class MtaAgreements(object):
 
-#         return stream.render("xhtml")
+    """Serve the agreements and related documents"""
+
+    def __init__(self, loader):
+
+        self.__loader = loader
+# thought I'd try routes but it's more trouble than its worth
+#         d = cherrypy.dispatch.RoutesDispatcher()
+#         d.connect(name='deed',
+#                   route=':type/:version',
+#                   controller='deed_controller',
+#                   action='update')
+#         config = {'/agreements': {'request.dispatch': d}}
+#         cherrypy.tree.mount(root=None, config=config)
+        
+    @cherrypy.expose
+    def default(self, code, version, *args, **kwargs):
+        
+        self.checklicense(code)
+
+        if args.__len__() > 0:
+            doctype = args[0]
+        else:
+            return self.deed(code, version, kwargs)
+
+        if doctype == 'legalcode':
+            return self.legalcode(code, version, kwargs)
+        if doctype == 'letter':
+            return self.letter(code, version, kwargs)
+
+        raise cherrypy.HTTPError(404)
+
+
+    def deed(self, code, version, kwargs):
+        template = self.__loader.load("deed.html")
+        stream = template.generate(code=code, version=version)
+        return stream.render("xhtml")
+        
+    def letter(self, code, version, kwargs):
+        # +++ just UBMTA for now
+        l = letters.letter.UBMTALetter()
+        l.pdf_prepare_response('implementing-letter')
+        return l(providerOrg=providerOrg, materialDesc=materialDesc)
+
+
+    # not built out yet -- in reality, will use a static url or per-agreement template, probably
+    # MTA legal code
+    @cherrypy.expose
+    def legalcode(self, code, version, kwargs):
+
+        template = self.__loader.load("legal.html")
+        stream = template.generate(agreementType=code)
+        return stream.render("xhtml")
+
+    def checklicense(self, code):
+        if ['ubmta', 'sla'].__contains__(code):
+            return True
+        splits = code.split('-')
+        if splits[0] == 'sc':
+            return True
+        raise cherrypy.HTTPError(404, 'Unknown license %s' % code)
+        
 
 class MtaWeb(object):
 
@@ -110,14 +164,15 @@ class MtaWeb(object):
         # create a template loader instance
         self.__loader = genshi.template.TemplateLoader([TEMPLATE_DIR])
 
-        # create sub-objects for areas of functionality
-
-        # not actually used...
-        #        self.select = MtaSelector()
-
         # Material Registration
         self.material = MtaMaterial(self.__loader)
         self.material.exposed = True
+
+        self.agreements = MtaAgreements(self.__loader)
+        self.agreements.exposed = True
+
+        self.random = Random()
+        self.random.exposed = True
 
         # JSON support for MeSH ontology
         self.mesh = Mesh()
@@ -147,37 +202,10 @@ class MtaWeb(object):
         return stream.render("xhtml")        
 
 
-    @cherrypy.expose
-    # +++ many more parameters
-    def implementing_letter(self, agreementType='', providerOrg='', materialDesc='', **kwargs):
-        # for now, ignore letterType...
-        l = letters.letter.UBMTALetter()
-        l.pdf_prepare_response('implementing-letter')
-        return l(providerOrg=providerOrg, materialDesc=materialDesc)
-    
-    # MTA deeds 
-    @cherrypy.expose
-    def deed(self,  agreementType, **kwargs):
-
-        template = self.__loader.load("deed.html")
-        stream = template.generate(code=agreementType, version="1.0")
-        return stream.render("xhtml")
-
-    # not built out yet -- in reality, will use a static url or per-agreement template, probably
-    # MTA legal code
-    @cherrypy.expose
-    def legal(self, agreementType, **kwargs):
-
-        template = self.__loader.load("legal.html")
-        stream = template.generate(agreementType=agreementType)
-
-        return stream.render("xhtml")
-
 def serve(host='', port=8082):
 
     cherrypy.tree.mount(MtaWeb())
-    # mt temp
-    #    cherrypy.tree.mount(mthack.MT(), "/mt")    
+
     cherrypy.server.socket_host = host
     cherrypy.server.socket_port = port
     cherrypy.server.quickstart()

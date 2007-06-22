@@ -74,7 +74,8 @@ p {
 
 input {
    border: 1px solid;
-   padding: 2px
+   padding: 2px;
+   margin: 5px;
 }
 
 ul {

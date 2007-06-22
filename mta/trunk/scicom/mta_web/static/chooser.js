@@ -111,17 +111,20 @@ YAHOO.mta.finish_offer = function() {
 
     // create a "module" to contain the offer
     var agr_name = current_offer.get_name();
-    // the deed URI is built into the metadata
-    var implementing_uri = current_offer.get_implementing_uri();
-    var legal_uri = current_offer.get_legal_uri();
+
+    var info = current_offer.get_info();
 
     var module = new YAHOO.widget.Module('offer' + current_offer.offer_id);
-    module.setHeader(agr_name +
-		     "  <a href='" + implementing_uri + "'>implementing letter (PDF)</a>" +
-		     "  <a href='" + legal_uri +  "'>legal agreement</a>" +
-		     '<span class="delete_offer" onclick="YAHOO.mta.remove_offer(\'' + current_offer.offer_id + '\');">X</span>'); 
+    module.setHeader(agr_name + " offer");
 
-    var body = current_offer.get_metadata();
+
+    var template = new Ext.Template(
+	'<ul><li><a href="{agreement_uri}" target="deed">Deed</a>' +
+	    '<li><a href="{implementing_uri}" target="letter">Implementing letter (PDF)</a>' +
+	    '<li><a href="{legal_uri}" target="legal">Legal code</a></ul>' );
+    
+    var body = template.apply(info);
+
     current_offer.module = module;
 
     module.setBody(body);

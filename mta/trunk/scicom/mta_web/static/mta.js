@@ -7,6 +7,8 @@ offer_counter = 0;
 
 function MtaClass() {
 
+    version = "1.0";
+
     // if I was a better JavaScript hacker I'd know how to do this in a constructor
     // so subclasses got it too...but instead, it's called from the "factory" point.
     this.uniquify = function() {
@@ -32,7 +34,10 @@ function MtaClass() {
     this.get_info = function() {
 	var result = 
 	    { agreement_name: this.get_name(),
-	      agreement_uri: this.get_deed_uri()	}
+	      agreement_uri: this.get_deed_uri(),	
+	      legal_uri: this.get_legal_uri(),
+	      implementing_uri: this.get_implementing_uri()
+	    };
 	return result
     }
 
@@ -55,23 +60,27 @@ function MtaClass() {
     }
 
     this.get_deed_uri = function() {
-	return this.build_uri("/deed");	
+	return this.build_uri(null);	
     };
 
     this.get_implementing_uri = function() {
-	return this.build_uri("/implementing_letter");
+	return this.build_uri("letter");
     }
 
     this.get_legal_uri = function() {
-	return this.build_uri('/legal');
+	return this.build_uri('legalcode');
     }
 
-    this.build_uri = function(base) {
+    this.build_uri = function(type) {
 	var info = YAHOO.mta.agreement_info();
 	var agr_type = this.get_name();
-        var url = base + "?" +
-            "agreementType=" + agr_type +       // +++ not yet implemented on other end...
-            "&providerOrg=" + info.provider_name + 
+        var url = "agreements/" + agr_type.toLowerCase() + '/' + version;
+	if (type != null) {
+	    url = url + "/" + type;
+	}
+	// here we add in parameters...+++ only needed sometimes
+	url = url +
+            "?providerOrg=" + info.provider_name + 
 	    "&materialDesc=" + info.material_description +
 	    this.get_additional_uri_parameters();
 	return url;
@@ -237,18 +246,31 @@ function SciComMta() {
 	this._info_form = form;  
 
 	form.add(
-	    new Ext.form.TextField({
-                fieldLabel:'Restrict to specific disease',
-		width:175,
-		name: 'disease'
+// 	    new Ext.form.TextField({
+//                 fieldLabel:'Restrict to specific disease',
+// 		width:175,
+// 		name: 'disease'
 
-	    }),
+// 	    }),
 
-	    new Ext.form.TextField({
-                fieldLabel:'Restrict to specific protocol',
-		width:175,
-		name: 'protocol'
+// 	    new Ext.form.TextField({
+//                 fieldLabel:'Restrict to specific protocol',
+// 		width:175,
+// 		name: 'protocol'
 
+// 	    }),
+
+	    new Ext.form.ComboBox({
+		fieldLabel:'Field of use:',
+		forceSelection:true,
+		mode:'local',
+		displayField:'label',
+		store: new Ext.data.SimpleStore({
+		    fields:['value', 'label'],
+		    data:[['all', 'Allow all research uses'],
+			  ['disease', 'Restrict to disease'],
+			  ['protocol', 'Restrict to protocol']]
+		})
 	    }),
 
 
@@ -266,7 +288,7 @@ function SciComMta() {
 
 	    new Ext.form.Checkbox({
 		name: 'retentionAllowed',
-		fieldLabel:'Is the recipient permitted to retain material?'
+		fieldLabel:'Is retention of material allowed?'
 	    })
 
 	);
@@ -296,18 +318,22 @@ function SciComMta() {
 	if (info['endDate'] != '') {
 	    result = result + '<br>Permission expires on <span property=cc:expires">{endDate}</span>';
 	}
-	if (info['protocol'] != '') {
-	    result = result + '<br><span ref="cc:requires" class="sc:ProtocolRequirement">Restricted to protocol <span property="sc:protocol">{protocol}</span></span>';
-	}
-	if (info['disease'] != '') {
-	    result = result + '<br><span ref="cc:requires" class="sc:DiseaseRequirement">Restricted to disease <span property="sc:disease">{disease}</span></span>';
-	}
-	if (info['scaleUpAllowed'] == "on") {
-	    result = result + '<br><span rel=cc:permits class="sc:ScalingUp">Scaling up is permitted</span>';
-	}
-	if (info['retentionAllowed'] == "on") {
-	    result = result + '<br><span rel=cc:permits class="sc:Retention">Retention of unused materials is permitted</span>';
-	}
+
+	// this all lives on deed, so nthing for it here.
+	// maybe put in disease or protocol specifics
+// 	if (info['protocol'] != '') {
+// 	    result = result + '<br><span ref="cc:requires" class="sc:ProtocolRequirement">Restricted to protocol <span property="sc:protocol">{protocol}</span></span>';
+// 	}
+// 	if (info['disease'] != '') {
+// 	    result = result + '<br><span ref="cc:requires" class="sc:DiseaseRequirement">Restricted to disease <span property="sc:disease">{disease}</span></span>';
+// 	}
+
+// 	if (info['scaleUpAllowed'] == "on") {
+// 	    result = result + '<br><span rel=cc:permits class="sc:ScalingUp">Scaling up is permitted</span>';
+// 	}
+// 	if (info['retentionAllowed'] == "on") {
+// 	    result = result + '<br><span rel=cc:permits class="sc:Retention">Retention of unused materials is permitted</span>';
+// 	}
 
 	// +++ more here
 	return result
