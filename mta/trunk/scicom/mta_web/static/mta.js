@@ -4,7 +4,6 @@
 
 offer_counter = 0;
 
-
 function MtaClass() {
 
     version = "1.0";
@@ -24,21 +23,28 @@ function MtaClass() {
 	return this.class_id;
     };
 
+
     this.get_name = function() {
 	// return the human readable name for this class
 	return this.class_name;
     };
 
 
+    // the user-specified parameters for the license
+    this.get_specs = function() {
+	return {};
+    }
+
     // returns a dictionary with relevant values
     this.get_info = function() {
-	var result = 
-	    { agreement_name: this.get_name(),
-	      agreement_uri: this.get_deed_uri(),	
-	      legal_uri: this.get_legal_uri(),
-	      implementing_uri: this.get_implementing_uri()
-	    };
-	return result
+	var specs = this.get_specs();
+	Ext.apply(specs, 
+		  { agreement_name: this.get_name(),
+		    agreement_uri: this.get_deed_uri(),	
+		    legal_uri: this.get_legal_uri(),
+		    implementing_uri: this.get_implementing_uri()
+		  });
+	return specs;
     }
 
     this.get_metadata_template = function() {
@@ -73,8 +79,8 @@ function MtaClass() {
 
     this.build_uri = function(type) {
 	var info = YAHOO.mta.agreement_info();
-	var agr_type = this.get_name();
-        var url = "agreements/" + agr_type.toLowerCase() + '/' + version;
+	var agr_type = this.get_license_id();
+        var url = "agreements/" + agr_type + '/' + version;
 	if (type != null) {
 	    url = url + "/" + type;
 	}
@@ -133,6 +139,12 @@ MtaClass.prototype.is_enabled = function(np_recipient) {
     // default behavior disables the class for (potentially) for-profit 
     return !np_recipient;
 };
+
+    // code for license (for sc, depends on parameters)
+MtaClass.prototype.get_license_id = function() {
+	return this.get_id();
+    }
+
 
 function NonProfitMtaClass() {
 
@@ -246,33 +258,31 @@ function SciComMta() {
 	this._info_form = form;  
 
 	form.add(
-// 	    new Ext.form.TextField({
-//                 fieldLabel:'Restrict to specific disease',
-// 		width:175,
-// 		name: 'disease'
 
-// 	    }),
+	    new Ext.form.Radio({
+		fieldLabel: "Field of use",
+		boxLabel : "All research uses",
+		inputValue: 'all',
+		name : 'fieldOfUse'
+	    }), 
 
-// 	    new Ext.form.TextField({
-//                 fieldLabel:'Restrict to specific protocol',
-// 		width:175,
-// 		name: 'protocol'
+	    new Ext.form.Radio({
+		boxLabel : "Restrict to disease",
+		inputValue: 'disease',
+		name : 'fieldOfUse'
+	    }), 
+	    new Ext.form.Radio({
+		boxLabel : "Restrict to protocol",
+		inputValue: 'protocol',
+		name : 'fieldOfUse'
+	    }), 
 
-// 	    }),
-
-	    new Ext.form.ComboBox({
-		fieldLabel:'Field of use:',
-		forceSelection:true,
-		mode:'local',
-		displayField:'label',
-		store: new Ext.data.SimpleStore({
-		    fields:['value', 'label'],
-		    data:[['all', 'Allow all research uses'],
-			  ['disease', 'Restrict to disease'],
-			  ['protocol', 'Restrict to protocol']]
-		})
-	    }),
-
+ 	    new Ext.form.TextField({
+                fieldLabel:'Disease or protocol',
+ 		width:175,
+ 		name: 'diseaseSpec'
+ 	    }),
+	    
 
 	    new Ext.form.DateField({
 		name: 'endDate',
@@ -303,12 +313,10 @@ function SciComMta() {
     }; // get_info_panel
 
     // I'm being too clever by half here...
-    this.get_info = function() {
-	// call the "superclass" method, and tack new stuff onto it.
-	var maininfo = this.constructor.prototype.get_info();
-	// get field values +++
-	Ext.apply(maininfo, this._info_form.getValues());
-	return maininfo;
+    this.get_specs = function() {
+	var rawspecs = this._info_form.getValues();
+	// goddamn ext widgets don't return the right values, so massage them here
+	return rawspecs;
     }
 
     this.get_metadata_template_additional = function() {
@@ -341,7 +349,7 @@ function SciComMta() {
 
 
     this.get_additional_uri_parameters = function() {
-	var info = this.get_info();
+	var info = this.get_specs();
 	// +++ much more here
 	return '&disease=' + info['disease'];
     }
@@ -354,8 +362,30 @@ SciComMta.prototype.class_id = 'scicom';
 SciComMta.prototype.class_name = 'Science Commons';
 SciComMta.prototype.constructor = SciComMta; // get around JavaScript weirdness
 
+SciComMta.prototype.get_license_id = function() {
+	var id = "sc";
+	info = this.get_specs();
+	if (info['fieldOfUse'] == 'protocol') {
+	    id = id + '-rp';
+	}
+	if (info['fieldOfUse'] == 'disease') {
+	    id = id + '-df';
+	}
+	// +++ the senses of these are confusing
+	if (info['scaleUpAllowed'] != 'on') {
+	    id = id + '-ns';
+	}
+	if (info['retentionAllowed'] != 'on') {
+	    id = id + '-rd';
+	}
+	return id;
+    }
+
+
 // specify the list of all available agreements
 YAHOO.namespace('mta');
 YAHOO.mta.AGREEMENT_CLASSES = [new UbmtaClass(), new SlaClass(), 
 			       new SciComMta(), new CustomMta()];
+
+
 

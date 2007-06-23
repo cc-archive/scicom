@@ -84,15 +84,6 @@ class MtaMaterial(object):
         stream = template.generate(materials=materials)
         return stream.render('xhtml')
 
-
-class Random():
-
-    @cherrypy.expose
-    def index(self):
-        import random
-        return '%s' % random.random()
-
-
 class MtaAgreements(object):
 
     """Serve the agreements and related documents"""
@@ -135,8 +126,10 @@ class MtaAgreements(object):
     def letter(self, code, version, kwargs):
         # +++ just UBMTA for now
         l = letters.letter.UBMTALetter()
+        # do this first to catch errors before declaring it a pdf
+        result = l(**kwargs)
         l.pdf_prepare_response('implementing-letter')
-        return l(providerOrg=providerOrg, materialDesc=materialDesc)
+        return result
 
 
     # not built out yet -- in reality, will use a static url or per-agreement template, probably
@@ -145,7 +138,7 @@ class MtaAgreements(object):
     def legalcode(self, code, version, kwargs):
 
         template = self.__loader.load("legal.html")
-        stream = template.generate(agreementType=code)
+        stream = template.generate(agreementType=code, *kwargs)
         return stream.render("xhtml")
 
     def checklicense(self, code):
@@ -170,9 +163,6 @@ class MtaWeb(object):
 
         self.agreements = MtaAgreements(self.__loader)
         self.agreements.exposed = True
-
-        self.random = Random()
-        self.random.exposed = True
 
         # JSON support for MeSH ontology
         self.mesh = Mesh()

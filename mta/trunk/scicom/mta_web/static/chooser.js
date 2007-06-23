@@ -108,15 +108,14 @@ YAHOO.mta.finish_offer = function() {
     // update the metadata
     YAHOO.mta.update_metadata();
 
-
     // create a "module" to contain the offer
     var agr_name = current_offer.get_name();
 
     var info = current_offer.get_info();
 
     var module = new YAHOO.widget.Module('offer' + current_offer.offer_id);
-    module.setHeader(agr_name + " offer");
-
+    module.setHeader(agr_name + " offer" +
+		     '<span class="delete_offer" onclick="YAHOO.mta.remove_offer(\'' + current_offer.offer_id + '\');">X</span>'); 
 
     var template = new Ext.Template(
 	'<ul><li><a href="{agreement_uri}" target="deed">Deed</a>' +
