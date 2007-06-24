@@ -91,19 +91,15 @@ class MtaAgreements(object):
     def __init__(self, loader):
 
         self.__loader = loader
-# thought I'd try routes but it's more trouble than its worth
-#         d = cherrypy.dispatch.RoutesDispatcher()
-#         d.connect(name='deed',
-#                   route=':type/:version',
-#                   controller='deed_controller',
-#                   action='update')
-#         config = {'/agreements': {'request.dispatch': d}}
-#         cherrypy.tree.mount(root=None, config=config)
         
     @cherrypy.expose
-    def default(self, code, version, *args, **kwargs):
+    def default(self, code=None, version="1.0", *args, **kwargs):
         
-        self.checklicense(code)
+        # for site/agreements, go to the chooser
+        if code == None:
+            raise cherrypy.HTTPRedirect("/chooser", status=303)
+
+        basecode = self.basecode(code)
 
         if args.__len__() > 0:
             doctype = args[0]
@@ -111,16 +107,73 @@ class MtaAgreements(object):
             return self.deed(code, version, kwargs)
 
         if doctype == 'legalcode':
-            return self.legalcode(code, version, kwargs)
+            return self.legalcode(basecode, version, kwargs)
+
+        # might use basecode here
         if doctype == 'letter':
             return self.letter(code, version, kwargs)
 
         raise cherrypy.HTTPError(404)
 
 
+    # code here is temporary, reusing cc codes until we get some nice icons
+
     def deed(self, code, version, kwargs):
         template = self.__loader.load("deed.html")
-        stream = template.generate(code=code, version=version)
+        basecode = self.basecode(code)
+
+        # same for all deeds
+        permissions = [
+            {'long': 'Use the materials for research that you supervise',
+             'code': 'share'},
+            {'long': 'Allow others under your supervision to use the materials',
+             'code': 'remix'},
+            {'long':'Publish the results of your research'}]
+
+        # default
+        footer = 'You will acknowledge provider in publications reporting use of the materials.'
+        legalurl = '/agreements/' + basecode + "/" + version + '/legalcode'
+
+        if code == 'ubmta':
+            longname = 'Uniform Biological Material Transfer Agreement'
+            conditions = [
+                {'long': 'You may not use the materials for clinical purposes.',
+                 'code': 'no-endorse'},
+                {'long': 'You may only use the materials for teaching and academic research.',
+                 'code': 'nc'},
+                {'long': 'You may not transfer or distribute the materials, except only Modifications to non-profit organizations under the UBMTA. '},
+                {'long': 'You will return or destroy materials upon completion of research or expiration of the implementing letter.'}]
+
+        if code == 'sla':
+            longname = 'Simple Letter Agreement'
+            conditions = [
+                {'long': 'You may not use the materials for clinical purposes.'},
+                {'long': 'You may only use the materials for teaching and academic research.'},
+                {'long': 'You may not transfer or distribute the materials without permission.'}]
+
+
+        # must be sc
+        splits = code.split('-')
+        
+        if splits[0] == 'sc':
+            longname = 'Science Commons Material Transfer Agreement'
+            footer = ''
+            conditions = [
+                {'long': 'You may not use the materials for clinical purposes.'},
+                {'long': 'You may not use the materials in connection with the sale of a product or service.',
+                 'code': 'nc'},
+                {'long': 'You may not transfer or distribute the materials. '}]
+
+            if splits.__contains__('rp'):
+                conditions.append({'long': 'You may only use the material with a specific protocol.'})
+            if splits.__contains__('df'):
+                conditions.append({'long': 'You may only use the material with a specific disease.'})
+            if splits.__contains__('ns'):
+                conditions.append({'long': 'You may not scale up the material.'})
+            if splits.__contains__('rd'):
+                conditions.append({'long': 'You must destroy or return the material after the completion of research.'})
+
+        stream = template.generate(code=code, version=version, permissions=permissions, conditions=conditions, footer=footer, legalurl=legalurl, longname=longname)
         return stream.render("xhtml")
         
     def letter(self, code, version, kwargs):
@@ -141,14 +194,15 @@ class MtaAgreements(object):
         stream = template.generate(agreementType=code, *kwargs)
         return stream.render("xhtml")
 
-    def checklicense(self, code):
+    # return the base code, or error out
+    def basecode(self, code):
         if ['ubmta', 'sla'].__contains__(code):
-            return True
+            return code
         splits = code.split('-')
         if splits[0] == 'sc':
-            return True
+            return 'sc'
         raise cherrypy.HTTPError(404, 'Unknown license %s' % code)
-        
+
 
 class MtaWeb(object):
 

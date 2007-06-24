@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" 
-    xmlns:cc="http://creativecommons.org/ns#">
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:cc="http://creativecommons.org/ns#">
   <head>
     <title>Science Commons Deed</title>
     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
@@ -13,52 +14,64 @@
   </head>
   <body>
 
-    <div>
-      @license_rdf;noquote@
-    </div>
     <div id="header">
-    <p align="center"><a href="http://sciencecommons.org/">Science Commons</a></p>
-</div>
+      <p align="center"><a href="http://sciencecommons.org/">Science Commons</a></p>
+    </div>
     <div id="deed" class="green">  
       <div id="deed-head">
-	      <div id="cc-logo"><img src="/images/deed/cc-logo.jpg" alt="cc logo"/></div>
-	      <h1><span>Creative Commons License Deed</span></h1>
-        <div id="deed-license">
-	        <h2>${code} ${version}</h2>
-        </div>
+	<!-- this image ins't even shown... -->
+	<div id="cc-logo"><img src="/images/sc-logo.gif" alt="sc logo"/></div>
+	<div id="deed-license">
+	  <h2>
+	  <span>${longname}</span>
+	  <br/>
+	  ${code} ${version}
+	  </h2>
+	</div>
       </div>
       <div id="deed-main">
-       <div id="deed-main-content">
-        <div id="deed-rights">
-
-		      <h3 rel="cc:permits" href="http://creativecommons.org/ns#Reproduction"></h3>
-		      <ul>
-			      <li class="license share" rel="cc:permits" href="http://creativecommons.org/ns#Distribution" ></li>
-<span id='devnations-container'/>
-		      </ul>
-        </div>
-        <div id="deed-conditions">
-		      <h3>Conditions</h3>
-	        <ul> 
-            <li rel="cc:requires" href="http://creativecommons.org/ns#Attribution" class="license @attributes.char_code@">
-	            <p><strong>@attributes.char_title@</strong>.</p>
-            </li>
-            <li id="more-container" class="license-hidden" />
-            <li rel="cc:requires" href="http://creativecommons.org/ns#Notice"></li>
-          </ul>
-          </div>
-        </div>
+	<div id="deed-main-content">
+	  <div id="deed-rights">
+	    <ul>
+	      <py:for each="clause in permissions">
+		<!-- icon comes from class, we may want to redo that.. -->
+		<li class="license ${clause.code}" 
+		    rel="cc:permits" 
+		    href="${clause.uri}">
+		  <strong>${clause.short}</strong>
+		   ${clause.long}
+		</li>
+	      </py:for>
+	      </ul>
+	  </div>
+	  <div id="deed-conditions">
+	    <h3>Under the following conditions:</h3>
+	    <ul>
+	      <py:for each="clause in conditions">
+		<!-- icon comes from class, we may want to redo that.. -->
+		<li class="license ${clause.code}" 
+		    rel="cc:permits" 
+		    href="${clause.uri}">
+		  <strong>${clause.short}</strong>
+		   ${clause.long}
+		</li>
+	      </py:for>
+	      </ul>
+	  </div>
+	</div>
       </div>
 
       <div id="deed-foot">
+       ${footer}
+       <br/>
 	<p id="disclaimer">
-          <a href="/licenses/disclaimer-popup?lang=@lang@" onclick="window.open('/licenses/disclaimer-popup?lang=@lang@', 'characteristic_help',  'width=375,height=300,scrollbars=yes,resizable=yes,toolbar=no,directories=no,location=yes,menubar=no,status=yes');return false;">Disclaimer
-<img src="/images/popup.gif" width="15" height="13" alt="disclaimer" border="0"/></a> 
-  		  </p>
+	  <a href="/disclaimer" target="_blank">Disclaimer</a>
+	</p>
+	This is a human readable version of the full <a href="${legalurl}">MTA</a>.
       </div>
     </div>
     <p id="footer">
-      <a href="about/licenses" >Learn more.</a>
+      <a href="/" >Learn more.</a>
     </p>
 
   </body>
