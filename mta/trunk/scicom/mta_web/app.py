@@ -138,19 +138,23 @@ class MtaAgreements(object):
             longname = 'Uniform Biological Material Transfer Agreement'
             conditions = [
                 {'long': 'You may not use the materials for clinical purposes.',
-                 'code': 'no-endorse'},
+                 'code': 'no-clinical'},
                 {'long': 'You may only use the materials for teaching and academic research.',
                  'code': 'nc'},
-                {'long': 'You may not transfer or distribute the materials, except only Modifications to non-profit organizations under the UBMTA. '},
-                {'long': 'You will return or destroy materials upon completion of research or expiration of the implementing letter.'}]
+                {'long': 'You may not transfer or distribute the materials, except only Modifications to non-profit organizations under the UBMTA. ',
+                 'code': 'no-distribution'},
+                {'long': 'You will return or destroy materials upon completion of research or expiration of the implementing letter.',
+                 'code': 'return'}]
 
         if code == 'sla':
             longname = 'Simple Letter Agreement'
             conditions = [
-                {'long': 'You may not use the materials for clinical purposes.'},
-                {'long': 'You may only use the materials for teaching and academic research.'},
-                {'long': 'You may not transfer or distribute the materials without permission.'}]
-
+                {'long': 'You may not use the materials for clinical purposes.',
+                 'code': 'no-clinical'},
+                {'long': 'You may only use the materials for teaching and academic research.',
+                 'code': 'nc'},
+                {'long': 'You may not transfer or distribute the materials without permission.',
+                 'code': 'no-distribution'}]
 
         # must be sc
         splits = code.split('-')
@@ -159,19 +163,25 @@ class MtaAgreements(object):
             longname = 'Science Commons Material Transfer Agreement'
             footer = ''
             conditions = [
-                {'long': 'You may not use the materials for clinical purposes.'},
+                {'long': 'You may not use the materials for clinical purposes.',
+                 'code': 'no-clinical'},
                 {'long': 'You may not use the materials in connection with the sale of a product or service.',
                  'code': 'nc'},
-                {'long': 'You may not transfer or distribute the materials. '}]
+                {'long': 'You may not transfer or distribute the materials. ',
+                 'code': 'no-distribution'}]
 
             if splits.__contains__('rp'):
-                conditions.insert(0, {'long': 'Your use of the materials is restricted to a specific research protocol.'})
+                conditions.insert(0, {'long': 'Your use of the materials is restricted to a specific research protocol.',
+                                      'code': 'restricted-field'})
             if splits.__contains__('df'):
-                conditions.insert(0, {'long': 'Your use of the materials is restricted by fields of use.'})
+                conditions.insert(0, {'long': 'Your use of the materials is restricted by fields of use.',
+                                      'code': 'restricted-field'})
             if splits.__contains__('ns'):
-                conditions.append({'long': 'You may not produce additional quantities of the materials.'})
+                conditions.append({'long': 'You may not produce additional quantities of the materials.',
+                                   'code': 'no-scaling'})
             if splits.__contains__('rd'):
-                conditions.append({'long': 'You will return or destroy the materials upon completion of research or the termination of the agreement.'})
+                conditions.append({'long': 'You will return or destroy the materials upon completion of research or the termination of the agreement.',
+                                   'code': 'return'})
 
         stream = template.generate(code=code, version=version, permissions=permissions, conditions=conditions, footer=footer, legalurl=legalurl, longname=longname)
         return stream.render("xhtml")
