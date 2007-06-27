@@ -133,8 +133,31 @@ YAHOO.mta.finish_offer = function() {
 } // finish_offer
 	    
 
+YAHOO.mta.write_cookie = function() {
+
+    createCookie("provider_name", document.getElementById("material_provider").value, 7);
+    createCookie("provider_url",  document.getElementById("material_provider_url").value, 7);
+}
+
+YAHOO.mta.read_cookie = function() {
+    
+    var v = readCookie("provider_name");
+    if (v != null) {
+	document.getElementById("material_provider").value = v;
+    }
+    v = readCookie("provider_url");
+    if (v != null) {
+	document.getElementById("material_provider_url").value = v;
+    }
+
+}
+
+
 YAHOO.mta.add_offer = function(event) {
     
+    // good a place as any.
+    YAHOO.mta.write_cookie();
+
     // lazy initialize the add wizard
     if (!YAHOO.mta.dlg_offer) {
 	YAHOO.mta.dlg_offer = new Ext.LayoutDialog("add-offer-dlg", {
@@ -342,7 +365,7 @@ YAHOO.mta.generate_material_uri = function(event) {
     req_url = "/material/add?description=" + info.material_description;
     req_url += "&provider=" + info.provider_name;
     req_url += "&provider_url=" + info.provider_url;
-    req_url += "&provider_nonprofit=" + info.provider_nonprofit;
+//    req_url += "&provider_nonprofit=" + info.provider_nonprofit;
 
     var transaction = YAHOO.util.Connect.asyncRequest("GET", req_url,
 						      YAHOO.mta.generate_material_callback, null);
@@ -355,7 +378,7 @@ YAHOO.mta.agreement_info = function() {
     var info =
     {"provider_name": document.getElementById("material_provider").value,
      "provider_url":  document.getElementById("material_provider_url").value,
-     "provider_nonprofit": document.getElementById("nonprofit_provider").value,
+//      "provider_nonprofit": document.getElementById("nonprofit_provider").value,
      "material_description": document.getElementById("material_desc").value,
      "material_uri": document.getElementById("material_uri").value
     }
@@ -404,6 +427,8 @@ YAHOO.mta.init = function() {
         YAHOO.mta.init_help_text('material_desc_hl', 'material_desc_help');	
         YAHOO.mta.init_help_text('material_uri_hl', 'material_uri_help');	
 
+    YAHOO.mta.read_cookie();
+
     } // initChooser
 
 // convenience function for creating help tool tips
@@ -439,3 +464,25 @@ YAHOO.mta.init_help_text = function(link_id, help_id) {
 
 
 YAHOO.util.Event.onDOMReady(YAHOO.mta.init); 
+
+// cookie utilities
+function createCookie(name,value,days) {
+	if (days) {
+		var date = new Date();
+		date.setTime(date.getTime()+(days*24*60*60*1000));
+		var expires = "; expires="+date.toGMTString();
+	}
+	else var expires = "";
+	document.cookie = name+"="+value+expires+"; path=/";
+}
+
+function readCookie(name) {
+	var nameEQ = name + "=";
+	var ca = document.cookie.split(';');
+	for(var i=0;i < ca.length;i++) {
+		var c = ca[i];
+		while (c.charAt(0)==' ') c = c.substring(1,c.length);
+		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+	}
+	return null;
+}

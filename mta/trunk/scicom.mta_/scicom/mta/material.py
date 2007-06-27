@@ -4,13 +4,13 @@ class Material(object):
 
     BASE_URI = "http://mta.sciencecommons.org/material/view"
     
-    def __init__(self, description, provider, provider_url, provider_nonprofit, more_info=None, identifier=None):
+    def __init__(self, description, provider, provider_url, more_info=None, identifier=None):
 
         self.material_id = None
         self.description = description
         self.provider = provider
         self.provider_url = provider_url
-        self.provider_nonprofit = provider_nonprofit
+#        self.provider_nonprofit = provider_nonprofit
         self.more_info = more_info
 
         self.identifier = identifier or self.__make_identifier()

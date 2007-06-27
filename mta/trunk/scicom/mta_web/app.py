@@ -48,10 +48,10 @@ class MtaMaterial(object):
         self.__loader = loader
 
     @cherrypy.expose
-    def add(self, description, provider, provider_url=None, provider_nonprofit=False, more_info=None):
+    def add(self, description, provider, provider_url=None,  more_info=None):
         # create the new material
         new_material = scicom.mta.material.Material(
-            description, provider, provider_url, provider_nonprofit, more_info)
+            description, provider, provider_url, more_info)
 
         # store the material
         self.session.save(new_material)
@@ -165,13 +165,13 @@ class MtaAgreements(object):
                 {'long': 'You may not transfer or distribute the materials. '}]
 
             if splits.__contains__('rp'):
-                conditions.append({'long': 'You may only use the material with a specific protocol.'})
+                conditions.insert(0, {'long': 'Your use of the materials is restricted to a specific research protocol.'})
             if splits.__contains__('df'):
-                conditions.append({'long': 'You may only use the material with a specific disease.'})
+                conditions.insert(0, {'long': 'Your use of the materials is restricted by fields of use.'})
             if splits.__contains__('ns'):
-                conditions.append({'long': 'You may not scale up the material.'})
+                conditions.append({'long': 'You may not produce additional quantities of the materials.'})
             if splits.__contains__('rd'):
-                conditions.append({'long': 'You must destroy or return the material after the completion of research.'})
+                conditions.append({'long': 'You will return or destroy the materials upon completion of research or the termination of the agreement.'})
 
         stream = template.generate(code=code, version=version, permissions=permissions, conditions=conditions, footer=footer, legalurl=legalurl, longname=longname)
         return stream.render("xhtml")
