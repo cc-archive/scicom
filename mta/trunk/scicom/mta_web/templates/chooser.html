@@ -1,255 +1,278 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude">
-<head>
 
-<title>Generate Materials Transfer Agreement</title>
+  <head>
 
-<!-- CSS -->
-<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.2.1/build/reset/reset-min.css" />
-<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.2.1/build/fonts/fonts-min.css" />
-<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.2.1/build/button/assets/button.css" />
-<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.2.2/build/container/assets/container.css"/> 
+    <title>Generate Materials Transfer Agreement</title>
 
-<style type="text/css">
-<!--
-  @import url(/ext/resources/css/ext-all.css);
-  @import url(/mta.css);
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.2.1/build/reset/reset-min.css" />
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.2.1/build/fonts/fonts-min.css" />
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.2.1/build/button/assets/button.css" />
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.2.2/build/container/assets/container.css"/> 
+
+    <style type="text/css">
+      <!--
+	  @import url(/ext/resources/css/ext-all.css);
+	  @import url(/mta.css);
 
 .yui-module { border:1px dotted black;padding:5px;margin:10px; }
 .yui-module .hd { border-bottom:1px dotted red;padding:5px; }
 .yui-module .bd {  }
 .yui-module .ft {  }
--->
+      -->
 
-</style>
-
-
-</head>
-
-<body>
-
-<img src="http://sciencecommons.org/wp-content/themes/scowp/images/logo.gif" alt="Science Commons"/>
-<p/>
-
-<h1>Materials Transfer Agreement</h1>
-
-<p>Science Commons Materials Transfer Agreements (MTAs) are contracts that govern the transfer of tangible research materials from one research institution (the provider) to another (the recipient).  They are most commonly employed in the transfer of "unique research resources" such as cell lines, monoclonal antibodies, reagents, animal models, growth factors, combinatorial chemistry and DNA libraries, clones and cloning tools (such as PCR), methods, laboratory equipment and machines. Non-biological and synthetic materials, such as certain nano-materials, chemical reagents, and chemical substrates may be shared under MTAs as well.</p>
-<div id="selector">
+    </style>
 
 
-<div class="section_header">Provider Information</div>
+  </head>
 
-<table >
-<tr>
-<td><label for="material_provider" class="fieldlabel">Provider:</label></td>
-<td><input type="text" id="material_provider" tabindex="1" /></td>
-<td><a href="" class="helpLink" id="material_provider_hl">?</a></td>
-</tr>
+  <body>
 
-<tr>
-<td> <label for="material_provider_url" class="fieldlabel">Provider URL:</label></td>
-<td> <input type="text" id="material_provider_url" tabindex="2"/></td>
-<td> <a href="" class="helpLink" id="material_provider_url_hl">?</a></td>
-</tr>
+    <py:if test="not(iframe)">
 
+      <img src="http://sciencecommons.org/wp-content/themes/scowp/images/logo.gif" alt="Science Commons"/>
+      <p/>
 
-<!-- We don't record this currently -->
-<!-- <tr> -->
-<!-- <td>    <label for="nonprofit_provider" class="fieldlabel">Are you a non-profit institution?</label></td> -->
-<!-- <td>    <input id="nonprofit_provider" type="checkbox"  tabindex="3"/></td> -->
-<!-- </tr> -->
+      <h1>Materials Transfer Agreement</h1>
+
+      <p>Science Commons Materials Transfer Agreements (MTAs) are contracts that govern the transfer of tangible research materials from one research institution (the provider) to another (the recipient).  They are most commonly employed in the transfer of "unique research resources" such as cell lines, monoclonal antibodies, reagents, animal models, growth factors, combinatorial chemistry and DNA libraries, clones and cloning tools (such as PCR), methods, laboratory equipment and machines. Non-biological and synthetic materials, such as certain nano-materials, chemical reagents, and chemical substrates may be shared under MTAs as well.</p>
+      <div id="selector">
 
 
-</table>
+	<div class="section_header">Provider Information</div>
+
+	<table >
+	  <tr>
+	    <td><label for="material_provider" class="fieldlabel">Provider:</label></td>
+	    <td><input type="text" id="material_provider" tabindex="1" /></td>
+	    <td><a href="" class="helpLink" id="material_provider_hl">?</a></td>
+	  </tr>
+
+	  <tr>
+	    <td> <label for="material_provider_url" class="fieldlabel">Provider URL:</label></td>
+	    <td> <input type="text" id="material_provider_url" tabindex="2"/></td>
+	    <td> <a href="" class="helpLink" id="material_provider_url_hl">?</a></td>
+	  </tr>
 
 
-<div class="section_header">Material Information</div>
-
-<table>
-<tr>
-<td>    <label for="material_desc" class="fieldlabel">Description:</label></td>
-<td>    <input type="text" id="material_desc" tabindex="4" /></td>
-<td>    <a href="" class="helpLink" id="material_desc_hl">?</a></td>
-</tr>
+	  <!-- We don't record this currently -->
+	  <!-- <tr> -->
+	  <!-- <td>    <label for="nonprofit_provider" class="fieldlabel">Are you a non-profit institution?</label></td> -->
+	  <!-- <td>    <input id="nonprofit_provider" type="checkbox"  tabindex="3"/></td> -->
+	  <!-- </tr> -->
 
 
-<tr>
-<td>    <label for="material_uri" class="fieldlabel">Material URL:</label></td>
-<td>    <input type="text" id="material_uri"  tabindex="5"/> </td>
-<td>    <a href="" class="helpLink" id="material_uri_hl">?</a></td>
-</tr>
-</table>
+	</table>
 
 
-<p>
-<label>  </label>
-<span id="btn_generate_material_uri" class="yuibutton">
-    <span class="first-child">
-        <button type="button" name="generate_material_uri">Generate a URL</button>
-    </span>
-</span>
+	<div class="section_header">Material Information</div>
 
-</p>
-
-
-<div class="section_header">Transfer Offers</div>
-
-<div>
-
-<p>An offer provides a material under a specifc legal agreement. You can create multiple offers for your material.</p>
+	<table>
+	  <tr>
+	    <td>    <label for="material_desc" class="fieldlabel">Description:</label></td>
+	    <td>    <input type="text" id="material_desc" tabindex="4" /></td>
+	    <td>    <a href="" class="helpLink" id="material_desc_hl">?</a></td>
+	  </tr>
 
 
-<p>
-<label>  </label>
-<span id="btn_add_offer" class="yuibutton">
-    <span class="first-child">
-        <button type="button" name="add_offer">Add an offer</button>
-    </span>
-</span>
-</p>
-
-<div id="offer_container"></div>
-</div> 
-
-<div py:if="debug" class="section_header">Debugging and Experiments <b>Turn off for release</b></div>
-
-<div py:if="debug" >
-        
-   Disease Field: <span id="ysearchautocomplete">
-     <input id="field_disease" type="text"/></span>
-   <div id="field_disease_ac"></div>
-
-   <button type="button" onclick="YAHOO.mta.update_metadata()">Update metadata</button>
-
-</div>
+	  <tr>
+	    <td>    <label for="material_uri" class="fieldlabel">Material URL:</label></td>
+	    <td>    <input type="text" id="material_uri"  tabindex="5"/> </td>
+	    <td>    <a href="" class="helpLink" id="material_uri_hl">?</a></td>
+	  </tr>
+	</table>
 
 
-</div> <!-- End selector column -->
+	<p>
+	  <label>  </label>
+	  <span id="btn_generate_material_uri" class="yuibutton">
+	    <span class="first-child">
+	      <button type="button" name="generate_material_uri">Generate a URL</button>
+	    </span>
+	  </span>
 
-<div id="results">
+	</p>
 
-<p>You can include information about the offers on your web page; just copy
-and paste the HTML below into your page.  The HTML includes machine-readable
-metadata which software can discover and aggregate.</p>
 
-<textarea id="metadata" rows="10" cols="50">
-</textarea>
+	<div class="section_header">Transfer Offers</div>
 
-<div>Preview:
-  <div id="metadata_preview"></div>
-</div>
+	<div>
 
-<!-- Add Offer dialog -->
-<div id="add-offer-dlg" style="visibility:hidden;">
-  <div class="x-dlg-hd">Add Offer</div>
-  <div class="x-dlg-bd">
+	  <p>An offer provides a material under a specifc legal agreement. You can create multiple offers for your material.</p>
 
-  <!-- first panel -->
-    <div id="welcome" class="x-layout-inactive-content" style="padding:10px;">
-      <p>Welcome; this wizard will walk you through the offer configuration process.</p>
-      <p>Whom is this offer made to?</p>
-      <label><input type="radio" name="offer_to" id="offer_to_nonprofit" value="to_non_profit"/> Non-profit institutions</label><br/>
-      <label><input type="radio" name="offer_to" id="offer_to_all" value="to_all"/> All institutions</label><br/>
+
+	  <p>
+	    <label>  </label>
+	    <span id="btn_add_offer" class="yuibutton">
+	      <span class="first-child">
+		<button type="button" name="add_offer">Add an offer</button>
+	      </span>
+	    </span>
+	  </p>
+
+	  <div id="offer_container"></div>
+	</div> 
+
+	<div py:if="debug" class="section_header">Debugging and Experiments <b>Turn off for release</b></div>
+
+	<div py:if="debug" >
+	  
+	  Disease Field: <span id="ysearchautocomplete">
+	  <input id="field_disease" type="text"/></span>
+	  <div id="field_disease_ac"></div>
+
+	  <button type="button" onclick="YAHOO.mta.update_metadata()">Update metadata</button>
+
+	</div>
+
+
+      </div> <!-- End selector column -->
+
+      <div id="results">
+
+	<p>You can include information about the offers on your web page; just copy
+	and paste the HTML below into your page.  The HTML includes machine-readable
+	metadata which software can discover and aggregate.</p>
+
+	<textarea id="metadata" rows="10" cols="50">
+	</textarea>
+
+	<div>Preview:
+	<div id="metadata_preview"></div>
+	</div>
+      </div>
+    </py:if> <!-- ends long if on ~iforame -->
+
+    <!-- for iframe, just the button and dialog -->
+    <py:if test="iframe">
+      <span id="btn_add_offer" class="yuibutton">
+	<span class="first-child">
+	  <button type="button" name="add_offer">Add an offer</button>
+	</span>
+      </span>
+    </py:if>
+
+    <!-- Add Offer dialog -->
+    <div id="add-offer-dlg" style="visibility:hidden;">
+      <div class="x-dlg-hd">Add Offer</div>
+      <div class="x-dlg-bd">
+
+	<!-- first panel -->
+	<div id="welcome" class="x-layout-inactive-content" style="padding:10px;">
+	  <p>Welcome; this wizard will walk you through the offer configuration process.</p>
+	  <p>Whom is this offer made to?</p>
+	  <label><input type="radio" name="offer_to" id="offer_to_nonprofit" value="to_non_profit"/> Non-profit institutions</label><br/>
+	  <label><input type="radio" name="offer_to" id="offer_to_all" value="to_all"/> All institutions</label><br/>
+	</div>
+
+	<!-- second panel -->
+	<div id="agreement_type" 
+	     class="x-layout-inactive-content" style="padding:10px;">
+	  <p>What type of agreement are you offering?</p>
+
+	  <!-- Buttons are generated from classes -->
+	</div>
+
+
+	<!-- last panel -->
+	<div id="finish" 
+	     class="x-layout-inactive-content" style="padding:10px;">
+	  <p>We've collected all the information required for your offer.  Click
+	  <em>Finish</em> to add the offer.</p>
+	</div>
+      </div>
     </div>
 
-    <!-- second panel -->
-    <div id="agreement_type" 
-	 class="x-layout-inactive-content" style="padding:10px;">
-      <p>What type of agreement are you offering?</p>
 
-      <!-- Buttons are generated from classes -->
+    <div id="material_provider_help" class="helpPopup">
+      <div class="hd">Material Provider</div>
+      <div class="bd">
+	<p>Type the name of the institution, laboratory, or person who is providing the material.</p>
+	<p>Example: <i>Jones Lab, Manischevitz Institute of Technocracy</i></p>
+      </div>
+    </div>
+
+    <div id="material_provider_url_help" class="helpPopup">
+      <div class="hd">Material Provider URL</div>
+      <div class="bd">
+	<p>Type the URL of the institution, laboratory, or person who is providing the material.</p>
+	<p>Example: <i>http://msvt.edu/joneslab</i></p>
+      </div>
+    </div>
+
+    <div id="material_desc_help" class="helpPopup">
+      <div class="hd">Material Description</div>
+      <div class="bd">
+	<p>Type a description of the material being made available.</p>
+	<p>Example: <i>Rat liver puree</i></p>
+      </div>
+    </div>
+
+    <div id="material_uri_help" class="helpPopup">
+      <div class="hd">Material URL</div>
+      <div class="bd">
+	<p>Enter a URL corresponding to the material being made available. If you don't have one, click the Generate URL button and we will create a page for your material on the Science Commons material repository.</p>
+	<p>Example: <i>http://msvt.edu/joneslab/material/23</i></p>
+      </div>
     </div>
 
 
-    <!-- last panel -->
-    <div id="finish" 
-	 class="x-layout-inactive-content" style="padding:10px;">
-      <p>We've collected all the information required for your offer.  Click
-	<em>Finish</em> to add the offer.</p>
+    <!-- Real version -->
+    <div py:if="not(debug)" py:strip="True" >
+      <script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+      <script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/element/element-beta-min.js"></script>
+      <script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/button/button-beta-min.js"></script>
+      <script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/animation/animation-min.js"></script>
+      <script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/connection/connection-min.js"></script>
+      <script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/autocomplete/autocomplete-min.js"></script>
+      <script type="text/javascript" src="http://yui.yahooapis.com/2.2.2/build/container/container-min.js"></script>
     </div>
-  </div>
-</div>
-</div>
 
-<div id="material_provider_help" class="helpPopup">
-  <div class="hd">Material Provider</div>
-  <div class="bd">
-     <p>Type the name of the institution, laboratory, or person who is providing the material.</p>
-     <p>Example: <i>Jones Lab, Manischevitz Institute of Technocracy</i></p>
-  </div>
-</div>
+    <div py:if="debug" py:strip="True" >
+      <!-- Debugging version - requires link in static directory -->
+      <script type="text/javascript" src="yui/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+      <script type="text/javascript" src="yui/build/element/element-beta-debug.js"></script>
+      <script type="text/javascript" src="yui/build/button/button-beta-debug.js"></script>
+      <script type="text/javascript" src="yui/build/animation/animation-debug.js"></script>
+      <script type="text/javascript" src="yui/build/connection/connection-debug.js"></script>
+      <script type="text/javascript" src="yui/build/autocomplete/autocomplete-debug.js"></script>
+      <script type="text/javascript" src="yui/build/container/container-debug.js"></script>
+      <script type="text/javascript" src="yui/build/logger/logger-debug.js"></script>
+    </div>
 
-<div id="material_provider_url_help" class="helpPopup">
-  <div class="hd">Material Provider URL</div>
-  <div class="bd">
-     <p>Type the URL of the institution, laboratory, or person who is providing the material.</p>
-     <p>Example: <i>http://msvt.edu/joneslab</i></p>
-  </div>
-</div>
+    <script type="text/javascript" src="/ext/adapter/yui/ext-yui-adapter.js"></script>
 
-<div id="material_desc_help" class="helpPopup">
-  <div class="hd">Material Description</div>
-  <div class="bd">
-     <p>Type a description of the material being made available.</p>
-     <p>Example: <i>Rat liver puree</i></p>
-  </div>
-</div>
+    <script py:if="not(debug)" type="text/javascript" src="/ext/ext-all.js"></script>
+    <script py:if="debug" type="text/javascript" src="/ext/ext-all-debug.js"></script>
 
-<div id="material_uri_help" class="helpPopup">
-  <div class="hd">Material URL</div>
-  <div class="bd">
-     <p>Enter a URL corresponding to the material being made available. If you don't have one, click the Generate URL button and we will create a page for your material on the Science Commons material repository.</p>
-     <p>Example: <i>http://msvt.edu/joneslab/material/23</i></p>
-  </div>
-</div>
+    <style type="text/css">
+      #field_disease_detail {z-index:9050;padding-bottom:10px;}
+      #ysearchautocomplete {position:relative;}
+      #field_disease {position:relative;width:20em;height:1.4em;}
+      #field_disease_ac {position:absolute;left:0;top:1.7em;display:inline;}
+      #field_disease_ac .yui-ac-content {position:absolute;left:0;top:0;width:20em;border:1px solid #404040;background:#fff;overflow:hidden;text-align:left;z-index:9050;}
+      #field_disease_ac .yui-ac-shadow {position:absolute;left:0;top:0;margin:.3em;background:#a0a0a0;z-index:9049;}
+      #field_disease_ac ul {padding:5px 0;width:100%;}
+      #field_disease_ac li {padding:0 5px;cursor:default;white-space:nowrap;}
+      #field_disease_ac li.yui-ac-highlight {background:#ff0;}
+      #ysearchsubmit {position:relative;}
+    </style>
+
+    <!-- Pass iframe down below -->
+    <script py:if="iframe" type="text/javascript">
+      MTA_iframe = true;
+    </script>
+    <script py:if="not(iframe)" type="text/javascript">
+      MTA_iframe = false;
+    </script>
 
 
-<!-- Real version -->
-<div py:if="not(debug)" py:strip="True" >
-  <script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/yahoo-dom-event/yahoo-dom-event.js"></script>
-  <script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/element/element-beta-min.js"></script>
-  <script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/button/button-beta-min.js"></script>
-  <script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/animation/animation-min.js"></script>
-  <script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/connection/connection-min.js"></script>
-  <script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/autocomplete/autocomplete-min.js"></script>
-  <script type="text/javascript" src="http://yui.yahooapis.com/2.2.2/build/container/container-min.js"></script>
-</div>
+    <script type="text/javascript" src="/mta.js"></script>
+    <script type="text/javascript" src="/chooser.js"></script>
 
-<div py:if="debug" py:strip="True" >
-  <!-- Debugging version - requires link in static directory -->
-  <script type="text/javascript" src="yui/build/yahoo-dom-event/yahoo-dom-event.js"></script>
-  <script type="text/javascript" src="yui/build/element/element-beta-debug.js"></script>
-  <script type="text/javascript" src="yui/build/button/button-beta-debug.js"></script>
-  <script type="text/javascript" src="yui/build/animation/animation-debug.js"></script>
-  <script type="text/javascript" src="yui/build/connection/connection-debug.js"></script>
-  <script type="text/javascript" src="yui/build/autocomplete/autocomplete-debug.js"></script>
-  <script type="text/javascript" src="yui/build/container/container-debug.js"></script>
-  <script type="text/javascript" src="yui/build/logger/logger-debug.js"></script>
-</div>
-
-<script type="text/javascript" src="/ext/adapter/yui/ext-yui-adapter.js"></script>
-
-<script py:if="not(debug)" type="text/javascript" src="/ext/ext-all.js"></script>
-<script py:if="debug" type="text/javascript" src="/ext/ext-all-debug.js"></script>
-
-<style type="text/css">
-            #field_disease_detail {z-index:9050;padding-bottom:10px;}
-            #ysearchautocomplete {position:relative;}
-            #field_disease {position:relative;width:20em;height:1.4em;}
-            #field_disease_ac {position:absolute;left:0;top:1.7em;display:inline;}
-            #field_disease_ac .yui-ac-content {position:absolute;left:0;top:0;width:20em;border:1px solid #404040;background:#fff;overflow:hidden;text-align:left;z-index:9050;}
-            #field_disease_ac .yui-ac-shadow {position:absolute;left:0;top:0;margin:.3em;background:#a0a0a0;z-index:9049;}
-            #field_disease_ac ul {padding:5px 0;width:100%;}
-            #field_disease_ac li {padding:0 5px;cursor:default;white-space:nowrap;}
-            #field_disease_ac li.yui-ac-highlight {background:#ff0;}
-            #ysearchsubmit {position:relative;}
-</style>
-
-<script type="text/javascript" src="/mta.js"></script>
-<script type="text/javascript" src="/chooser.js"></script>
-
-</body>
+  </body>
 
 
 </html>

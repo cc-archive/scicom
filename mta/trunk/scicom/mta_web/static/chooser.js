@@ -156,7 +156,9 @@ YAHOO.mta.read_cookie = function() {
 YAHOO.mta.add_offer = function(event) {
     
     // good a place as any.
-    YAHOO.mta.write_cookie();
+    if (!MTA_iframe) {
+	YAHOO.mta.write_cookie();
+    }
 
     // lazy initialize the add wizard
     if (!YAHOO.mta.dlg_offer) {
@@ -387,49 +389,51 @@ YAHOO.mta.agreement_info = function() {
 
 YAHOO.mta.init = function() {
 
-	// initialize auto-complete for disease field restriction
-	var dsMeSH = new YAHOO.widget.DS_XHR("/mesh/json",
-					 ["Result", "Description", "LookupKey"]
-					 );
-	var diseaseAutoComp = new YAHOO.widget.AutoComplete("field_disease",
-							    "field_disease_ac",
-							    dsMeSH);
-	diseaseAutoComp.useIFrame = true;
-	// diseaseAutoComp.forceSelection = true;
-	diseaseAutoComp.typeAhead = true;
+    // initialize auto-complete for disease field restriction
+    var dsMeSH = new YAHOO.widget.DS_XHR("/mesh/json",
+	["Result", "Description", "LookupKey"]
+					);
+    var diseaseAutoComp = new YAHOO.widget.AutoComplete("field_disease",
+	"field_disease_ac",
+	dsMeSH);
+    diseaseAutoComp.useIFrame = true;
+    // diseaseAutoComp.forceSelection = true;
+    diseaseAutoComp.typeAhead = true;
 
-	diseaseAutoComp.formatResult = function(aResultItem, sQuery) {
-	    return aResultItem[0] + " (" + aResultItem[1] + ")";
-	} // formatResult
-
-
-	// initialize the add offer button
-	new YAHOO.widget.Button("btn_add_offer", {onclick: {fn: YAHOO.mta.add_offer } });
-
-	// initialize the material generator button
-	new YAHOO.widget.Button("btn_generate_material_uri", 
-            { onclick: { fn: YAHOO.mta.generate_material_uri } });
+    diseaseAutoComp.formatResult = function(aResultItem, sQuery) {
+	return aResultItem[0] + " (" + aResultItem[1] + ")";
+    } // formatResult
 
 
-	// temp
-	new YAHOO.widget.Button("btn_implementing_letter",
-	{ onclick: { fn: YAHOO.mta.generate_implementing_letter } });
+    // initialize the add offer button
+    new YAHOO.widget.Button("btn_add_offer", {onclick: {fn: YAHOO.mta.add_offer } });
 
-	// initialize the stack of offers
-	YAHOO.mta.offer_list = new Array();
+    // initialize the material generator button
+    new YAHOO.widget.Button("btn_generate_material_uri", 
+			    { onclick: { fn: YAHOO.mta.generate_material_uri } });
 
-	// call updateMta to generate the information for the base MTA
-	// apparently dead? +++
-	//	updateMta();
 
-        YAHOO.mta.init_help_text('material_provider_hl', 'material_provider_help');	
-        YAHOO.mta.init_help_text('material_provider_url_hl', 'material_provider_url_help');	
-        YAHOO.mta.init_help_text('material_desc_hl', 'material_desc_help');	
-        YAHOO.mta.init_help_text('material_uri_hl', 'material_uri_help');	
+    // temp
+    new YAHOO.widget.Button("btn_implementing_letter",
+			    { onclick: { fn: YAHOO.mta.generate_implementing_letter } });
 
-    YAHOO.mta.read_cookie();
+    // initialize the stack of offers
+    YAHOO.mta.offer_list = new Array();
 
-    } // initChooser
+    // call updateMta to generate the information for the base MTA
+    // apparently dead? +++
+    //	updateMta();
+
+    YAHOO.mta.init_help_text('material_provider_hl', 'material_provider_help');	
+    YAHOO.mta.init_help_text('material_provider_url_hl', 'material_provider_url_help');	
+    YAHOO.mta.init_help_text('material_desc_hl', 'material_desc_help');	
+    YAHOO.mta.init_help_text('material_uri_hl', 'material_uri_help');	
+
+    if (!MTA_iframe) {
+	YAHOO.mta.read_cookie();
+    }
+
+} // initChooser
 
 // convenience function for creating help tool tips
 // from scholars

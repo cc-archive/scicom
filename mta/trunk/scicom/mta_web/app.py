@@ -244,15 +244,26 @@ class MtaWeb(object):
     # the chooser
     @cherrypy.expose
     def chooser(self):
-        template = self.__loader.load("chooser.html")
-        stream = template.generate(debug=False)
-        return stream.render("xhtml")        
+        return self.chooser_gen()
 
     # debugging version of the chooser
     @cherrypy.expose
     def chooser_debug(self):
-        template = self.__loader.load("chooser.html")
-        stream = template.generate(debug=True)
+        return self.chooser_gen(debug=True)
+
+    # iframe version
+    @cherrypy.expose
+    def iframe(self):
+        return self.chooser_gen(iframe=True)
+
+    # debugging version of the iframe chooser
+    @cherrypy.expose
+    def iframe_debug(self):
+        return self.chooser_gen(debug=True, iframe=True)
+    
+    def chooser_gen(self, template_file="chooser.html", debug=False, iframe=False):
+        template = self.__loader.load(template_file)
+        stream = template.generate(debug=debug, iframe=iframe)
         return stream.render("xhtml")        
 
 
