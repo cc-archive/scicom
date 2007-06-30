@@ -85,16 +85,26 @@ function MtaClass() {
 	    url = url + "/" + type;
 	}
 	// here we add in parameters...+++ only needed sometimes
-	url = url +
-            "?providerOrg=" + info.provider_name + 
-	    "&materialDesc=" + info.material_description +
-	    this.get_additional_uri_parameters();
+	url = url + "?source=mta";  
+	url = this.url_add_parameter(url, "providerOrg", info.provider_name);
+	url = this.url_add_parameter(url, "providerAddress", info.provider_address);
+	url = this.url_add_parameter(url, "materialDesc", info.material_description);
+	url = this.add_additional_url_parameters(url);
 	return url;
     }
 
+    // conditionally add a parameter
+    this.url_add_parameter = function(base, pname, pvalue) {
+	if (pvalue != null) {
+	    return base + "&" + pname + "=" + pvalue;
+	}
+	else
+	    return base;
+    }
+
     // subclasses can override this to add customization
-    this.get_additional_uri_parameters = function() {
-	return '';
+    this.add_additional_url_parameters = function(url) {
+	return url;
     }
 
     this.has_info_panel = function() {
@@ -132,18 +142,17 @@ function MtaClass() {
 }; // MtaClass
 MtaClass.prototype.class_id = 'basic';
 MtaClass.prototype.class_name = 'Basic Agreement';
-MtaClass.prototype.is_enabled = function(np_recipient) {
-    // return true if this agreement is enabled for the source/recipient;
-    // np_source and np_recipient are true if they are non-profit
-
-    // default behavior disables the class for (potentially) for-profit 
-    return !np_recipient;
-};
 
     // code for license (for sc, depends on parameters)
 MtaClass.prototype.get_license_id = function() {
 	return this.get_id();
     }
+
+// default is to allow for profit or noprofit
+MtaClass.prototype.allowed = function(for_proft) {
+    return true;
+};
+
 
 
 function NonProfitMtaClass() {
@@ -154,11 +163,10 @@ function NonProfitMtaClass() {
 }
 
 NonProfitMtaClass.prototype = new MtaClass;
-NonProfitMtaClass.prototype.is_enabled = function(np_recipient) {
-    // return true if this agreement is enabled for the source/recipient;
-    // np_source and np_recipient are true if they are non-profit
 
-    return np_recipient;
+
+NonProfitMtaClass.prototype.allowed = function(for_profit) {
+    return !for_profit;
 };
 
 
@@ -348,10 +356,10 @@ function SciComMta() {
     }
 
 
-    this.get_additional_uri_parameters = function() {
+    this.add_additional_url_parameters = function(url) {
 	var info = this.get_specs();
 	// +++ much more here
-	return '&disease=' + info['disease'];
+	return this.url_add_parameter(url, "disease", info['disease']);
     }
 
 

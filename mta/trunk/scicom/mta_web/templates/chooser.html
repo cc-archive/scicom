@@ -56,6 +56,10 @@
 	    <td> <a href="" class="helpLink" id="material_provider_url_hl">?</a></td>
 	  </tr>
 
+	  <tr>
+	    <td> <label for="material_provider_url" class="fieldlabel">Provider Address:</label></td>
+	    <td> <input type="text" id="material_provider_address" tabindex="2"/></td>
+	  </tr>
 
 	  <!-- We don't record this currently -->
 	  <!-- <tr> -->
@@ -160,21 +164,26 @@
       <div class="x-dlg-bd">
 
 	<!-- first panel -->
-	<div id="welcome" class="x-layout-inactive-content" style="padding:10px;">
+	<div id="agreement_type" class="x-layout-inactive-content" style="padding:10px;">
 	  <p>Welcome; this wizard will walk you through the offer configuration process.</p>
-	  <p>Whom is this offer made to?</p>
-	  <label><input type="radio" name="offer_to" id="offer_to_nonprofit" value="to_non_profit"/> Non-profit institutions</label><br/>
-	  <label><input type="radio" name="offer_to" id="offer_to_all" value="to_all"/> All institutions</label><br/>
-	</div>
 
-	<!-- second panel -->
-	<div id="agreement_type" 
-	     class="x-layout-inactive-content" style="padding:10px;">
 	  <p>What type of agreement are you offering?</p>
 
 	  <!-- Buttons are generated from classes -->
+
+
 	</div>
 
+	<!-- second panel -->
+	<div id="to_whom" 
+	     class="x-layout-inactive-content" style="padding:10px;">
+	  <p>Whom is this offer made to?</p>
+	  <label><input type="checkbox"  id="offer_to_nonprofit" value="to_non_profit"/> Non-profit institutions</label><br/>
+	  <label><input type="checkbox"  id="offer_to_forprofit" value="to_forprofit"/> For-profit organizations</label><br/>
+
+	</div>
+
+	<!-- optional panel gues here -->
 
 	<!-- last panel -->
 	<div id="finish" 

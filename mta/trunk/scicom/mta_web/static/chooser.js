@@ -1,13 +1,10 @@
 YAHOO.namespace("mta");
 
-// var mta = new SciComMta();
+// is this used?
 var getEl = Ext.Element.get;
 
-YAHOO.mta.pnl_welcome_activate = function(obj) {
-
-    Ext.Element.get("offer_to_nonprofit").dom.checked = true;
-
-} // pnl_welcome_activate
+// set by html, we don't want to change it here.
+//var MTA_iframe = false;  
 
 YAHOO.mta.pnl_type_activate = function(obj) {
 
@@ -18,14 +15,39 @@ YAHOO.mta.pnl_type_activate = function(obj) {
 	    
 	var agr_class = YAHOO.mta.AGREEMENT_CLASSES[i];
 	var radiobutton = agr_class.get_dom_element();
-	radiobutton.setDisabled(
-	    !(agr_class.is_enabled(get("offer_to_nonprofit").dom.checked))
-	);
+// 	radiobutton.setDisabled(
+// 	    !(agr_class.is_enabled(get("offer_to_nonprofit").dom.checked))
+// 	);
 	// mt add, try to fix check persistence problem
 	radiobutton.setValue("off");
     } // for each agreement class
 
 } // pnl_type_activate
+
+
+YAHOO.mta.pnl_to_whom_activate = function(obj) {
+
+    // get agreement type, and enable checkboxes accordingly.
+    var agr_class = YAHOO.mta.get_selected_offer_type();
+    var forprofit = agr_class.allowed(true);
+    var nonprofit = agr_class.allowed(false);
+
+    var forprofit_box = document.getElementById('offer_to_forprofit');
+    var nonprofit_box = document.getElementById('offer_to_nonprofit');
+
+    forprofit_box.disabled = !forprofit;
+    nonprofit_box.disabled = !nonprofit;
+
+    // not clear why we don't just skip this panel if there's only one choice
+    // this isn't working for some unknown and no doubt stupid reason.
+    if (!forprofit) {
+	nonprofit_box.value = true;
+    }
+    if (!nonprofit) {
+	forprofit_box.value = true;
+    }
+
+} // pnl_to_whom_activate
 
 
 YAHOO.mta.get_selected_offer_type = function() {
@@ -101,7 +123,7 @@ var current_offer;
 
 // current_offer is set in the dialog
 YAHOO.mta.finish_offer = function() {
-	
+
     // push the offer onto the stack
     YAHOO.mta.offer_list.push(current_offer);
 
@@ -132,11 +154,18 @@ YAHOO.mta.finish_offer = function() {
     
 } // finish_offer
 	    
+// finish offer, iframe version
+YAHOO.mta.finish_offer_iframe = function() {
+
+    offerEvent.fire(current_offer);
+    
+}
 
 YAHOO.mta.write_cookie = function() {
 
     createCookie("provider_name", document.getElementById("material_provider").value, 7);
     createCookie("provider_url",  document.getElementById("material_provider_url").value, 7);
+    createCookie("provider_address",  document.getElementById("material_provider_address").value, 7);
 }
 
 YAHOO.mta.read_cookie = function() {
@@ -148,6 +177,10 @@ YAHOO.mta.read_cookie = function() {
     v = readCookie("provider_url");
     if (v != null) {
 	document.getElementById("material_provider_url").value = v;
+    }
+    v = readCookie("provider_address");
+    if (v != null) {
+	document.getElementById("material_provider_address").value = v;
     }
 
 }
@@ -162,6 +195,13 @@ YAHOO.mta.add_offer = function(event) {
 
     // lazy initialize the add wizard
     if (!YAHOO.mta.dlg_offer) {
+
+	// attempt to move dialog to main window...god knows if this will work
+	if (MTA_iframe) {
+	    var dialog = document.getElementById("add-offer-dlg");
+	    dialog.parent = window.top.document;
+	}
+
 	YAHOO.mta.dlg_offer = new Ext.LayoutDialog("add-offer-dlg", {
 	    modal:true,
 	    width:450,
@@ -232,11 +272,11 @@ YAHOO.mta.add_offer = function(event) {
 	    getRegion("center").getActivePanel().getId();
 
 	    var next_panel = null;
-	    if (current == "welcome") {
+	    if (current == "agreement_type") {
 
-		next_panel = dialog.wiz_panels["agreement_type"];
+		next_panel = dialog.wiz_panels["to_whom"];
 
-	    } else if (current == "agreement_type") {
+	    } else if (current == "to_whom") {
 		// check the agreement type and determine if we're done
 		// +++ make sure user checked something!
 		current_offer = new (YAHOO.mta.get_selected_offer_type().constructor)();
@@ -252,7 +292,12 @@ YAHOO.mta.add_offer = function(event) {
 		//		next_panel = dialog.wiz_panels['scicom_chooser'];
 	    } else if (current == "finish") {
 		// finish the offer creation process
-		YAHOO.mta.finish_offer();
+		if (MTA_iframe) {
+    		    YAHOO.mta.finish_offer_iframe();
+		}
+		else {
+    		    YAHOO.mta.finish_offer();
+		}
 		dialog.getLayout().getRegion("center").remove(current);
 		YAHOO.mta.dlg_offer.hide();
 		return;
@@ -260,7 +305,7 @@ YAHOO.mta.add_offer = function(event) {
 		// all others go to the finish next
 		next_panel = dialog.wiz_panels["finish"];
 	    }
-
+ 
 	    // store the current panel in the history
 	    dialog.panel_history.push(current);
 
@@ -295,10 +340,7 @@ YAHOO.mta.add_offer = function(event) {
                 
 	// create the page panels
 	YAHOO.mta.dlg_offer.wiz_panels = new Array();
-	YAHOO.mta.dlg_offer.wiz_panels['welcome'] = 
-	    new Ext.ContentPanel('welcome');
-	YAHOO.mta.dlg_offer.wiz_panels['welcome'].addListener('activate',
-					  YAHOO.mta.pnl_welcome_activate);
+
 	
 	YAHOO.mta.dlg_offer.wiz_panels['agreement_type'] = 
 	    new Ext.ContentPanel('agreement_type');
@@ -314,9 +356,14 @@ YAHOO.mta.add_offer = function(event) {
 
 	} // for each class
 
-	// not used (+++ delete from index.html)
-// 	YAHOO.mta.dlg_offer.wiz_panels['scicom_chooser'] = 
-// 	    new Ext.ContentPanel('scicom_chooser');
+	// to_whom panel
+
+	YAHOO.mta.dlg_offer.wiz_panels['to_whom'] = 
+	    new Ext.ContentPanel('to_whom');
+	YAHOO.mta.dlg_offer.wiz_panels['to_whom'].addListener('activate',
+							       YAHOO.mta.pnl_to_whom_activate);
+
+
 	YAHOO.mta.dlg_offer.wiz_panels['finish'] = 
 	    new Ext.ContentPanel('finish');
 
@@ -325,7 +372,7 @@ YAHOO.mta.add_offer = function(event) {
     // set the initial panel
     var layout = YAHOO.mta.dlg_offer.getLayout();
     layout.beginUpdate();
-    layout.add('center', YAHOO.mta.dlg_offer.wiz_panels['welcome']);
+    layout.add('center', YAHOO.mta.dlg_offer.wiz_panels['agreement_type']);
     layout.endUpdate();
 
     // reset the page history
@@ -367,7 +414,7 @@ YAHOO.mta.generate_material_uri = function(event) {
     req_url = "/material/add?description=" + info.material_description;
     req_url += "&provider=" + info.provider_name;
     req_url += "&provider_url=" + info.provider_url;
-//    req_url += "&provider_nonprofit=" + info.provider_nonprofit;
+    // +++ provider address?
 
     var transaction = YAHOO.util.Connect.asyncRequest("GET", req_url,
 						      YAHOO.mta.generate_material_callback, null);
@@ -377,10 +424,16 @@ YAHOO.mta.generate_material_uri = function(event) {
 
 // this should take care of most "reaching into the dom" functionality.
 YAHOO.mta.agreement_info = function() {
+
+    // in iframe case we have none of this information
+    if (MTA_iframe) {
+	return {};
+    }
+
     var info =
     {"provider_name": document.getElementById("material_provider").value,
      "provider_url":  document.getElementById("material_provider_url").value,
-//      "provider_nonprofit": document.getElementById("nonprofit_provider").value,
+     "provider_address": document.getElementById("material_provider_address").value,
      "material_description": document.getElementById("material_desc").value,
      "material_uri": document.getElementById("material_uri").value
     }
@@ -490,3 +543,7 @@ function readCookie(name) {
 	}
 	return null;
 }
+
+// event for iframe
+var offerEvent = new YAHOO.util.CustomEvent("offerEvent");
+parent.document.offerEvent = offerEvent;
