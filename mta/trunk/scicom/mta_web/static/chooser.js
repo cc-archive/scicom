@@ -3,7 +3,7 @@ YAHOO.namespace("mta");
 // is this used?
 var getEl = Ext.Element.get;
 
-// set by html, we don't want to change it here.
+// set by containing html, we don't want to change it here.
 //var MTA_iframe = false;  
 
 YAHOO.mta.pnl_type_activate = function(obj) {
@@ -19,7 +19,8 @@ YAHOO.mta.pnl_type_activate = function(obj) {
 // 	    !(agr_class.is_enabled(get("offer_to_nonprofit").dom.checked))
 // 	);
 	// mt add, try to fix check persistence problem
-	radiobutton.setValue("off");
+	// no, don't  -- this loop is now a no-op.
+//	radiobutton.setValue("off");
     } // for each agreement class
 
 } // pnl_type_activate
@@ -38,13 +39,14 @@ YAHOO.mta.pnl_to_whom_activate = function(obj) {
     forprofit_box.disabled = !forprofit;
     nonprofit_box.disabled = !nonprofit;
 
-    // not clear why we don't just skip this panel if there's only one choice
-    // this isn't working for some unknown and no doubt stupid reason.
+    //  why don't we just skip this panel if there's only one choice? +++
     if (!forprofit) {
-	nonprofit_box.value = true;
+	forprofit_box.checked = false;
+	nonprofit_box.checked = true;
     }
     if (!nonprofit) {
-	forprofit_box.value = true;
+	nonprofit_box.checked = false;
+	forprofit_box.checked = true;
     }
 
 } // pnl_to_whom_activate
@@ -56,22 +58,13 @@ YAHOO.mta.get_selected_offer_type = function() {
 
 	var agr_class = YAHOO.mta.AGREEMENT_CLASSES[i];
 	var radiobutton = agr_class.get_dom_element();
-	if (radiobutton.checked) {
+	if (radiobutton.getValue()) {
 	    return agr_class;	
 	}
     } // for each agreement class
     return null;
 } // get_selected_offer_type
 
-
-// currently unused, but maybe will be useful
-YAHOO.mta.get_offer_target = function() {
-    // convenience function to return the target for the current offer
-    // returns true for public, false for non-profit only
-
-    return Ext.Element.get("offer_to_all").dom.checked;
-
-} // get_offer_name
 
 YAHOO.mta.update_metadata = function() { 
 	
@@ -197,6 +190,7 @@ YAHOO.mta.add_offer = function(event) {
     if (!YAHOO.mta.dlg_offer) {
 
 	// attempt to move dialog to main window...god knows if this will work
+	// +++ it doesn't
 	if (MTA_iframe) {
 	    var dialog = document.getElementById("add-offer-dlg");
 	    dialog.parent = window.top.document;
@@ -274,12 +268,18 @@ YAHOO.mta.add_offer = function(event) {
 	    var next_panel = null;
 	    if (current == "agreement_type") {
 
+		offer_type = YAHOO.mta.get_selected_offer_type();
+		if (offer_type == null) {
+		    Ext.MessageBox.alert('Error', 'Please choose an agreement type.');
+		    return null;
+		}
+
 		next_panel = dialog.wiz_panels["to_whom"];
 
 	    } else if (current == "to_whom") {
 		// check the agreement type and determine if we're done
-		// +++ make sure user checked something!
-		current_offer = new (YAHOO.mta.get_selected_offer_type().constructor)();
+		offer_type = YAHOO.mta.get_selected_offer_type();
+		current_offer = new (offer_type.constructor)();
 		current_offer.uniquify();
 
 		if (current_offer.has_info_panel()) {
@@ -341,11 +341,10 @@ YAHOO.mta.add_offer = function(event) {
 	// create the page panels
 	YAHOO.mta.dlg_offer.wiz_panels = new Array();
 
-	
 	YAHOO.mta.dlg_offer.wiz_panels['agreement_type'] = 
 	    new Ext.ContentPanel('agreement_type');
 	YAHOO.mta.dlg_offer.wiz_panels['agreement_type'].addListener('activate',
-					  YAHOO.mta.pnl_type_activate);
+								     YAHOO.mta.pnl_type_activate);
 
 	// add the selectors for each agreement type
 	for (i = 0; i < YAHOO.mta.AGREEMENT_CLASSES.length; i++) {

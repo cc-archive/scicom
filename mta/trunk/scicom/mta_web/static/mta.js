@@ -32,7 +32,12 @@ function MtaClass() {
 
     // the user-specified parameters for the license
     this.get_specs = function() {
-	return {};
+
+	var result = {};
+	result['to_nonprofit'] = document.getElementById("offer_to_nonprofit").checked;
+	result['to_forprofit'] = document.getElementById("offer_to_forprofit").checked;
+	return result;
+
     }
 
     // returns a dictionary with relevant values
@@ -322,9 +327,14 @@ function SciComMta() {
 
     // I'm being too clever by half here...
     this.get_specs = function() {
+
+	// call the "superclass" method, and tack new stuff onto it.
+	var specs = this.constructor.prototype.get_specs();
 	var rawspecs = this._info_form.getValues();
 	// goddamn ext widgets don't return the right values, so massage them here
-	return rawspecs;
+	Ext.apply(specs, rawspecs);
+
+	return specs;
     }
 
     this.get_metadata_template_additional = function() {
