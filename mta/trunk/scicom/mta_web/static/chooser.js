@@ -215,7 +215,7 @@ YAHOO.mta.add_offer = function(event) {
 	    proxyDrag: true,
 	    center: {
 		autoScroll:true,
-		preservePanels:true,
+		preservePanels:true
 	    }
 	});
 	YAHOO.mta.dlg_offer.addKeyListener(27, YAHOO.mta.dlg_offer.hide, YAHOO.mta.dlg_offer);
@@ -395,7 +395,7 @@ YAHOO.mta.generate_material_callback = {
 	    // XXX handle error case here
 	}, // failure
 
-	argument: [],
+	argument: []
 
 } // YAHOO.mta.generate_material_callback
 

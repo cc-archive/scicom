@@ -131,7 +131,7 @@ function MtaClass() {
 	    this._dom_element = new Ext.form.Radio({
 		boxLabel : this.get_name(),
 		name : 'agreement_type',
-		id : this.get_dom_id(),
+		id : this.get_dom_id()
 	    });
 	} // if not previously created
 
