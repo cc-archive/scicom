@@ -10,23 +10,17 @@ YAHOO.mta.pnl_type_activate = function(obj) {
 
     var get = Ext.Element.get;
 
-    // update the enabled status of the agreements
+    // update the enabled status of the agreements (+++ this is a no-op)
     for (i = 0; i < YAHOO.mta.AGREEMENT_CLASSES.length; i++) {
 	    
 	var agr_class = YAHOO.mta.AGREEMENT_CLASSES[i];
 	var radiobutton = agr_class.get_dom_element();
-// 	radiobutton.setDisabled(
-// 	    !(agr_class.is_enabled(get("offer_to_nonprofit").dom.checked))
-// 	);
-	// mt add, try to fix check persistence problem
-	// no, don't  -- this loop is now a no-op.
-//	radiobutton.setValue("off");
     } // for each agreement class
 
 } // pnl_type_activate
 
 
-YAHOO.mta.pnl_to_whom_activate = function(obj) {
+YAHOO.mta.pnl_for_whom_activate = function(obj) {
 
     // get agreement type, and enable checkboxes accordingly.
     var agr_class = YAHOO.mta.get_selected_offer_type();
@@ -49,7 +43,7 @@ YAHOO.mta.pnl_to_whom_activate = function(obj) {
 	forprofit_box.checked = true;
     }
 
-} // pnl_to_whom_activate
+} // pnl_for_whom_activate
 
 
 YAHOO.mta.get_selected_offer_type = function() {
@@ -238,14 +232,13 @@ YAHOO.mta.add_offer = function(event) {
 	    dialog = YAHOO.mta.dlg_offer;
 	    last_panel = dialog.panel_history.pop();
 	    
-	    current = dialog.getLayout().
-	       getRegion("center").getActivePanel().getId();
+	    current_panel = dialog.getLayout().getRegion("center").getActivePanel();
 
 	    // show the next panel
 	    dialog.getLayout().beginUpdate();
-	    dialog.getLayout().getRegion("center").remove(current);
-	    dialog.getLayout().add("center", dialog.wiz_panels[last_panel]);
-	    dialog.getLayout().getRegion("center").showPanel(last_panel);
+	    dialog.getLayout().getRegion("center").remove(current_panel);
+	    dialog.getLayout().add("center", last_panel);
+	    dialog.getLayout().getRegion("center").showPanel(last_panel.getId());
 	    dialog.getLayout().endUpdate();
 
 
@@ -257,40 +250,20 @@ YAHOO.mta.add_offer = function(event) {
 
 	YAHOO.mta.dlg_offer.on_next = function(context) {
 
-	    var get = Ext.Element.get;
+// +++ not used I think
+//	    var get = Ext.Element.get;
 
 	    dialog = YAHOO.mta.dlg_offer;
 
 	    // determine the next panel to display
-	    current = dialog.getLayout().
-	    getRegion("center").getActivePanel().getId();
+	    current_panel = dialog.getLayout().getRegion("center").getActivePanel();
+	    current_name = current_panel.getId();
 
-	    var next_panel = null;
-	    if (current == "agreement_type") {
+	    current_panel.verify_panel_complete();
+	    next_panel_name = current_offer.get_next_panel(current_panel.getId());
 
-		offer_type = YAHOO.mta.get_selected_offer_type();
-		if (offer_type == null) {
-		    Ext.MessageBox.alert('Error', 'Please choose an agreement type.');
-		    return null;
-		}
+	    if (next_panel_name == null) {
 
-		next_panel = dialog.wiz_panels["to_whom"];
-
-	    } else if (current == "to_whom") {
-		// check the agreement type and determine if we're done
-		offer_type = YAHOO.mta.get_selected_offer_type();
-		current_offer = new (offer_type.constructor)();
-		current_offer.uniquify();
-
-		if (current_offer.has_info_panel()) {
-		    next_panel = current_offer.get_info_panel();
-		} else {
-		    next_panel = dialog.wiz_panels['finish'];
-		}
-
-		// +++ TEMP for debugging, let me see this pupply.
-		//		next_panel = dialog.wiz_panels['scicom_chooser'];
-	    } else if (current == "finish") {
 		// finish the offer creation process
 		if (MTA_iframe) {
     		    YAHOO.mta.finish_offer_iframe();
@@ -298,20 +271,17 @@ YAHOO.mta.add_offer = function(event) {
 		else {
     		    YAHOO.mta.finish_offer();
 		}
-		dialog.getLayout().getRegion("center").remove(current);
 		YAHOO.mta.dlg_offer.hide();
 		return;
-	    } else {
-		// all others go to the finish next
-		next_panel = dialog.wiz_panels["finish"];
 	    }
- 
+
 	    // store the current panel in the history
-	    dialog.panel_history.push(current);
+	    dialog.panel_history.push(current_panel);
 
 	    // show the next panel
+	    next_panel = dialog.wiz_panels[next_panel_name];
 	    dialog.getLayout().beginUpdate();
-	    dialog.getLayout().getRegion("center").remove(current);
+	    dialog.getLayout().getRegion("center").remove(current_name);
 	    dialog.getLayout().add("center", next_panel);
 	    dialog.getLayout().getRegion("center").showPanel(next_panel.id);
 	    dialog.getLayout().endUpdate();
@@ -339,32 +309,159 @@ YAHOO.mta.add_offer = function(event) {
 
                 
 	// create the page panels
-	YAHOO.mta.dlg_offer.wiz_panels = new Array();
+	YAHOO.mta.dlg_offer.wiz_panels = {};
 
-	YAHOO.mta.dlg_offer.wiz_panels['agreement_type'] = 
-	    new Ext.ContentPanel('agreement_type');
-	YAHOO.mta.dlg_offer.wiz_panels['agreement_type'].addListener('activate',
-								     YAHOO.mta.pnl_type_activate);
+	// *** agreement type panel
+
+	panel = new Ext.ContentPanel('agreement_type');
+	YAHOO.mta.dlg_offer.wiz_panels['agreement_type'] = panel;
+
+	panel.addListener('activate', YAHOO.mta.pnl_type_activate);
+	panel.verify_panel_complete = function () {
+	    offer_type = YAHOO.mta.get_selected_offer_type();
+	    if (offer_type == null) {
+		Ext.MessageBox.alert('Error', 'Please choose an agreement type.');
+		return false;
+	    }
+	    current_offer = new (offer_type.constructor)();
+	    current_offer.uniquify();
+	    return true;
+	}
+
+	panel.gather_info = function(result) { };   // see get_license_id
 
 	// add the selectors for each agreement type
 	for (i = 0; i < YAHOO.mta.AGREEMENT_CLASSES.length; i++) {
 
 	    agr_radio = YAHOO.mta.AGREEMENT_CLASSES[i].get_dom_element();
 	    agr_radio.render("agreement_type");
-//	    agr_radio.addListener("change", YAHOO.mta.change_agr_type);
 
 	} // for each class
 
-	// to_whom panel
 
-	YAHOO.mta.dlg_offer.wiz_panels['to_whom'] = 
-	    new Ext.ContentPanel('to_whom');
-	YAHOO.mta.dlg_offer.wiz_panels['to_whom'].addListener('activate',
-							       YAHOO.mta.pnl_to_whom_activate);
+	// *** for_whom panel
+	
+	panel = new Ext.ContentPanel('for_whom');
+	YAHOO.mta.dlg_offer.wiz_panels['for_whom'] = panel;
+	panel.addListener('activate', YAHOO.mta.pnl_for_whom_activate);
+
+	panel.verify_panel_complete = function (offer) {
+	    
+	}
+
+	panel.gather_info = function(result) {
+	    result['to_nonprofit'] = document.getElementById("offer_to_nonprofit").checked;
+	    result['to_forprofit'] = document.getElementById("offer_to_forprofit").checked;
+	}
+
+	// *** finish panel
+
+	panel = new Ext.ContentPanel('finish');
+	YAHOO.mta.dlg_offer.wiz_panels['finish'] = panel;
+	panel.verify_panel_complete = function(offer) { return true; };
+	panel.gather_info = function(result) { };
+
+	// *** logistics panel
+
+	panel = new Ext.ContentPanel('logistics');
+	YAHOO.mta.dlg_offer.wiz_panels['logistics'] = panel;
+
+	var logistics_form = new Ext.form.Form({
+	    labelAlign: 'right',
+            labelWidth: 200});
+
+	logistics_form.add(
+
+	    new Ext.form.DateField({
+		name: 'endDate',
+		fieldLabel:'End date',
+		width:175
+	    }),
 
 
-	YAHOO.mta.dlg_offer.wiz_panels['finish'] = 
-	    new Ext.ContentPanel('finish');
+
+ 	    new Ext.form.TextField({
+                fieldLabel:'Transmittal Fee',
+ 		width:175,
+ 		name: 'transmittalFee'
+ 	    }) 
+	    
+	);
+	
+	logistics_form.render(panel.getEl().child(".x-contents"));
+
+	panel.verify_panel_complete = function (offer) {
+	    
+	}
+
+	panel.gather_info = function(result) {
+	    var rawspecs = logistics_form.getValues();
+ 	    //  widgets don't return the right values, so massage them here
+	    Ext.apply(result, rawspecs);
+	}
+
+	// *** SC info panel
+
+	panel = new Ext.ContentPanel('sc_info');
+	YAHOO.mta.dlg_offer.wiz_panels['sc_info'] = panel;
+
+	var sc_form = new Ext.form.Form({
+	    labelAlign: 'right',
+            labelWidth: 200});
+
+	sc_form.add(
+
+	    new Ext.form.Radio({
+		fieldLabel: "Field of use",
+		boxLabel : "All research uses",
+		inputValue: 'all',
+		name : 'fieldOfUse'
+	    }), 
+
+	    new Ext.form.Radio({
+		boxLabel : "Restrict to disease",
+		inputValue: 'disease',
+		name : 'fieldOfUse'
+	    }), 
+	    new Ext.form.Radio({
+		boxLabel : "Restrict to protocol",
+		inputValue: 'protocol',
+		name : 'fieldOfUse'
+	    }), 
+
+ 	    new Ext.form.TextField({
+                fieldLabel:'Disease or protocol',
+ 		width:175,
+ 		name: 'diseaseSpec'
+ 	    }),
+	    
+
+	    new Ext.form.Checkbox({
+		name: 'scaleUpAllowed',
+		fieldLabel:'Is scaling up allowed?'
+	    }),
+
+
+	    new Ext.form.Checkbox({
+		name: 'retentionAllowed',
+		fieldLabel:'Is retention of material allowed?'
+	    })
+
+	);
+	
+	sc_form.render(panel.getEl().child(".x-contents"));
+
+	panel.verify_panel_complete = function (offer) {
+	    
+	}
+
+	panel.gather_info = function(result) {
+	    var rawspecs = sc_form.getValues();
+ 	    //  widgets don't return the right values, so massage them here
+	    Ext.apply(result, rawspecs);
+	}
+
+	
 
     } // if dialog not created
 
@@ -546,3 +643,11 @@ function readCookie(name) {
 // event for iframe
 var offerEvent = new YAHOO.util.CustomEvent("offerEvent");
 parent.document.offerEvent = offerEvent;
+
+
+// SIGH!
+maparray = function(array, proc) {
+    for (i = 0; i < array.length; i++) {
+	proc(array[i]);
+    }
+}

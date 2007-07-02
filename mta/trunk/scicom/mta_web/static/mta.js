@@ -14,9 +14,19 @@ function MtaClass() {
 	this.offer_id = offer_counter++;
     }
 
-    // override to true if you need to collect additional information
-    this._has_info_panel = false;
+    // list of all panels 
+    this.get_panels = function() {
+	return ["agreement_type", "for_whom", "finish"];
+    }
 
+    this.get_next_panel = function(current_panel) {
+	var panels = this.get_panels();
+	for (i = 0; i < panels.length; i++) {
+	    if (panels[i] == current_panel) {
+		return panels[i+1];
+	    }
+	}
+    }
 
     this.get_id = function() {
 	// return the simple string identifier for this class
@@ -34,8 +44,12 @@ function MtaClass() {
     this.get_specs = function() {
 
 	var result = {};
-	result['to_nonprofit'] = document.getElementById("offer_to_nonprofit").checked;
-	result['to_forprofit'] = document.getElementById("offer_to_forprofit").checked;
+
+	maparray(this.get_panels(), function(panel_name) {
+	
+	YAHOO.mta.dlg_offer.wiz_panels[panel_name].gather_info(result);
+	});
+
 	return result;
 
     }
@@ -112,23 +126,12 @@ function MtaClass() {
 	return url;
     }
 
-    this.has_info_panel = function() {
-	// return true if this class has an additional information panel
-	return this._has_info_panel;
-    };
-
-    this.get_info_panel = function () {
-	// if this class requires additional parameters, return the UI panel
-	// otherwise return null
-
-	return null;
-    };
-
     this.get_dom_id = function() {
 
 	return "agr_" + this.get_id();
     }; 
 
+    // creates the radio button for the agreement
     this.get_dom_element = function() {
 
 	if (!this._dom_element) {
@@ -144,6 +147,7 @@ function MtaClass() {
 
     };
     
+
 }; // MtaClass
 MtaClass.prototype.class_id = 'basic';
 MtaClass.prototype.class_name = 'Basic Agreement';
@@ -184,6 +188,10 @@ UbmtaClass.prototype = new NonProfitMtaClass;
 UbmtaClass.prototype.class_id = 'ubmta';
 UbmtaClass.prototype.class_name = 'UBMTA';
 UbmtaClass.prototype.constructor = UbmtaClass; // get around JavaScript weirdness
+UbmtaClass.prototype.get_panels = function() {
+    return ["agreement_type", "for_whom", "logistics", "finish"];
+}
+
 
 function SlaClass() {
 
@@ -209,7 +217,8 @@ function CustomMta() {
 	return '';
     }
 
-    this._has_info_panel = true;
+
+    // +++ move to new scheme
     this.get_info_panel = function() {
 	
 	if (this._info_panel) return this._info_panel;
@@ -255,84 +264,17 @@ CustomMta.prototype.constructor = CustomMta; // get around JavaScript weirdness
 // 
 function SciComMta() {
 
-    this._has_info_panel = true;
-
-    this.get_info_panel = function() {
-
-	// see if we've created it previously
-	if (this._info_panel) return this._info_panel;
-
-	// we haven't, create now
-	var form = new Ext.form.Form({
-	    labelAlign: 'right',
-            labelWidth: 200});
-
-	// save for later
-	this._info_form = form;  
-
-	form.add(
-
-	    new Ext.form.Radio({
-		fieldLabel: "Field of use",
-		boxLabel : "All research uses",
-		inputValue: 'all',
-		name : 'fieldOfUse'
-	    }), 
-
-	    new Ext.form.Radio({
-		boxLabel : "Restrict to disease",
-		inputValue: 'disease',
-		name : 'fieldOfUse'
-	    }), 
-	    new Ext.form.Radio({
-		boxLabel : "Restrict to protocol",
-		inputValue: 'protocol',
-		name : 'fieldOfUse'
-	    }), 
-
- 	    new Ext.form.TextField({
-                fieldLabel:'Disease or protocol',
- 		width:175,
- 		name: 'diseaseSpec'
- 	    }),
-	    
-
-	    new Ext.form.DateField({
-		name: 'endDate',
-		fieldLabel:'End date',
-		width:175
-	    }),
-
-	    new Ext.form.Checkbox({
-		name: 'scaleUpAllowed',
-		fieldLabel:'Is scaling up allowed?'
-	    }),
-
-
-	    new Ext.form.Checkbox({
-		name: 'retentionAllowed',
-		fieldLabel:'Is retention of material allowed?'
-	    })
-
-	);
-
-	this._info_panel = new Ext.ContentPanel("info_" + this.get_id() + this.offer_id,
-						{autoCreate:true,
-						 fitToFrame:true});
-	form.render(this._info_panel.getEl());
-
-	return this._info_panel;
-
-    }; // get_info_panel
 
     // I'm being too clever by half here...
     this.get_specs = function() {
 
 	// call the "superclass" method, and tack new stuff onto it.
 	var specs = this.constructor.prototype.get_specs();
-	var rawspecs = this._info_form.getValues();
-	// goddamn ext widgets don't return the right values, so massage them here
-	Ext.apply(specs, rawspecs);
+
+// +++ getting redone
+// 	var rawspecs = this._info_form.getValues();
+ 	// goddamn ext widgets don't return the right values, so massage them here
+// 	Ext.apply(specs, rawspecs);
 
 	return specs;
     }
@@ -365,20 +307,21 @@ function SciComMta() {
 	return result
     }
 
-
     this.add_additional_url_parameters = function(url) {
 	var info = this.get_specs();
 	// +++ much more here
 	return this.url_add_parameter(url, "disease", info['disease']);
     }
 
-
-
 }; // SciComMta
 SciComMta.prototype = new MtaClass;
 SciComMta.prototype.class_id = 'scicom';
 SciComMta.prototype.class_name = 'Science Commons';
 SciComMta.prototype.constructor = SciComMta; // get around JavaScript weirdness
+
+SciComMta.prototype.get_panels = function() {
+    return ["agreement_type", "for_whom", "sc_info", "logistics", "finish"];
+}
 
 SciComMta.prototype.get_license_id = function() {
 	var id = "sc";
