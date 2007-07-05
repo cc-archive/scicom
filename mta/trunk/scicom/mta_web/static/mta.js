@@ -201,12 +201,15 @@ SlaClass.prototype = new NonProfitMtaClass;
 SlaClass.prototype.class_id = 'sla';
 SlaClass.prototype.class_name = 'SLA';
 SlaClass.prototype.constructor = SlaClass; // get around JavaScript weirdness
+SlaClass.prototype.get_panels = function() {
+    return ["agreement_type", "for_whom", "purpose", "finish"];
+}
+
 
 function CustomMta() {
 
-
     this.get_deed_uri = function() {
-	return this.get_info()['agreement_url'];
+	return this.get_specs()['custom_url'];
     }
 
     // I guess these should be empty (and callers should be smart about not displaying links)
@@ -217,47 +220,15 @@ function CustomMta() {
 	return '';
     }
 
-
-    // +++ move to new scheme
-    this.get_info_panel = function() {
-	
-	if (this._info_panel) return this._info_panel;
-
-	// the info panel was not previously created
-	this._url_form = new Ext.form.Form();
-
-	this._url_form.add(
-	    new Ext.form.TextField({
-		fieldLabel: 'Agreement URL',
-		name: 'agreement_url',
-		width:200,
-		allowBlank:false
-	    })
-	);
-	// +++ create anew for each trip through....
-	this._info_panel = new Ext.ContentPanel("info_" + this.get_id() + this.offer_id,
-
-						{autoCreate:true,
-						 fitToFrame:true});
-	this._url_form.render(this._info_panel.getEl());
-
-	return this._info_panel;
-
-    }; // get_info_panel
-
-    // I'm being too clever by half here...
-    this.get_info = function() {
-	// call the "superclass" method, and tack new stuff onto it.
-	var maininfo = this.constructor.prototype.get_info();
-	maininfo['agreement_url'] = this._url_form.findField('agreement_url').getValue();
-	return maininfo;
-    }
-
 }; // CustomMta
 CustomMta.prototype = new MtaClass;
 CustomMta.prototype.class_id = 'custom';
 CustomMta.prototype.class_name = 'Custom Agreement';
 CustomMta.prototype.constructor = CustomMta; // get around JavaScript weirdness
+CustomMta.prototype.get_panels = function() {
+    return ["agreement_type", "for_whom", "custom", "finish"];
+}
+
 
 // SciComMta
 // 

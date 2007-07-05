@@ -378,14 +378,11 @@ YAHOO.mta.add_offer = function(event) {
 		width:175
 	    }),
 
-
-
  	    new Ext.form.TextField({
                 fieldLabel:'Transmittal Fee',
  		width:175,
  		name: 'transmittalFee'
  	    }) 
-	    
 	);
 	
 	logistics_form.render(panel.getEl().child(".x-contents"));
@@ -396,6 +393,36 @@ YAHOO.mta.add_offer = function(event) {
 
 	panel.gather_info = function(result) {
 	    var rawspecs = logistics_form.getValues();
+ 	    //  widgets don't return the right values, so massage them here
+	    Ext.apply(result, rawspecs);
+	}
+
+
+	// *** custom panel
+
+	panel = new Ext.ContentPanel('custom');
+	YAHOO.mta.dlg_offer.wiz_panels['custom'] = panel;
+
+	var custom_form = new Ext.form.Form({
+	    labelAlign: 'right',
+            labelWidth: 100});
+
+	custom_form.add(
+
+ 	    new Ext.form.TextField({
+                fieldLabel:'Custom agreement URL',
+ 		width:275,
+ 		name: 'custom_url'
+ 	    }) 
+	);
+	
+	custom_form.render(panel.getEl().child(".x-contents"));
+
+	panel.verify_panel_complete = function (offer) {
+	}
+
+	panel.gather_info = function(result) {
+	    var rawspecs = custom_form.getValues();
  	    //  widgets don't return the right values, so massage them here
 	    Ext.apply(result, rawspecs);
 	}
