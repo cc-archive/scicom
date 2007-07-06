@@ -148,6 +148,15 @@ YAHOO.mta.finish_offer_iframe = function() {
     
 }
 
+YAHOO.mta.hide_dlg = function() {
+    if (popup) {
+	window.close();
+    }
+    else {
+	YAHOO.mta.dlg_offer.hide();
+    }
+}
+
 YAHOO.mta.write_cookie = function() {
 
     createCookie("provider_name", document.getElementById("material_provider").value, 7);
@@ -172,6 +181,14 @@ YAHOO.mta.read_cookie = function() {
 
 }
 
+
+var popup = false;
+
+YAHOO.mta.prepare_popup = function() {
+    var dialog = document.getElementById("add-offer-dlg");
+    window.size = dialog.size;
+    popup = true;
+}
 
 YAHOO.mta.add_offer = function(event) {
     
@@ -206,7 +223,7 @@ YAHOO.mta.add_offer = function(event) {
 		preservePanels:true
 	    }
 	});
-	YAHOO.mta.dlg_offer.addKeyListener(27, YAHOO.mta.dlg_offer.hide, YAHOO.mta.dlg_offer);
+	YAHOO.mta.dlg_offer.addKeyListener(27, YAHOO.mta.hide_dlg, YAHOO.mta.dlg_offer);
 
 	YAHOO.mta.dlg_offer.update_buttons = function() {
 
@@ -271,7 +288,7 @@ YAHOO.mta.add_offer = function(event) {
 		else {
     		    YAHOO.mta.finish_offer();
 		}
-		YAHOO.mta.dlg_offer.hide();
+		YAHOO.mta.hide_dlg();
 		return;
 	    }
 
@@ -293,7 +310,7 @@ YAHOO.mta.add_offer = function(event) {
 	
 	// dialog control buttons
 	YAHOO.mta.dlg_offer.addButton('Cancel', 
-					  YAHOO.mta.dlg_offer.hide, 
+					  YAHOO.mta.hide_dlg, 
 					  YAHOO.mta.dlg_offer);
 
         YAHOO.mta.dlg_offer.btn_back = 

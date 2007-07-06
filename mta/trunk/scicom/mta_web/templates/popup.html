@@ -1,0 +1,19 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+<head>
+    <title>MTA Offer Wizard</title>
+    <xi:include href="chooser-styles.html"/>
+</head>
+
+<body>
+    <xi:include href="wizard.html"/>
+    <xi:include href="chooser-scripts.html"/>
+</body>
+
+    <script type="text/javascript">
+       YAHOO.mta.prepare_popup();
+       YAHOO.mta.add_offer(null);
+    </script>
+
+</html>

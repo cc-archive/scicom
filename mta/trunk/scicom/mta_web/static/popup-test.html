@@ -1,0 +1,49 @@
+<html>
+  <head>
+
+    <title>MTA Popup Tester</title>
+
+  </head>
+
+  <body>
+
+    <h1>MTA Popup Tester</h1>
+    
+    <div>
+     <button onclick="doPopup()">Add offer</button>
+    </div>
+
+     <b>Offers:</b><br/>
+     <div id="offers">
+
+     </div>
+
+    <script type="text/javascript">
+
+      doPopup = function() {
+ 
+           var wp = window.open("popup", "MTA popup", "width=500,height=300,resizable=no,status=no");
+	   wp.onload = function() {
+              wp.focus();   // not working for some reason..it's supposed to.  
+              wp.document.offerEvent.subscribe(onOfferEvent, wp.document);
+	  }
+       }
+
+
+      onOfferEvent = function(type, args, me) { 
+        var offer = args[0];
+	var metadata = document.createElement("div");
+	metadata.innerHTML = offer.get_metadata();
+//	metadata.innerHTML = offer.get_deed_uri();
+	var container = document.getElementById("offers");
+	container.appendChild(metadata);
+      };
+
+    </script>
+
+
+  </body>
+
+
+
+</html>
