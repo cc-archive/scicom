@@ -115,9 +115,6 @@ class MtaAgreements(object):
 
         raise cherrypy.HTTPError(404)
 
-
-    # code here is temporary, reusing cc codes until we get some nice icons
-
     def deed(self, code, version, kwargs):
         template = self.__loader.load("deed.html")
         basecode = self.basecode(code)
@@ -138,11 +135,13 @@ class MtaAgreements(object):
             longname = 'Uniform Biological Material Transfer Agreement'
             conditions = [
                 {'long': 'You may not use the materials for clinical purposes.',
-                 'code': 'no-clinical'},
+                 'code': 'no-clinical',
+                 'uri': 'sc:Clinical' },
                 {'long': 'You may only use the materials for teaching and academic research.',
                  'code': 'nc'},
                 {'long': 'You may not transfer or distribute the materials, except only Modifications to non-profit organizations under the UBMTA. ',
-                 'code': 'no-distribution'},
+                 'code': 'no-distribution',
+                 'uri': 'sc:Transfer'},
                 {'long': 'You will return or destroy materials upon completion of research or expiration of the implementing letter.',
                  'code': 'return'}]
 
@@ -150,11 +149,13 @@ class MtaAgreements(object):
             longname = 'Simple Letter Agreement'
             conditions = [
                 {'long': 'You may not use the materials for clinical purposes.',
-                 'code': 'no-clinical'},
+                 'code': 'no-clinical',
+                 'uri': 'sc:Clinical'},
                 {'long': 'You may only use the materials for teaching and academic research.',
                  'code': 'nc'},
                 {'long': 'You may not transfer or distribute the materials without permission.',
-                 'code': 'no-distribution'}]
+                 'code': 'no-distribution',
+                 'uri': 'sc:Transfer'}]
 
         # must be sc
         splits = code.split('-')
@@ -164,11 +165,13 @@ class MtaAgreements(object):
             footer = ''
             conditions = [
                 {'long': 'You may not use the materials for clinical purposes.',
-                 'code': 'no-clinical'},
+                 'code': 'no-clinical',
+                 'uri': 'sc:Clinical'},
                 {'long': 'You may not use the materials in connection with the sale of a product or service.',
                  'code': 'nc'},
                 {'long': 'You may not transfer or distribute the materials. ',
-                 'code': 'no-distribution'}]
+                 'code': 'no-distribution',
+                 'uri': 'sc:Transfer'}]
 
             if splits.__contains__('rp'):
                 conditions.insert(0, {'long': 'Your use of the materials is restricted to a specific research protocol.',
@@ -178,7 +181,8 @@ class MtaAgreements(object):
                                       'code': 'restricted-field'})
             if splits.__contains__('ns'):
                 conditions.append({'long': 'You may not produce additional quantities of the materials.',
-                                   'code': 'no-scaling'})
+                                   'code': 'no-scaling',
+                                   'uri': 'sc:NoScalingUp'})
             if splits.__contains__('rd'):
                 conditions.append({'long': 'You will return or destroy the materials upon completion of research or the termination of the agreement.',
                                    'code': 'return'})

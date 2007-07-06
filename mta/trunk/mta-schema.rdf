@@ -108,9 +108,6 @@
 
     <!-- Permissions  -->
 
-    <cc:Permission rdf:about="ScalingUp">
-      <dc:description>Making additional quantities of materials by recipient for authorized uses</dc:description>
-    </cc:Permission>
 
     <cc:Permission rdf:about="Retention">
       <dc:description>Retaining unused or incorporated materials after completion of research</dc:description>
@@ -122,6 +119,10 @@
 
     <cc:Prohibition rdf:about="Clinical">
       <dc:description>Use in human subjects for treating, preventing, or diagnosing diseases</dc:description>
+    </cc:Prohibition>
+
+    <cc:Prohibition rdf:about="NoScalingUp">
+      <dc:description>Making additional quantities of materials by recipient for authorized uses</dc:description>
     </cc:Prohibition>
 
     <cc:Prohibition rdf:about="ForProfit">
