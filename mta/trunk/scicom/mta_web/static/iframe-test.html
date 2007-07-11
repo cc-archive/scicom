@@ -29,8 +29,8 @@
       onOfferEvent = function(type, args, me) { 
         var offer = args[0];
 	var metadata = document.createElement("div");
-//	metadata.innerHTML = offer.get_metadata();
-	metadata.innerHTML = offer.get_deed_uri();
+	metadata.innerHTML = offer.get_metadata();
+//	metadata.innerHTML = offer.get_deed_uri();
 	var container = document.getElementById("offers");
 	container.appendChild(metadata);
       };

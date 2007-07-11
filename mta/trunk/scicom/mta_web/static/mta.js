@@ -8,8 +8,6 @@ function MtaClass() {
 
     version = "1.0";
 
-    // if I was a better JavaScript hacker I'd know how to do this in a constructor
-    // so subclasses got it too...but instead, it's called from the "factory" point.
     this.uniquify = function() {
 	this.offer_id = offer_counter++;
     }
@@ -202,7 +200,7 @@ SlaClass.prototype.class_id = 'sla';
 SlaClass.prototype.class_name = 'SLA';
 SlaClass.prototype.constructor = SlaClass; // get around JavaScript weirdness
 SlaClass.prototype.get_panels = function() {
-    return ["agreement_type", "for_whom", "purpose", "finish"];
+    return ["agreement_type", "for_whom", "logistics", "finish"];
 }
 
 

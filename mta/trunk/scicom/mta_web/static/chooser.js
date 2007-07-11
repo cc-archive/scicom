@@ -200,13 +200,6 @@ YAHOO.mta.add_offer = function(event) {
     // lazy initialize the add wizard
     if (!YAHOO.mta.dlg_offer) {
 
-	// attempt to move dialog to main window...god knows if this will work
-	// +++ it doesn't
-	if (MTA_iframe) {
-	    var dialog = document.getElementById("add-offer-dlg");
-	    dialog.parent = window.top.document;
-	}
-
 	YAHOO.mta.dlg_offer = new Ext.LayoutDialog("add-offer-dlg", {
 	    modal:true,
 	    width:450,
@@ -266,9 +259,6 @@ YAHOO.mta.add_offer = function(event) {
 	
 
 	YAHOO.mta.dlg_offer.on_next = function(context) {
-
-// +++ not used I think
-//	    var get = Ext.Element.get;
 
 	    dialog = YAHOO.mta.dlg_offer;
 
@@ -453,13 +443,12 @@ YAHOO.mta.add_offer = function(event) {
 	    labelAlign: 'right',
             labelWidth: 200});
 
-	sc_form.add(
-
-	    new Ext.form.Radio({
+	var radios = [	    new Ext.form.Radio({
 		fieldLabel: "Field of use",
 		boxLabel : "All research uses",
 		inputValue: 'all',
-		name : 'fieldOfUse'
+		name : 'fieldOfUse',
+		checked : true
 	    }), 
 
 	    new Ext.form.Radio({
@@ -471,40 +460,48 @@ YAHOO.mta.add_offer = function(event) {
 		boxLabel : "Restrict to protocol",
 		inputValue: 'protocol',
 		name : 'fieldOfUse'
-	    }), 
+	    })
+		     ];
 
+	maparray(radios, function(radio) {
+	    sc_form.add(radio);
+	    radio.addListener('check', YAHOO.mta.update_use_field, sc_form);
+	});
+
+	// hold for later
+	panel.diseaseSpec =  
  	    new Ext.form.TextField({
-                fieldLabel:'Disease or protocol',
- 		width:175,
+                fieldLabel: 'Disease or protocol',
+ 		width: 175,
  		name: 'diseaseSpec'
- 	    }),
-	    
+ 	    });
 
+	sc_form.add(
+
+	    panel.diseaseSpec,
+	    
 	    new Ext.form.Checkbox({
 		name: 'scaleUpAllowed',
 		fieldLabel:'Is scaling up allowed?'
 	    }),
 
-
 	    new Ext.form.Checkbox({
 		name: 'retentionAllowed',
 		fieldLabel:'Is retention of material allowed?'
 	    })
-
+	    
 	);
-	
-	sc_form.render(panel.getEl().child(".x-contents"));
 
+	sc_form.render(panel.getEl().child(".x-contents"));
 	panel.verify_panel_complete = function (offer) {
 	    
 	}
 
 	panel.gather_info = function(result) {
 	    var rawspecs = sc_form.getValues();
- 	    //  widgets don't return the right values, so massage them here
+ 	    // widgets don't necessarily return the right values, so massage them here
 	    Ext.apply(result, rawspecs);
 	}
-
 	
 
     } // if dialog not created
@@ -525,6 +522,18 @@ YAHOO.mta.add_offer = function(event) {
     YAHOO.mta.dlg_offer.show();
 
 } // YAHOO.mta.add_offer
+
+YAHOO.mta.update_use_field = function(object) {
+    var sc_panel = YAHOO.mta.dlg_offer.wiz_panels['sc_info'];
+    var checkedValue = object.inputValue;
+    var fieldEnabled = checkedValue == 'disease' || checkedValue == 'protocol';
+    if (fieldEnabled) {
+	sc_panel.diseaseSpec.disabled = false;
+    }
+    else {
+	sc_panel.diseaseSpec.disabled = true;
+    }
+}
 
 YAHOO.mta.generate_material_callback = {
 	success: function(result) {

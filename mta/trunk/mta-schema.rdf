@@ -121,7 +121,7 @@
       <dc:description>Use in human subjects for treating, preventing, or diagnosing diseases</dc:description>
     </cc:Prohibition>
 
-    <cc:Prohibition rdf:about="NoScalingUp">
+    <cc:Prohibition rdf:about="ScalingUp">
       <dc:description>Making additional quantities of materials by recipient for authorized uses</dc:description>
     </cc:Prohibition>
 

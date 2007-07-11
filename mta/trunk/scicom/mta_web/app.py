@@ -182,7 +182,7 @@ class MtaAgreements(object):
             if splits.__contains__('ns'):
                 conditions.append({'long': 'You may not produce additional quantities of the materials.',
                                    'code': 'no-scaling',
-                                   'uri': 'sc:NoScalingUp'})
+                                   'uri': 'sc:ScalingUp'})
             if splits.__contains__('rd'):
                 conditions.append({'long': 'You will return or destroy the materials upon completion of research or the termination of the agreement.',
                                    'code': 'return'})
