@@ -335,7 +335,7 @@ YAHOO.mta.add_offer = function(event) {
 	    return true;
 	}
 
-	panel.gather_info = function(result) { };   // see get_license_id
+	panel.gather_info = function(result) { };   // see get_agreement_id
 
 	// add the selectors for each agreement type
 	for (i = 0; i < YAHOO.mta.AGREEMENT_CLASSES.length; i++) {

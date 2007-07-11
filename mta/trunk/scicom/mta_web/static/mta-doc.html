@@ -1,0 +1,295 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE></TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 2.2  (Linux)">
+	<META NAME="AUTHOR" CONTENT="Mike Travers">
+	<META NAME="CREATED" CONTENT="20070711;12225800">
+	<META NAME="CHANGEDBY" CONTENT="Mike Travers">
+	<META NAME="CHANGED" CONTENT="20070711;13473100">
+	<STYLE TYPE="text/css">
+	<!--
+		@page { size: 8.5in 11in; margin: 0.79in }
+		TD P { margin-bottom: 0.08in }
+		H1 { margin-bottom: 0.08in }
+		H1.western { font-family: "Helvetica"; font-size: 16pt }
+		H1.cjk { font-family: "DejaVu Sans"; font-size: 16pt }
+		H1.ctl { font-family: "DejaVu Sans"; font-size: 16pt }
+		P { margin-bottom: 0.08in }
+		H2 { margin-bottom: 0.08in }
+		H3 { margin-bottom: 0.08in }
+		H3.western { font-family: "Helvetica" }
+		P.indent { margin-left: 0.47in }
+		TT.code { font-size: 10pt }
+	-->
+	</STYLE>
+</HEAD>
+<BODY LANG="en-US" DIR="LTR">
+<H1 CLASS="western">Science Commons <BR>Materials Transfer Agreement
+Chooser</H1>
+<P>Michael Travers, 11 July 2007</P>
+<P><BR><BR>
+</P>
+<H2>Introduction</H2>
+<P>Science Commons Materials Transfer Agreements (MTAs) are contracts
+that govern the transfer of tangible research materials from one
+research institution (the provider) to another (the recipient).  They
+are most commonly employed in the transfer of &quot;unique research
+resources&quot; such as cell lines, monoclonal antibodies, reagents,
+animal models, growth factors, combinatorial chemistry and DNA
+libraries, clones and cloning tools (such as PCR), methods,
+laboratory equipment and machines. Non-biological and synthetic
+materials, such as certain nano-materials, chemical reagents, and
+chemical substrates may be shared under MTAs as well.</P>
+<P>The MTA Chooser is a web-based tool for selecting an appropriate
+agreement for a material. There are two forms of the chooser: a
+<A HREF="http://mta.sciencecommons.org/chooser">standalone web page</A>,
+and a popup wizard designed to be embedded in provider's web pages. 
+This document is addressed chiefly to those who want to embed the
+popup wizard.</P>
+<H2><A NAME="AbiTOC0__"></A>Terminology</H2>
+<TABLE WIDTH=665 BORDER=0 CELLPADDING=4 CELLSPACING=0>
+	<COL WIDTH=132>
+	<COL WIDTH=517>
+	<TR VALIGN=TOP>
+		<TD WIDTH=132>
+			<P ALIGN=LEFT><B>Provider</B>: 
+			</P>
+		</TD>
+		<TD WIDTH=517>
+			<P ALIGN=LEFT>an institution or person making some materials
+			available</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=132>
+			<P ALIGN=LEFT><B>Material</B>: 
+			</P>
+		</TD>
+		<TD WIDTH=517>
+			<P ALIGN=LEFT>a scientific material (ie, a tissue sample)</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=132>
+			<P ALIGN=LEFT><B>Agreement</B>: 
+			</P>
+		</TD>
+		<TD WIDTH=517>
+			<P ALIGN=LEFT>a generic legal document 
+			</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=132>
+			<P ALIGN=LEFT><B>Offer</B>: 
+			</P>
+		</TD>
+		<TD WIDTH=517>
+			<P ALIGN=LEFT>a specific offer of a material under an agreement</P>
+		</TD>
+	</TR>
+</TABLE>
+<P ALIGN=LEFT><BR><BR>
+</P>
+<H2><A NAME="AbiTOC1__"></A>Agreement types</H2>
+<P ALIGN=LEFT>There are four basic types of agreement:</P>
+<OL>
+	<LI><P ALIGN=LEFT STYLE="margin-bottom: 0in">&nbsp;UBMTA (ubmta) 
+	</P>
+	<LI><P ALIGN=LEFT STYLE="margin-bottom: 0in">&nbsp;SLA (sla) 
+	</P>
+	<LI><P ALIGN=LEFT STYLE="margin-bottom: 0in">&nbsp;Science Commons
+	(sc) 
+	</P>
+	<LI><P ALIGN=LEFT>&nbsp;Custom 
+	</P>
+</OL>
+<P ALIGN=LEFT>The Science Commons agreement has twelve variants with
+different restrictions. Each agreement type other than custom has an
+associated set of documents available through the MTA web site.
+Custom agreements have a user-specified URL.</P>
+<H2><A NAME="AbiTOC2__"></A>URLs</H2>
+<P ALIGN=LEFT>Every agreement type defines a set of URLs. &nbsp;These
+look like this:</P>
+<P CLASS="indent"><TT><FONT SIZE=2>http://mta.sciencecommons.org/agreements/&lt;Agreement&gt;/&lt;Version&gt;[/&lt;DocumentType&gt;][&lt;Parameters&gt;</FONT></TT></P>
+<P ALIGN=LEFT>For instance, the UBMTA deed is found at:</P>
+<P CLASS="indent"><TT CLASS="code"><A HREF="http://mta.sciencecommons.org/agreements/ubmta/1.0">http://mta.sciencecommons.org/agreements/ubmta/1.0</A></TT></P>
+<P ALIGN=LEFT>and related documents are found at:</P>
+<P CLASS="indent"><TT CLASS="code"><A HREF="http://mta.sciencecommons.org/agreements/ubmta/1.0/legalcode">http://mta.sciencecommons.org/agreements/ubmta/1.0/legalcode</A></TT></P>
+<P CLASS="indent"><TT CLASS="code"><A HREF="http://mta.sciencecommons.org/agreements/ubmta/1.0/letter">http://mta.sciencecommons.org/agreements/ubmta/1.0/letter</A></TT></P>
+<P CLASS="indent"><BR><BR>
+</P>
+<P ALIGN=LEFT>Legal values for &lt;Agreement&gt; are:</P>
+<P CLASS="indent"><TT CLASS="code">ubmta, sla, sc,
+sc[-rp|-df][-ns][-rd]</TT></P>
+<P ALIGN=LEFT>Where the options for SC mean:</P>
+<TABLE WIDTH=665 BORDER=0 CELLPADDING=4 CELLSPACING=0>
+	<COL WIDTH=145>
+	<COL WIDTH=504>
+	<TR VALIGN=TOP>
+		<TD WIDTH=145>
+			<DL>
+				<DD><TT CLASS="code">-rp</TT></DD></DL>
+		</TD>
+		<TD WIDTH=504>
+			<DL>
+				<DD>Restricted to protocol</DD></DL>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=145>
+			<DL>
+				<DD><TT CLASS="code">-df</TT></DD></DL>
+		</TD>
+		<TD WIDTH=504>
+			<DL>
+				<DD>Restricted to disease</DD></DL>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=145>
+			<DL>
+				<DD><TT CLASS="code">-ns</TT></DD></DL>
+		</TD>
+		<TD WIDTH=504>
+			<DL>
+				<DD>No scaleup</DD></DL>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=145>
+			<DL>
+				<DD><TT CLASS="code">-rd</TT></DD></DL>
+		</TD>
+		<TD WIDTH=504>
+			<DL>
+				<DD>Return or destroy</DD></DL>
+		</TD>
+	</TR>
+</TABLE>
+<DL>
+	<DD STYLE="margin-bottom: 0.2in"><BR><BR>
+	</DD></DL>
+<P ALIGN=LEFT>
+Legal values for &lt;DocumentType&gt; are:</P>
+<TABLE WIDTH=666 BORDER=0 CELLPADDING=4 CELLSPACING=0>
+	<COL WIDTH=145>
+	<COL WIDTH=505>
+	<TR VALIGN=TOP>
+		<TD WIDTH=145>
+			<P CLASS="indent">blank 
+			</P>
+		</TD>
+		<TD WIDTH=505>
+			<P CLASS="indent">for deeds</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=145>
+			<P CLASS="indent"><TT CLASS="code">legalcode</TT> 
+			</P>
+		</TD>
+		<TD WIDTH=505>
+			<P CLASS="indent">for the complete legal code</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=145>
+			<P CLASS="indent"><TT CLASS="code">letter</TT> 
+			</P>
+		</TD>
+		<TD WIDTH=505>
+			<P CLASS="indent">for the implementing letter</P>
+		</TD>
+	</TR>
+</TABLE>
+<P ALIGN=LEFT>Any of the URLs may contain optional URL parameters.
+The exact set of parameters is still being defined. 
+</P>
+<P ALIGN=LEFT>It is likely that other document types will be defined,
+i.e. for icons.</P>
+<H2><A NAME="AbiTOC3__"></A>Metadata</H2>
+<P>Still under development. The metadata schema <A HREF="http://mta.sciencecommons.org/mta-schema.rdf">may
+be found here</A>.</P>
+<H2><A NAME="AbiTOC4__"></A>Chooser API</H2>
+<P ALIGN=LEFT>The popup version of the chooser may be called from
+Javascript. The caller can post event handlers that are called when
+the chooser has generated an offer.</P>
+<H3 CLASS="western">Calling the chooser</H3>
+<P ALIGN=LEFT>This code creates a popup window with the chooser, and
+arranges for the onOfferEvent function to be called when an offer is
+complete:</P>
+<PRE STYLE="margin-left: 0.45in"><TT CLASS="code">    var wp = window.open(&quot;http://mta.sciencecommons.org/popup&quot;, &quot;MTA popup&quot;,          &quot;width=500,height=300,resizable=no,status=no&quot;);</TT>
+<TT CLASS="code">    wp.onload = function() {</TT>
+<TT CLASS="code">        wp.document.offerEvent.subscribe(onOfferEvent, wp.document);</TT>
+<TT CLASS="code">    }</TT>
+</PRE><P ALIGN=LEFT>
+The event handler is passed an offer argument, which has an API
+defined below. 
+</P>
+<PRE STYLE="margin-left: 0.45in"><TT CLASS="code">onOfferEvent = function(type, args, me) { </TT>
+<TT CLASS="code">     var offer = args[0];</TT>
+<TT CLASS="code">     ...</TT>
+<TT CLASS="code">}</TT></PRE><H3 CLASS="western">
+Offer object API</H3>
+<TABLE WIDTH=665 BORDER=0 CELLPADDING=4 CELLSPACING=0>
+	<COL WIDTH=211>
+	<COL WIDTH=438>
+	<TR VALIGN=TOP>
+		<TD WIDTH=211>
+			<P ALIGN=LEFT><TT CLASS="code"><B>get_agreement_id()</B></TT></P>
+		</TD>
+		<TD WIDTH=438>
+			<P ALIGN=LEFT>Returns the agreement code (ie, 'sc-rp-ns')</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=211>
+			<P ALIGN=LEFT><TT CLASS="code"><B>get_name()</B></TT></P>
+		</TD>
+		<TD WIDTH=438>
+			<P ALIGN=LEFT>Get a human-readable name for the offer</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=211>
+			<P ALIGN=LEFT><TT CLASS="code"><B>get_version()</B></TT></P>
+		</TD>
+		<TD WIDTH=438>
+			<P ALIGN=LEFT>Return the version (currently always '1.0')</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=211>
+			<P ALIGN=LEFT><TT CLASS="code"><B>get_deed_uri()<BR>get_implementing_uri()<BR>get_legal_uri()</B></TT></P>
+		</TD>
+		<TD WIDTH=438>
+			<P ALIGN=LEFT>Return URIs for the various documents associated
+			with the offer</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=211>
+			<P ALIGN=LEFT><TT CLASS="code"><B><BR>get_metadata()</B></TT></P>
+		</TD>
+		<TD WIDTH=438>
+			<P ALIGN=LEFT>Returns a representation of the offer in HTML with
+			RDFa embedded metadata</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=211>
+			<P ALIGN=LEFT><TT CLASS="code"><B>get_info()</B></TT></P>
+		</TD>
+		<TD WIDTH=438>
+			<P ALIGN=LEFT>Returns an object containing all parameters of the
+			offer.</P>
+		</TD>
+	</TR>
+</TABLE>
+<P STYLE="margin-bottom: 0in"><BR>
+</P>
+</BODY>
+</HTML>

@@ -38,7 +38,11 @@ function MtaClass() {
     };
 
 
-    // the user-specified parameters for the license
+    this.get_offer = function() {
+	return version;
+    }
+
+    // the user-specified parameters for the agreement
     this.get_specs = function() {
 
 	var result = {};
@@ -96,7 +100,7 @@ function MtaClass() {
 
     this.build_uri = function(type) {
 	var info = YAHOO.mta.agreement_info();
-	var agr_type = this.get_license_id();
+	var agr_type = this.get_agreement_id();
         var url = "agreements/" + agr_type + '/' + version;
 	if (type != null) {
 	    url = url + "/" + type;
@@ -150,8 +154,8 @@ function MtaClass() {
 MtaClass.prototype.class_id = 'basic';
 MtaClass.prototype.class_name = 'Basic Agreement';
 
-    // code for license (for sc, depends on parameters)
-MtaClass.prototype.get_license_id = function() {
+    // code for agreement (for sc, depends on parameters)
+MtaClass.prototype.get_agreement_id = function() {
 	return this.get_id();
     }
 
@@ -251,7 +255,7 @@ function SciComMta() {
     this.get_metadata_template_additional = function() {
 	var info = this.get_info();
 	var result = '';
-	// note: scaleup isn't actually going to be here, it's in the license
+	// note: scaleup isn't actually going to be here, it's in the agreement
 	if (info['endDate'] != '') {
 	    result = result + '<br>Permission expires on <span property=cc:expires">{endDate}</span>';
 	}
@@ -292,7 +296,7 @@ SciComMta.prototype.get_panels = function() {
     return ["agreement_type", "for_whom", "sc_info", "logistics", "finish"];
 }
 
-SciComMta.prototype.get_license_id = function() {
+SciComMta.prototype.get_agreement_id = function() {
 	var id = "sc";
 	info = this.get_specs();
 	if (info['fieldOfUse'] == 'protocol') {
