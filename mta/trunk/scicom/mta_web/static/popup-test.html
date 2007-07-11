@@ -24,19 +24,29 @@
  
            var wp = window.open("popup", "MTA popup", "width=500,height=300,resizable=no,status=no");
 	   wp.onload = function() {
-              wp.focus();   // not working for some reason..it's supposed to.  
+              wp.focus();   // should bring to top, but doesn't always
               wp.document.offerEvent.subscribe(onOfferEvent, wp.document);
 	  }
        }
-
 
       onOfferEvent = function(type, args, me) { 
         var offer = args[0];
 	var metadata = document.createElement("div");
 	metadata.innerHTML = offer.get_metadata();
-//	metadata.innerHTML = offer.get_deed_uri();
 	var container = document.getElementById("offers");
 	container.appendChild(metadata);
+
+	var parameters = document.createElement("div");
+        parameters.setAttribute('style', 'border: 1px; border-style: solid');
+	var info = offer.get_info();
+	for (var prop in info) {
+	    var textnode = document.createTextNode(prop + ": " + info[prop]);
+	    parameters.appendChild(textnode);
+	    parameters.appendChild(document.createElement('br'));
+        }
+
+	container.appendChild(parameters);
+
       };
 
     </script>

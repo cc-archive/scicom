@@ -43,7 +43,7 @@ class Letter(object):
 
 class UBMTALetter(Letter):
 
-    def __call__(self, providerOrg='', materialDesc='', address1="", address2="", termination=""):
+    def __call__(self, providerOrg='', materialDesc='', address1="", address2="", termination="", **kwargs):
         
         def generator(filename):
             doc = getDocument(filename)

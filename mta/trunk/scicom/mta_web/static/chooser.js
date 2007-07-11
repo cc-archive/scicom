@@ -523,15 +523,16 @@ YAHOO.mta.add_offer = function(event) {
 
 } // YAHOO.mta.add_offer
 
+// +++ for some reason this only gets called once per button, then the event seems to disappear...
 YAHOO.mta.update_use_field = function(object) {
     var sc_panel = YAHOO.mta.dlg_offer.wiz_panels['sc_info'];
     var checkedValue = object.inputValue;
     var fieldEnabled = checkedValue == 'disease' || checkedValue == 'protocol';
     if (fieldEnabled) {
-	sc_panel.diseaseSpec.disabled = false;
+	sc_panel.diseaseSpec.enable();
     }
     else {
-	sc_panel.diseaseSpec.disabled = true;
+	sc_panel.diseaseSpec.disable();
     }
 }
 

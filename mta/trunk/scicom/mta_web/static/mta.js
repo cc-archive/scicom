@@ -67,7 +67,7 @@ function MtaClass() {
     this.get_metadata_template = function() {
 	return new Ext.Template(
 	    "<li class='sc:Offer' rel='sc:offer'>\n" +
-		"  <a rel=sc:agreement href='{agreement_uri}'>{agreement_name}</a> to non-profit institutions.\n" +
+		"  <a rel=sc:agreement href='{agreement_uri}'>{agreement_name}</a>.\n" +
 		this.get_metadata_template_additional() +
 		"</li>");
     }
