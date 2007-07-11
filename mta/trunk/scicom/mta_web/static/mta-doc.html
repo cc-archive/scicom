@@ -7,7 +7,7 @@
 	<META NAME="AUTHOR" CONTENT="Mike Travers">
 	<META NAME="CREATED" CONTENT="20070711;12225800">
 	<META NAME="CHANGEDBY" CONTENT="Mike Travers">
-	<META NAME="CHANGED" CONTENT="20070711;13473100">
+	<META NAME="CHANGED" CONTENT="20070711;16115200">
 	<STYLE TYPE="text/css">
 	<!--
 		@page { size: 8.5in 11in; margin: 0.79in }
@@ -31,6 +31,8 @@ Chooser</H1>
 <P>Michael Travers, 11 July 2007</P>
 <P><BR><BR>
 </P>
+<P ALIGN=CENTER><FONT SIZE=4 STYLE="font-size: 16pt"><I>Preliminary
+documenation; subject to change!</I></FONT></P>
 <H2>Introduction</H2>
 <P>Science Commons Materials Transfer Agreements (MTAs) are contracts
 that govern the transfer of tangible research materials from one
@@ -45,9 +47,9 @@ chemical substrates may be shared under MTAs as well.</P>
 <P>The MTA Chooser is a web-based tool for selecting an appropriate
 agreement for a material. There are two forms of the chooser: a
 <A HREF="http://mta.sciencecommons.org/chooser">standalone web page</A>,
-and a popup wizard designed to be embedded in provider's web pages. 
-This document is addressed chiefly to those who want to embed the
-popup wizard.</P>
+and an embeddable version designed to be used from a provide's web
+pages.  
+</P>
 <H2><A NAME="AbiTOC0__"></A>Terminology</H2>
 <TABLE WIDTH=665 BORDER=0 CELLPADDING=4 CELLSPACING=0>
 	<COL WIDTH=132>
@@ -110,7 +112,7 @@ popup wizard.</P>
 different restrictions. Each agreement type other than custom has an
 associated set of documents available through the MTA web site.
 Custom agreements have a user-specified URL.</P>
-<H2><A NAME="AbiTOC2__"></A>URLs</H2>
+<H2><A NAME="AbiTOC2__"></A>URLs and documents</H2>
 <P ALIGN=LEFT>Every agreement type defines a set of URLs. &nbsp;These
 look like this:</P>
 <P CLASS="indent"><TT><FONT SIZE=2>http://mta.sciencecommons.org/agreements/&lt;Agreement&gt;/&lt;Version&gt;[/&lt;DocumentType&gt;][&lt;Parameters&gt;</FONT></TT></P>
@@ -118,6 +120,7 @@ look like this:</P>
 <P CLASS="indent"><TT CLASS="code"><A HREF="http://mta.sciencecommons.org/agreements/ubmta/1.0">http://mta.sciencecommons.org/agreements/ubmta/1.0</A></TT></P>
 <P ALIGN=LEFT>and related documents are found at:</P>
 <P CLASS="indent"><TT CLASS="code"><A HREF="http://mta.sciencecommons.org/agreements/ubmta/1.0/legalcode">http://mta.sciencecommons.org/agreements/ubmta/1.0/legalcode</A></TT></P>
+<P CLASS="indent"><TT CLASS="code"><A HREF="http://mta.sciencecommons.org/agreements/ubmta/1.0/legalcode">http://mta.sciencecommons.org/agreements/ubmta/1.0/legaltext</A></TT></P>
 <P CLASS="indent"><TT CLASS="code"><A HREF="http://mta.sciencecommons.org/agreements/ubmta/1.0/letter">http://mta.sciencecommons.org/agreements/ubmta/1.0/letter</A></TT></P>
 <P CLASS="indent"><BR><BR>
 </P>
@@ -197,6 +200,15 @@ Legal values for &lt;DocumentType&gt; are:</P>
 	</TR>
 	<TR VALIGN=TOP>
 		<TD WIDTH=145>
+			<P CLASS="indent"><TT CLASS="code">legaltext</TT> 
+			</P>
+		</TD>
+		<TD WIDTH=505>
+			<P CLASS="indent">the legal code as plain ASCII text</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=145>
 			<P CLASS="indent"><TT CLASS="code">letter</TT> 
 			</P>
 		</TD>
@@ -209,14 +221,17 @@ Legal values for &lt;DocumentType&gt; are:</P>
 The exact set of parameters is still being defined. 
 </P>
 <P ALIGN=LEFT>It is likely that other document types will be defined,
-i.e. for icons.</P>
+i.e. for icons representing the agreements.</P>
 <H2><A NAME="AbiTOC3__"></A>Metadata</H2>
-<P>Still under development. The metadata schema <A HREF="http://mta.sciencecommons.org/mta-schema.rdf">may
+<P>An RDF-based system of metadata will be defined Still under
+development. The metadata schema <A HREF="http://mta.sciencecommons.org/mta-schema.rdf">may
 be found here</A>.</P>
 <H2><A NAME="AbiTOC4__"></A>Chooser API</H2>
-<P ALIGN=LEFT>The popup version of the chooser may be called from
+<P ALIGN=LEFT>The embeddable version of the chooser is called via
 Javascript. The caller can post event handlers that are called when
-the chooser has generated an offer.</P>
+the chooser has generated an offer. An example use of the embeddable
+chooser <A HREF="http://mta.sciencecommons.org/embeddable-example.html">may
+be found here</A>.</P>
 <H3 CLASS="western">Calling the chooser</H3>
 <P ALIGN=LEFT>This code creates a popup window with the chooser, and
 arranges for the onOfferEvent function to be called when an offer is

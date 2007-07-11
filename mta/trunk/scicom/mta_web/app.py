@@ -107,7 +107,10 @@ class MtaAgreements(object):
             return self.deed(code, version, kwargs)
 
         if doctype == 'legalcode':
-            return self.legalcode(basecode, version, kwargs)
+            return self.legalcode(code, version, kwargs)
+
+        if doctype == 'legaltext':
+            return self.legaltext(code, version)
 
         # might use basecode here
         if doctype == 'letter':
@@ -198,15 +201,17 @@ class MtaAgreements(object):
         l.pdf_prepare_response('implementing-letter')
         return result
 
-
-    # not built out yet -- in reality, will use a static url or per-agreement template, probably
     # MTA legal code
-    @cherrypy.expose
     def legalcode(self, code, version, kwargs):
 
         template = self.__loader.load("legal.html")
-        stream = template.generate(agreementType=code, *kwargs)
+        stream = template.generate(agreementType=code, version=version, agreementText=self.legaltext(code, version), **kwargs)
         return stream.render("xhtml")
+
+    def legaltext(self, code, version):
+        filename = STATIC_DIR + '/legal/' + version + '/' + code + '.txt'
+        string = open(filename).read()
+        return string
 
     # return the base code, or error out
     def basecode(self, code):
