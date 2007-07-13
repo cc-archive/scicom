@@ -252,6 +252,7 @@ function SciComMta() {
 	return specs;
     }
 
+
     this.get_metadata_template_additional = function() {
 	var info = this.get_info();
 	var result = '';
@@ -283,8 +284,15 @@ function SciComMta() {
     this.add_additional_url_parameters = function(url) {
 	var info = this.get_specs();
 	// +++ much more here
-	return this.url_add_parameter(url, "disease", info['disease']);
+	return this.url_add_parameter(url, "fieldSpec", info['fieldSpec']);
     }
+
+//     this.build_uri = function(type) {
+// 	var url = this.constructor.prototype.build_uri(type);
+// 	url = this.url_add_parameter(url, "fieldSpec", info.fieldSpec);
+// 	return url;
+//     }
+
 
 }; // SciComMta
 SciComMta.prototype = new MtaClass;

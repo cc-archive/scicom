@@ -108,10 +108,23 @@
 
     <!-- Permissions  -->
 
-
-    <cc:Permission rdf:about="Retention">
-      <dc:description>Retaining unused or incorporated materials after completion of research</dc:description>
+    <!-- Permissions common to all  -->
+    <cc:Permission rdf:about="YourResearch">
+      <dc:description>Use the materials for research that you supervise</dc:description>
     </cc:Permission>
+
+    <cc:Permission rdf:about="OthersResearch">
+      <dc:description></dc:description>
+    </cc:Permission>
+
+    <cc:Permission rdf:about="Publish">
+      <dc:description>Publish the results of your research</dc:description>
+    </cc:Permission>
+
+
+    <cc:Prohibition rdf:about="Retention">
+      <dc:description>Retaining unused or incorporated materials after completion of research</dc:description>
+    </cc:Prohibition>
 
     <cc:Prohibition rdf:about="CommercialUser">
       <dc:description>Use in connection with sale of products or services</dc:description>

@@ -469,25 +469,25 @@ YAHOO.mta.add_offer = function(event) {
 	});
 
 	// hold for later
-	panel.diseaseSpec =  
+	panel.fieldSpec =  
  	    new Ext.form.TextField({
                 fieldLabel: 'Disease or protocol',
  		width: 175,
- 		name: 'diseaseSpec'
+ 		name: 'fieldSpec'
  	    });
 
 	sc_form.add(
 
-	    panel.diseaseSpec,
+	    panel.fieldSpec,
 	    
 	    new Ext.form.Checkbox({
 		name: 'scaleUpAllowed',
-		fieldLabel:'Is scaling up allowed?'
+		fieldLabel: 'Is scaling up allowed?'
 	    }),
 
 	    new Ext.form.Checkbox({
 		name: 'retentionAllowed',
-		fieldLabel:'Is retention of material allowed?'
+		fieldLabel: 'Is retention of material allowed?'
 	    })
 	    
 	);
@@ -529,10 +529,10 @@ YAHOO.mta.update_use_field = function(object) {
     var checkedValue = object.inputValue;
     var fieldEnabled = checkedValue == 'disease' || checkedValue == 'protocol';
     if (fieldEnabled) {
-	sc_panel.diseaseSpec.enable();
+	sc_panel.fieldSpec.enable();
     }
     else {
-	sc_panel.diseaseSpec.disable();
+	sc_panel.fieldSpec.disable();
     }
 }
 

@@ -52,8 +52,12 @@
 		<li class="license ${clause.code}" 
 		    rel="cc:prohibits" 
 		    href="${clause.uri}">
-		  <strong>${clause.short}</strong>
+		    <!-- not currently used -->
+<!-- 		  <strong>${clause.short}</strong> -->
 		   ${clause.long}
+		   <py:if test="clause.extra">
+		     <br>${clause.extra}</br>
+		   </py:if>
 		</li>
 	      </py:for>
 	      </ul>

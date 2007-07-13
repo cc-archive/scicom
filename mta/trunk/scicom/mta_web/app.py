@@ -125,15 +125,16 @@ class MtaAgreements(object):
         # same for all deeds
         permissions = [
             {'long': 'Use the materials for research that you supervise',
-             'code': 'share'},
+             'uri': 'sc:YourResearch'},
             {'long': 'Allow others under your supervision to use the materials',
-             'code': 'remix'},
-            {'long':'Publish the results of your research'}]
+             'uri': 'sc:OthersResearch'},
+            {'long':'Publish the results of your research',
+             'uri': 'sc:Publish'}]
 
         # default
         footer = 'You will acknowledge provider in publications reporting use of the materials.'
         legalurl = '/agreements/' + basecode + "/" + version + '/legalcode'
-
+        
         if code == 'ubmta':
             longname = 'Uniform Biological Material Transfer Agreement'
             conditions = [
@@ -141,11 +142,13 @@ class MtaAgreements(object):
                  'code': 'no-clinical',
                  'uri': 'sc:Clinical' },
                 {'long': 'You may only use the materials for teaching and academic research.',
-                 'code': 'nc'},
+                 'code': 'nc',
+                 'uri': 'cc:CommercialUse'},
                 {'long': 'You may not transfer or distribute the materials, except only Modifications to non-profit organizations under the UBMTA. ',
                  'code': 'no-distribution',
                  'uri': 'sc:Transfer'},
                 {'long': 'You will return or destroy materials upon completion of research or expiration of the implementing letter.',
+                 'uri': 'sc:Retention',
                  'code': 'return'}]
 
         if code == 'sla':
@@ -155,7 +158,8 @@ class MtaAgreements(object):
                  'code': 'no-clinical',
                  'uri': 'sc:Clinical'},
                 {'long': 'You may only use the materials for teaching and academic research.',
-                 'code': 'nc'},
+                 'code': 'nc',
+                 'uri': 'cc:CommercialUse'},
                 {'long': 'You may not transfer or distribute the materials without permission.',
                  'code': 'no-distribution',
                  'uri': 'sc:Transfer'}]
@@ -165,29 +169,37 @@ class MtaAgreements(object):
         
         if splits[0] == 'sc':
             longname = 'Science Commons Material Transfer Agreement'
+
+            fieldStr = 'Limited to %s' % kwargs['fieldSpec'] if kwargs.__contains__('fieldSpec') else None;
+
             footer = ''
             conditions = [
                 {'long': 'You may not use the materials for clinical purposes.',
                  'code': 'no-clinical',
                  'uri': 'sc:Clinical'},
                 {'long': 'You may not use the materials in connection with the sale of a product or service.',
-                 'code': 'nc'},
+                 'code': 'nc',
+                 'uri': 'cc:CommercialUse'},
                 {'long': 'You may not transfer or distribute the materials. ',
                  'code': 'no-distribution',
                  'uri': 'sc:Transfer'}]
 
             if splits.__contains__('rp'):
                 conditions.insert(0, {'long': 'Your use of the materials is restricted to a specific research protocol.',
-                                      'code': 'restricted-field'})
+                                      'code': 'restricted-field',
+                                      'extra': fieldStr})
             if splits.__contains__('df'):
                 conditions.insert(0, {'long': 'Your use of the materials is restricted by fields of use.',
-                                      'code': 'restricted-field'})
+                                      'code': 'restricted-field',
+                                      'extra': fieldStr
+                                      })
             if splits.__contains__('ns'):
                 conditions.append({'long': 'You may not produce additional quantities of the materials.',
                                    'code': 'no-scaling',
                                    'uri': 'sc:ScalingUp'})
             if splits.__contains__('rd'):
                 conditions.append({'long': 'You will return or destroy the materials upon completion of research or the termination of the agreement.',
+                                   'uri': 'sc:Retention',
                                    'code': 'return'})
 
         stream = template.generate(code=code, version=version, permissions=permissions, conditions=conditions, footer=footer, legalurl=legalurl, longname=longname)
