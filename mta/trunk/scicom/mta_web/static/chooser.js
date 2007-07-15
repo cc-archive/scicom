@@ -381,7 +381,7 @@ YAHOO.mta.add_offer = function(event) {
 
 	    new Ext.form.DateField({
 		name: 'endDate',
-		fieldLabel:'End date',
+		fieldLabel:'Termination date',
 		width:175
 	    }),
 

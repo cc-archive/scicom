@@ -1,5 +1,4 @@
 import cherrypy
-import random
 import tempfile
 import os
 
@@ -43,7 +42,14 @@ class Letter(object):
 
 class UBMTALetter(Letter):
 
-    def __call__(self, providerOrg='', materialDesc='', address1="", address2="", termination="", **kwargs):
+    def __call__(self, providerOrg='',
+                 materialDesc='',
+                 address1="",
+                 address2="",
+                 termination="",
+                 endDate="",
+                 transmittalFee="",
+                 **kwargs):
         
         def generator(filename):
             doc = getDocument(filename)
@@ -53,6 +59,12 @@ class UBMTALetter(Letter):
             def SectionHead(number, string):
                 Story.append(Spacer(0, .2 * inch))
                 Story.append(Paragraph(str(number) + '. ' + string, styles['outer_style']))
+
+            # unnumbered section head
+            def UnSectionHead(string):
+                Story.append(Spacer(0, .2 * inch))
+                Story.append(Paragraph(string, styles['outer_style']))
+
 
             def AddTable(structure):
                 result = Table(structure,
@@ -70,6 +82,14 @@ class UBMTALetter(Letter):
                                 ))
                 result.hAlign = 'LEFT'
                 Story.append(result)
+
+            def SignatureBlock(name):
+                AddTable([[name + ':', ""],
+                          ["Title:", ""],
+                          ["Address:", ""],
+                          ["", ""],
+                          ["Signature:", ""],
+                          ["Date:", ""]])
 
             Story.append(
                 Paragraph(
@@ -94,10 +114,28 @@ class UBMTALetter(Letter):
                       ["", ""]])
 
             SectionHead(4, "Termination date for this letter (optional)")
-            AddTable([["Date:", ""]])
-            
 
-            # .... much more
+            AddTable([["Date:", endDate]])
+
+            SectionHead(5, "Transmittal Fee to reimburse the PROVIDER for preparation and distribution costs (optional).")
+            AddTable([["Amount:", transmittalFee]])
+
+            #            Story.append(Spacer(0, .4 * inch))
+            Story.append(PageBreak())
+
+            Story.append(
+                Paragraph(
+                """This Implementing Letter is effective when signed by all parties. The parties executing this Implementing Letter certify that their respective organizations have accepted and signed an unmodified copy of the UBMTA, and further agree to be bound by its terms, for the transfer specified above.""",  styles['outer_style']))
+
+            UnSectionHead('PROVIDER SCIENTIST')
+            SignatureBlock('Name')
+
+            UnSectionHead('RECIPIENT SCIENTIST')
+            SignatureBlock('Name')
+
+            UnSectionHead('RECIPIENT ORGANIZATON CERTIFICATION')
+            SignatureBlock('Authorized Official')
+
 
             title = "UBMTA Implementing Letter"
 

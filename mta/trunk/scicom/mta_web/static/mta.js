@@ -116,7 +116,7 @@ function MtaClass() {
 
     // conditionally add a parameter
     this.url_add_parameter = function(base, pname, pvalue) {
-	if (pvalue != null) {
+	if (pvalue != null && pvalue != "") {
 	    return base + "&" + pname + "=" + pvalue;
 	}
 	else
@@ -183,6 +183,13 @@ NonProfitMtaClass.prototype.allowed = function(for_profit) {
 
 function UbmtaClass() {
 
+    this.add_additional_url_parameters = function(url) {
+	var info = this.get_specs();
+	// +++ much more here
+	url = this.url_add_parameter(url, "endDate", info['endDate']);
+	url = this.url_add_parameter(url, "transmittalFee", info['transmittalFee']);
+	return url;
+    }
 
 }; // UbmtaClass
 
@@ -196,6 +203,15 @@ UbmtaClass.prototype.get_panels = function() {
 
 
 function SlaClass() {
+
+    this.add_additional_url_parameters = function(url) {
+	var info = this.get_specs();
+	// +++ much more here
+	url = this.url_add_parameter(url, "endDate", info['endDate']);
+	url = this.url_add_parameter(url, "transmittalFee", info['transmittalFee']);
+	return url;
+    }
+
 
 }; // SlaClass
 

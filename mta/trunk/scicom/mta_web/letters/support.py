@@ -24,7 +24,7 @@ styles['outer_style'].leading = 10
 styles['outer_style'].spaceAfter = 8
 styles['outer_style'].spaceBefore = 6
 styles['outer_style'].leftIndent = inch * 0.12
-styles['outer_style'].firstLineIndent = -1 * styles['outer_style'].leftIndent
+# styles['outer_style'].firstLineIndent = -1 * styles['outer_style'].leftIndent
 
 styles.add(reportlab.lib.styles.ParagraphStyle(
         'inner_style', styles['outer_style']))

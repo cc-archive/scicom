@@ -2,6 +2,11 @@
 
 <!-- CC used to be at "http://web.resource.org/cc/" and may still be for some purposes -->
 
+<!--
+    Note: for now, this lives in the sciencecommons.org domain, but will eventually be
+    folded into the cc: domain.  
+ -->
+
 <rdf:RDF xmlns="http://sciencecommons.org/ns#"
     xmlns:cc="http://creativecommons.org/ns#"  
     xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -103,7 +108,7 @@
         <rdfs:range rdf:resource="Literal"/>
     </rdf:Property>
     
-<!--  Permissions and Requirements **************************************************************** -->
+<!--  Permissions, Prohbitions, and Requirements **************************************************************** -->
 <!-- Permissions etc can be properties of Offers or Agreements-->
 
     <!-- Permissions  -->
