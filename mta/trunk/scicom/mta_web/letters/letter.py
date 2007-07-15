@@ -39,6 +39,60 @@ class Letter(object):
         os.unlink(os.path.join(tempfile.tempdir, pdf_fn))
         return result
 
+    story = []
+
+    def PGraph(self, string):
+        self.story.append(Paragraph(string, styles['outer_style']))
+
+    def SectionHead(self, number, string):
+        self.story.append(Spacer(0, .2 * inch))
+        self.story.append(Paragraph(str(number) + '. ' + string, styles['outer_style']))
+
+    def FullLine(self, line, value):
+        self.PGraph(line)
+
+        result = Table([[value]], colWidths = [inch*4])
+        result.setStyle(
+            TableStyle( [('LINEBELOW', (0, 0), (0, -1), 0.5, colors.black),
+                         ('BOTTOMPADDING', (0,0), (0,-1), 0),
+                         ('TOPPADDING', (0, 0), (0, -1), 10),
+                         ]
+                        ))
+        result.hAlign = 'LEFT'
+        self.story.append(result)
+
+        # unnumbered section head
+    def UnSectionHead(self, string):
+        self.story.append(Spacer(0, .2 * inch))
+        self.story.append(Paragraph(string, styles['outer_style']))
+
+
+    def AddTable(self, structure):
+        result = Table(structure,
+#                               rowHeights = [inch*0.2],
+        colWidths = [inch*1, inch*3])
+        result.setStyle(
+                TableStyle( [('ALIGN', (0, 0), (0, -1), 'RIGHT'),
+                             ('VALIGN', (0, 0), (-1, -1), 'BOTTOM'),
+                             #                             ('VALIGN', (0, 1), (0, 1), 'TOP'),
+                             ('FONTSIZE', (0, 0), (0, -1), 8),
+                             ('LINEBELOW', (1, 0), (1, -1), 0.5, colors.black),
+                             ('BOTTOMPADDING', (0,0), (1,-1), 0),
+                             ('TOPPADDING', (0, 0), (1, -1), 10),
+                             ]
+                            ))
+        result.hAlign = 'LEFT'
+        self.story.append(result)
+
+    def SignatureBlock(self, name):
+        self.AddTable(
+            [[name + ':', ""],
+             ["Title:", ""],
+             ["Address:", ""],
+             ["", ""],
+             ["Signature:", ""],
+             ["Date:", ""]])
+
 
 class UBMTALetter(Letter):
 
@@ -52,96 +106,146 @@ class UBMTALetter(Letter):
                  **kwargs):
         
         def generator(filename):
+
             doc = getDocument(filename)
-
-            Story = []
-
-            def SectionHead(number, string):
-                Story.append(Spacer(0, .2 * inch))
-                Story.append(Paragraph(str(number) + '. ' + string, styles['outer_style']))
-
-            # unnumbered section head
-            def UnSectionHead(string):
-                Story.append(Spacer(0, .2 * inch))
-                Story.append(Paragraph(string, styles['outer_style']))
-
-
-            def AddTable(structure):
-                result = Table(structure,
-#                               rowHeights = [inch*0.2],
-                               colWidths = [inch*1, inch*3])
-                result.setStyle(
-                    TableStyle( [('ALIGN', (0, 0), (0, -1), 'RIGHT'),
-                                 ('VALIGN', (0, 0), (-1, -1), 'BOTTOM'),
-#                             ('VALIGN', (0, 1), (0, 1), 'TOP'),
-                                 ('FONTSIZE', (0, 0), (0, -1), 8),
-                                 ('LINEBELOW', (1, 0), (1, -1), 0.5, colors.black),
-                                 ('BOTTOMPADDING', (0,0), (1,-1), 0),
-                                 ('TOPPADDING', (0, 0), (1, -1), 10),
-                                 ]
-                                ))
-                result.hAlign = 'LEFT'
-                Story.append(result)
-
-            def SignatureBlock(name):
-                AddTable([[name + ':', ""],
-                          ["Title:", ""],
-                          ["Address:", ""],
-                          ["", ""],
-                          ["Signature:", ""],
-                          ["Date:", ""]])
-
-            Story.append(
-                Paragraph(
-                """The purpose of this letter is to provide a record of the biological material transfer, to memorialize the agreement between the PROVIDER SCIENTIST (identified below) and the RECIPIENT SCIENTIST (identified below) to abide by all terms and conditions of the Uniform Biological Material Transfer [[Page 12775]] Agreement ("UBMTA") March 8, 1995, and to certify that the RECIPIENT (identified below) organization has accepted and signed an unmodified copy of the UBMTA. The RECIPIENT organization's Authorized Official also will sign this letter if the RECIPIENT SCIENTIST is not authorized to certify on behalf of the RECIPIENT organization. The RECIPIENT SCIENTIST (and the Authorized Official of RECIPIENT, if necessary) should sign both copies of this letter and return one signed copy to the PROVIDER. The PROVIDER SCIENTIST will forward the material to the RECIPIENT SCIENTIST upon receipt of the signed copy from the RECIPIENT organization.""", styles['outer_style']))
-            Story.append(
-                Paragraph(
-            """Please fill in all of the blank lines below:""", styles['outer_style']))
-
-            SectionHead(1, "PROVIDER: Organization providing the ORIGINAL MATERIAL:")
-            AddTable([["Organization", providerOrg],
-                      ["Address", address1],
-                      ["", address2]])
-
-            SectionHead(2, "RECIPIENT: Organization receiving the ORIGINAL MATERIAL:")
-            AddTable([["Organization:", ""],
-                      ["Address:", ""],
-                      ["", ""]])
-
-            SectionHead(3, "ORIGINAL MATERIAL")
-            AddTable([["Description:", materialDesc],
-                      ["", ""],
-                      ["", ""]])
-
-            SectionHead(4, "Termination date for this letter (optional)")
-
-            AddTable([["Date:", endDate]])
-
-            SectionHead(5, "Transmittal Fee to reimburse the PROVIDER for preparation and distribution costs (optional).")
-            AddTable([["Amount:", transmittalFee]])
-
-            #            Story.append(Spacer(0, .4 * inch))
-            Story.append(PageBreak())
-
-            Story.append(
-                Paragraph(
-                """This Implementing Letter is effective when signed by all parties. The parties executing this Implementing Letter certify that their respective organizations have accepted and signed an unmodified copy of the UBMTA, and further agree to be bound by its terms, for the transfer specified above.""",  styles['outer_style']))
-
-            UnSectionHead('PROVIDER SCIENTIST')
-            SignatureBlock('Name')
-
-            UnSectionHead('RECIPIENT SCIENTIST')
-            SignatureBlock('Name')
-
-            UnSectionHead('RECIPIENT ORGANIZATON CERTIFICATION')
-            SignatureBlock('Authorized Official')
-
 
             title = "UBMTA Implementing Letter"
 
-            doc.build(Story,
+            self.story.append(
+                Paragraph(
+                """The purpose of this letter is to provide a record of the biological material transfer, to memorialize the agreement between the PROVIDER SCIENTIST (identified below) and the RECIPIENT SCIENTIST (identified below) to abide by all terms and conditions of the Uniform Biological Material Transfer [[Page 12775]] Agreement ("UBMTA") March 8, 1995, and to certify that the RECIPIENT (identified below) organization has accepted and signed an unmodified copy of the UBMTA. The RECIPIENT organization's Authorized Official also will sign this letter if the RECIPIENT SCIENTIST is not authorized to certify on behalf of the RECIPIENT organization. The RECIPIENT SCIENTIST (and the Authorized Official of RECIPIENT, if necessary) should sign both copies of this letter and return one signed copy to the PROVIDER. The PROVIDER SCIENTIST will forward the material to the RECIPIENT SCIENTIST upon receipt of the signed copy from the RECIPIENT organization.""", styles['outer_style']))
+            self.story.append(
+                Paragraph(
+            """Please fill in all of the blank lines below:""", styles['outer_style']))
+
+            self.SectionHead(1, "PROVIDER: Organization providing the ORIGINAL MATERIAL:")
+            self.AddTable(
+                     [["Organization", providerOrg],
+                      ["Address", address1],
+                      ["", address2]])
+
+            self.SectionHead(2, "RECIPIENT: Organization receiving the ORIGINAL MATERIAL:")
+            self.AddTable(
+                [["Organization:", ""],
+                 ["Address:", ""],
+                 ["", ""]])
+
+            self.SectionHead(3, "ORIGINAL MATERIAL")
+            self.AddTable(
+                [["Description:", materialDesc],
+                 ["", ""],
+                 ["", ""]])
+
+            self.SectionHead(4, "Termination date for this letter (optional)")
+
+            self.AddTable([["Date:", endDate]])
+
+            self.SectionHead(5, "Transmittal Fee to reimburse the PROVIDER for preparation and distribution costs (optional).")
+            self.AddTable([["Amount:", transmittalFee]])
+
+            #            self.story.append(Spacer(0, .4 * inch))
+            self.story.append(PageBreak())
+
+            self.story.append(
+                Paragraph(
+                """This Implementing Letter is effective when signed by all parties. The parties executing this Implementing Letter certify that their respective organizations have accepted and signed an unmodified copy of the UBMTA, and further agree to be bound by its terms, for the transfer specified above.""",  styles['outer_style']))
+
+            self.UnSectionHead('PROVIDER SCIENTIST')
+            self.SignatureBlock('Name')
+
+            self.UnSectionHead('RECIPIENT SCIENTIST')
+            self.SignatureBlock('Name')
+
+            self.UnSectionHead('RECIPIENT ORGANIZATON CERTIFICATION')
+            self.SignatureBlock('Authorized Official')
+
+
+
+
+            doc.build(self.story,
                       onFirstPage=lambda canvas, doc: firstPageInfo(canvas, doc, title),
                       onLaterPages=lambda canvas, doc: allPageInfo(canvas, doc, title))
 
 
         return self.pdf_string(generator)
+
+
+class SLALetter(Letter):
+
+    def SigLine(self, string):
+        result = Table([[string, "Date"]], colWidths= [inch*3, inch*1])
+        result.setStyle(
+            TableStyle( [('ALIGN', (0, 0), (0, -1), 'RIGHT'),
+                         ('VALIGN', (0, 0), (-1, -1), 'BOTTOM'),
+                         ('FONTSIZE', (0, 0), (0, -1), 8),
+                         ('LINEABOVE', (0, 0), (1, 0), 0.5, colors.black),
+                         ('BOTTOMPADDING', (0,0), (1,-1), 0),
+                         ('TOPPADDING', (0, 0), (1, -1), 10),
+                         ]
+                        ))
+        result.hAlign = 'LEFT'
+        self.story.append(result)
+
+
+    def __call__(self, providerOrg='',
+                 materialDesc='',
+                 address1="",
+                 address2="",
+                 termination="",
+                 endDate="",
+                 transmittalFee="",
+                 purpose="",
+                 **kwargs):
+        
+        def generator(filename):
+            doc = getDocument(filename)
+
+            title = "Simple Letter Agreement for the Transfer of Materials"
+
+            self.FullLine("In response to the RECIPIENT's request for the MATERIAL", materialDesc)
+
+
+
+            self.FullLine("To be used for the purpose of", purpose)
+
+            self.PGraph("""the PROVIDER asks that the RECIPIENT and the RECIPIENT SCIENTIST agree to the Simple Letter Agreement attached before the RECIPIENT receives the MATERIAL.""")
+            self.PGraph("""The PROVIDER, RECIPIENT and RECIPIENT SCIENTIST must sign both copies of this letter and return one signed copy to the PROVIDER. The PROVIDER will then send the MATERIAL.""")
+
+            self.UnSectionHead("PROVIDER INFORMATION and AUTHORIZED SIGNATURE")
+
+            self.AddTable(
+                     [["Provider Scientist", ""],
+                      ["Provider Organization", providerOrg],
+                      ["Address", address1],
+                      ["Name of Authorized Official", ""],
+                      ["Title of Authorized Official", ""]])
+                      
+            self.PGraph("""Certification of Authorized Official:  This Simple Letter Agreement __has / __has not [check one] been modified. If modified, the modifications are attached. """)
+            self.SigLine("Signature of Provider's Authorized Official")
+
+
+            # this is weirdly asymmetrical with previous section, but that's how Thinh spec'd it
+
+            self.UnSectionHead("RECIPIENT INORMATION and AUTHORIZED SIGNATURE")
+
+            self.AddTable(
+                     [["Recipient Scientist", ""],
+                      ["Recipient Organization", ""],
+                      ["Address", ""],
+                      ["Name of Authorized Official", ""],
+                      ["Title of Authorized Official", ""],
+                      ["Signature of Authorized Official", ""],
+                      ["Date", ""]
+                      ])
+                      
+            self.PGraph("""Certification of Recipient Scientist:  I have read and understood the conditions outlined in this Agreement and I agree to abide by them in the receipt and use of the MATERIAL.""")
+            self.SigLine("Recipient Scientist")
+
+            doc.build(self.story,
+                      onFirstPage=lambda canvas, doc: firstPageInfo(canvas, doc, title),
+                      onLaterPages=lambda canvas, doc: allPageInfo(canvas, doc, title))
+
+        return self.pdf_string(generator)
+
+
+    

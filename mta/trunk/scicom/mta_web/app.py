@@ -206,8 +206,12 @@ class MtaAgreements(object):
         return stream.render("xhtml")
         
     def letter(self, code, version, kwargs):
-        # +++ just UBMTA for now
-        l = letters.letter.UBMTALetter()
+        if code == 'ubmta':
+            l = letters.letter.UBMTALetter()
+        elif code == 'sla':
+            l = letters.letter.SLALetter()
+        else:
+            raise cherrypy.HTTPError(404, 'Unknown license %s' % code)            
         # do this first to catch errors before declaring it a pdf
         result = l(**kwargs)
         l.pdf_prepare_response('implementing-letter')
