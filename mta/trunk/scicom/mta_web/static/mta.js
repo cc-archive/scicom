@@ -95,16 +95,22 @@ function MtaClass() {
     }
 
     this.get_legal_uri = function() {
-	return this.build_uri('legalcode');
+	return this.build_basic_uri('legalcode');
     }
 
-    this.build_uri = function(type) {
-	var info = YAHOO.mta.agreement_info();
+    // no parameters
+    this.build_basic_uri = function(type) {
 	var agr_type = this.get_agreement_id();
         var url = "agreements/" + agr_type + '/' + version;
 	if (type != null) {
 	    url = url + "/" + type;
 	}
+	return url;
+    }
+
+    this.build_uri = function(type) {
+	var url = this.build_basic_uri(type);
+	var info = YAHOO.mta.agreement_info();
 	// here we add in parameters...+++ only needed sometimes
 	url = url + "?source=mta";  
 	url = this.url_add_parameter(url, "providerOrg", info.provider_name);
@@ -254,21 +260,6 @@ CustomMta.prototype.get_panels = function() {
 function SciComMta() {
 
 
-    // I'm being too clever by half here...
-    this.get_specs = function() {
-
-	// call the "superclass" method, and tack new stuff onto it.
-	var specs = this.constructor.prototype.get_specs();
-
-// +++ getting redone
-// 	var rawspecs = this._info_form.getValues();
- 	// goddamn ext widgets don't return the right values, so massage them here
-// 	Ext.apply(specs, rawspecs);
-
-	return specs;
-    }
-
-
     this.get_metadata_template_additional = function() {
 	var info = this.get_info();
 	var result = '';
@@ -300,14 +291,15 @@ function SciComMta() {
     this.add_additional_url_parameters = function(url) {
 	var info = this.get_specs();
 	// +++ much more here
-	return this.url_add_parameter(url, "fieldSpec", info['fieldSpec']);
+	
+	url = this.url_add_parameter(url, "fieldSpec", info['fieldSpec']);
+	url = this.url_add_parameter(url, "endDate", info['endDate']);
+	url = this.url_add_parameter(url, "transmittalFee", info['transmittalFee']);
+	// note: have to do it this way, urls are not in the info object at this point.
+	url = this.url_add_parameter(url, "legalURL", this.get_legal_uri());
+	return url;
     }
 
-//     this.build_uri = function(type) {
-// 	var url = this.constructor.prototype.build_uri(type);
-// 	url = this.url_add_parameter(url, "fieldSpec", info.fieldSpec);
-// 	return url;
-//     }
 
 
 }; // SciComMta

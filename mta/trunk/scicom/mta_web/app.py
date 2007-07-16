@@ -114,7 +114,7 @@ class MtaAgreements(object):
 
         # might use basecode here
         if doctype == 'letter':
-            return self.letter(code, version, kwargs)
+            return self.letter(basecode, version, kwargs)
 
         raise cherrypy.HTTPError(404)
 
@@ -210,6 +210,8 @@ class MtaAgreements(object):
             l = letters.letter.UBMTALetter()
         elif code == 'sla':
             l = letters.letter.SLALetter()
+        elif code == 'sc':
+            l = letters.letter.SCLetter()
         else:
             raise cherrypy.HTTPError(404, 'Unknown license %s' % code)            
         # do this first to catch errors before declaring it a pdf

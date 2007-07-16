@@ -49,13 +49,14 @@ class Letter(object):
         self.story.append(Paragraph(str(number) + '. ' + string, styles['outer_style']))
 
     def FullLine(self, line, value):
+        self.story.append(Spacer(0, .1 * inch))
         self.PGraph(line)
 
-        result = Table([[value]], colWidths = [inch*4])
+        result = Table([["", value]], colWidths = [inch*.2, inch*4])
         result.setStyle(
-            TableStyle( [('LINEBELOW', (0, 0), (0, -1), 0.5, colors.black),
+            TableStyle( [('LINEBELOW', (1, 0), (1, -1), 0.5, colors.black),
                          ('BOTTOMPADDING', (0,0), (0,-1), 0),
-                         ('TOPPADDING', (0, 0), (0, -1), 10),
+                         ('TOPPADDING', (0, 0), (0, -1), 5),
                          ]
                         ))
         result.hAlign = 'LEFT'
@@ -67,10 +68,10 @@ class Letter(object):
         self.story.append(Paragraph(string, styles['outer_style']))
 
 
-    def AddTable(self, structure):
+    def AddTable(self, structure, col1Width=inch*1.5):
         result = Table(structure,
 #                               rowHeights = [inch*0.2],
-        colWidths = [inch*1, inch*3])
+                       colWidths = [col1Width, inch*4])
         result.setStyle(
                 TableStyle( [('ALIGN', (0, 0), (0, -1), 'RIGHT'),
                              ('VALIGN', (0, 0), (-1, -1), 'BOTTOM'),
@@ -159,13 +160,9 @@ class UBMTALetter(Letter):
             self.UnSectionHead('RECIPIENT ORGANIZATON CERTIFICATION')
             self.SignatureBlock('Authorized Official')
 
-
-
-
             doc.build(self.story,
                       onFirstPage=lambda canvas, doc: firstPageInfo(canvas, doc, title),
                       onLaterPages=lambda canvas, doc: allPageInfo(canvas, doc, title))
-
 
         return self.pdf_string(generator)
 
@@ -173,14 +170,17 @@ class UBMTALetter(Letter):
 class SLALetter(Letter):
 
     def SigLine(self, string):
-        result = Table([[string, "Date"]], colWidths= [inch*3, inch*1])
+        self.story.append(Spacer(0, .2 * inch))
+        result = Table([["", string, "", "Date"]], colWidths= [inch, inch*3, .2 * inch, inch*1])
         result.setStyle(
-            TableStyle( [('ALIGN', (0, 0), (0, -1), 'RIGHT'),
+            TableStyle( [('ALIGN', (1, 0), (1, -1), 'LEFT'),
+                         ('ALIGN', (2, 0), (2, -1), 'RIGHT'),
                          ('VALIGN', (0, 0), (-1, -1), 'BOTTOM'),
-                         ('FONTSIZE', (0, 0), (0, -1), 8),
-                         ('LINEABOVE', (0, 0), (1, 0), 0.5, colors.black),
+                         ('FONTSIZE', (0, 0), (-1, -1), 8),
+                         ('LINEABOVE', (1, 0), (1, 0), 0.5, colors.black),
+                         ('LINEABOVE', (3, 0), (3, 0), 0.5, colors.black),
                          ('BOTTOMPADDING', (0,0), (1,-1), 0),
-                         ('TOPPADDING', (0, 0), (1, -1), 10),
+                         ('TOPPADDING', (0, 0), (1, -1), 0),
                          ]
                         ))
         result.hAlign = 'LEFT'
@@ -218,11 +218,15 @@ class SLALetter(Letter):
                       ["Provider Organization", providerOrg],
                       ["Address", address1],
                       ["Name of Authorized Official", ""],
-                      ["Title of Authorized Official", ""]])
+                      ["Title of Authorized Official", ""]],
+                     col1Width=2*inch)
                       
-            self.PGraph("""Certification of Authorized Official:  This Simple Letter Agreement __has / __has not [check one] been modified. If modified, the modifications are attached. """)
-            self.SigLine("Signature of Provider's Authorized Official")
+            self.story.append(Spacer(0, .2 * inch))
 
+            self.PGraph("""Certification of Authorized Official:  This Simple Letter Agreement __has / __has not [check one] been modified.""")
+            self.PGraph("""If modified, the modifications are attached. """)
+
+            self.SigLine("Signature of Provider's Authorized Official")
 
             # this is weirdly asymmetrical with previous section, but that's how Thinh spec'd it
 
@@ -235,9 +239,11 @@ class SLALetter(Letter):
                       ["Name of Authorized Official", ""],
                       ["Title of Authorized Official", ""],
                       ["Signature of Authorized Official", ""],
-                      ["Date", ""]
-                      ])
+                      ["Date", ""]],
+                     col1Width=2*inch)
                       
+            self.story.append(Spacer(0, .2 * inch))
+
             self.PGraph("""Certification of Recipient Scientist:  I have read and understood the conditions outlined in this Agreement and I agree to abide by them in the receipt and use of the MATERIAL.""")
             self.SigLine("Recipient Scientist")
 
@@ -249,3 +255,88 @@ class SLALetter(Letter):
 
 
     
+class SCLetter(Letter):
+
+    # like default but no address
+    def SignatureBlock(self, name):
+        self.AddTable(
+            [[name + ':', ""],
+             ["Title:", ""],
+             ["Signature:", ""],
+             ["Date:", ""]])
+
+
+    def __call__(self, providerOrg='',
+                 materialDesc='',
+                 address1="",
+                 address2="",
+                 termination="",
+                 endDate="",
+                 transmittalFee="",
+                 legalURL="",
+                 fieldSpec="",
+                 **kwargs):
+        
+        def generator(filename):
+
+            doc = getDocument(filename)
+
+            title = "Science Commons Material Transfer Agreement Implementing Letter"
+
+            self.PGraph("Reference URL: " + legalURL)
+
+            self.story.append(Spacer(0, .2 * inch))
+            
+            self.PGraph("""This Implementing Letter incorporates by reference the Science Commons Material Transfer Agreement indicated above.""")
+
+            self.SectionHead(1, "PROVIDER: Organization providing the MATERIAL:")
+            self.AddTable(
+                     [["Organization", providerOrg],
+                      ["Address", address1],
+                      ["", address2]])
+
+            self.SectionHead(2, "RECIPIENT: Organization receiving the MATERIAL:")
+            self.AddTable(
+                [["Organization:", ""],
+                 ["Address:", ""],
+                 ["", ""]])
+
+            self.SectionHead(3, "MATERIAL (Enter description, URL, or add attachment):")
+            self.AddTable(
+                [["Description:", materialDesc],
+                 ["", ""],
+                 ["", ""]])
+
+            self.SectionHead(4, "SPECIFIED FIELD OF USE OR PROJECT (only if required by the MTA)")
+
+            self.FullLine("", fieldSpec)
+
+            self.SectionHead(5, "Termination date for this letter (optional)")
+
+            self.AddTable([["Date:", endDate]])
+
+            self.SectionHead(6, "Transmittal Fee to reimburse the PROVIDER for preparation and distribution costs (optional).")
+            self.AddTable([["Amount:", transmittalFee]])
+
+            #            self.story.append(Spacer(0, .4 * inch))
+            self.story.append(PageBreak())
+
+            self.PGraph("""This Implementing Letter is effective when signed by both PROVIDER and RECIPIENT or when signed by RECIPIENT and accepted by PROVIDER.""")
+
+            self.UnSectionHead('RECIPIENT SCIENTIST')
+            self.SignatureBlock('Name')
+
+            self.UnSectionHead('RECIPIENT ORGANIZATION REPRESENTATIVE')
+            self.PGraph("""As an authorized representative of RECIPIENT organization, I execute this Agreement on behalf of RECIPIENT organization (May be the RECIPIENT SCIENTIST if authorized by the RECIPIENT organization):""")
+            self.SignatureBlock('Authorized Official')
+
+
+            self.UnSectionHead('ACCEPTED BY PROVIDER (IF REQUIRED')
+            self.SignatureBlock('Authorized Official')
+
+            doc.build(self.story,
+                      onFirstPage=lambda canvas, doc: firstPageInfo(canvas, doc, title),
+                      onLaterPages=lambda canvas, doc: allPageInfo(canvas, doc, title))
+
+        return self.pdf_string(generator)
+

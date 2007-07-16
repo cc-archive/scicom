@@ -61,6 +61,9 @@ def getDocument(filename):
     return doc
 
 def firstPageInfo (canvas, doc, title):
+
+    canvas.setTitle(title)
+    canvas.setAuthor('Science Commons MTA Chooser')
     canvas.saveState()
 
     drawHeader(canvas, title)
