@@ -1,16 +1,16 @@
 <html>
   <head>
 
-    <title>MTA Popup Tester</title>
+    <title>MTA Embeddable Chooser Tester</title>
 
   </head>
 
   <body>
 
-    <h1>MTA Popup Tester</h1>
+    <h1>MTA Embeddable Chooser Tester</h1>
     
     <div>
-     <button onclick="doPopup()">Add offer</button>
+         <button onclick="doPopup()">Add offer</button>
     </div>
 
      <b>Offers:</b><br/>
@@ -31,21 +31,25 @@
 
       onOfferEvent = function(type, args, me) { 
         var offer = args[0];
+
+	var container = document.getElementById("offers");
+	var offerdiv = document.createElement("div");
+	offerdiv.setAttribute('style', 'border: 1px; border-style: solid; padding: 5px');
+	container.appendChild(offerdiv);
+
 	var metadata = document.createElement("div");
 	metadata.innerHTML = offer.get_metadata();
-	var container = document.getElementById("offers");
-	container.appendChild(metadata);
+	offerdiv.appendChild(metadata);
 
 	var parameters = document.createElement("div");
-        parameters.setAttribute('style', 'border: 1px; border-style: solid');
+        parameters.setAttribute('style', 'border: 1px; border-style: solid; padding: 5px');
 	var info = offer.get_info();
 	for (var prop in info) {
 	    var textnode = document.createTextNode(prop + ": " + info[prop]);
 	    parameters.appendChild(textnode);
 	    parameters.appendChild(document.createElement('br'));
         }
-
-	container.appendChild(parameters);
+	offerdiv.appendChild(parameters);
 
       };
 

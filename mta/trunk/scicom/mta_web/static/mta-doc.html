@@ -217,21 +217,16 @@ Legal values for &lt;DocumentType&gt; are:</P>
 		</TD>
 	</TR>
 </TABLE>
-<P ALIGN=LEFT>Any of the URLs may contain optional URL parameters.
+<P ALIGN=LEFT>The URLs for deeds and letters may contain optional URL parameters.
 The exact set of parameters is still being defined. 
 </P>
 <P ALIGN=LEFT>It is likely that other document types will be defined,
 i.e. for icons representing the agreements.</P>
 <H2><A NAME="AbiTOC3__"></A>Metadata</H2>
-<P>An RDF-based system of metadata will be defined Still under
-development. The metadata schema <A HREF="http://mta.sciencecommons.org/mta-schema.rdf">may
-be found here</A>.</P>
+<P>An RDF-based system of metadata for encoding information about agreements and offers will be defined. The current development version of the metadata schema <A HREF="http://mta.sciencecommons.org/mta-schema.rdf">may be found here</A>.  </P>
 <H2><A NAME="AbiTOC4__"></A>Chooser API</H2>
-<P ALIGN=LEFT>The embeddable version of the chooser is called via
-Javascript. The caller can post event handlers that are called when
-the chooser has generated an offer. An example use of the embeddable
-chooser <A HREF="http://mta.sciencecommons.org/embeddable-example.html">may
-be found here</A>.</P>
+<P ALIGN=LEFT>The embeddable version of the chooser is designed to be called from web pages hosted by material providers. It is invoked via a Javascript call, and the caller can register event handlers that will be called when the chooser has generated an offer.
+<p>An example use of the embeddable chooser <A HREF="http://mta.sciencecommons.org/embeddable-example.html">may be found here</A>.</P>
 <H3 CLASS="western">Calling the chooser</H3>
 <P ALIGN=LEFT>This code creates a popup window with the chooser, and
 arranges for the onOfferEvent function to be called when an offer is
@@ -278,7 +273,7 @@ Offer object API</H3>
 	</TR>
 	<TR VALIGN=TOP>
 		<TD WIDTH=211>
-			<P ALIGN=LEFT><TT CLASS="code"><B>get_deed_uri()<BR>get_implementing_uri()<BR>get_legal_uri()</B></TT></P>
+			<P ALIGN=LEFT><TT CLASS="code"><B>get_deed_uri()<BR>get_letter_uri()<BR>get_legalcode_uri()<BR>get_legaltext_uri</B></TT></P>
 		</TD>
 		<TD WIDTH=438>
 			<P ALIGN=LEFT>Return URIs for the various documents associated

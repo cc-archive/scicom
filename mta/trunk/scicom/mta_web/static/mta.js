@@ -62,8 +62,8 @@ function MtaClass() {
 	Ext.apply(specs, 
 		  { agreement_name: this.get_name(),
 		    agreement_uri: this.get_deed_uri(),	
-		    legal_uri: this.get_legal_uri(),
-		    implementing_uri: this.get_implementing_uri()
+		    legalcode_uri: this.get_legalcode_uri(),
+		    letter_uri: this.get_letter_uri()
 		  });
 	return specs;
     }
@@ -90,15 +90,20 @@ function MtaClass() {
 	return this.build_uri(null);	
     };
 
-    this.get_implementing_uri = function() {
+    this.get_letter_uri = function() {
 	return this.build_uri("letter");
     }
 
-    this.get_legal_uri = function() {
+    this.get_legalcode_uri = function() {
 	return this.build_basic_uri('legalcode');
     }
 
+    this.get_legaltext_uri = function() {
+	return this.build_basic_uri('legaltext');
+    }
+
     // no parameters
+
     this.build_basic_uri = function(type) {
 	var agr_type = this.get_agreement_id();
         var url = "agreements/" + agr_type + '/' + version;
@@ -223,7 +228,7 @@ function SlaClass() {
 
 SlaClass.prototype = new NonProfitMtaClass;
 SlaClass.prototype.class_id = 'sla';
-SlaClass.prototype.class_name = 'SLA';
+SlaClass.prototype.class_name = 'Simple Letter Agreement';
 SlaClass.prototype.constructor = SlaClass; // get around JavaScript weirdness
 SlaClass.prototype.get_panels = function() {
     return ["agreement_type", "for_whom", "logistics", "finish"];
@@ -237,10 +242,10 @@ function CustomMta() {
     }
 
     // I guess these should be empty (and callers should be smart about not displaying links)
-    this.get_implementing_uri = function() {
+    this.get_letter_uri = function() {
 	return '';
     }
-    this.get_legal_uri = function() {
+    this.get_legalcode_uri = function() {
 	return '';
     }
 
@@ -296,7 +301,7 @@ function SciComMta() {
 	url = this.url_add_parameter(url, "endDate", info['endDate']);
 	url = this.url_add_parameter(url, "transmittalFee", info['transmittalFee']);
 	// note: have to do it this way, urls are not in the info object at this point.
-	url = this.url_add_parameter(url, "legalURL", this.get_legal_uri());
+	url = this.url_add_parameter(url, "legalURL", this.get_legalcode_uri());
 	return url;
     }
 
@@ -305,7 +310,7 @@ function SciComMta() {
 }; // SciComMta
 SciComMta.prototype = new MtaClass;
 SciComMta.prototype.class_id = 'scicom';
-SciComMta.prototype.class_name = 'Science Commons';
+SciComMta.prototype.class_name = 'Science Commons MTA';
 SciComMta.prototype.constructor = SciComMta; // get around JavaScript weirdness
 
 SciComMta.prototype.get_panels = function() {

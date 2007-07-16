@@ -128,8 +128,8 @@ YAHOO.mta.finish_offer = function() {
 
     var template = new Ext.Template(
 	'<ul><li><a href="{agreement_uri}" target="deed">Deed</a>' +
-	    '<li><a href="{implementing_uri}" target="letter">Implementing letter (PDF)</a>' +
-	    '<li><a href="{legal_uri}" target="legal">Legal code</a></ul>' );
+	    '<li><a href="{letter_uri}" target="letter">Implementing letter (PDF)</a>' +
+	    '<li><a href="{legalcode_uri}" target="legal">Legal code</a></ul>' );
     
     var body = template.apply(info);
 

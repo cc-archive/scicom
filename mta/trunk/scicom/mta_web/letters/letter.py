@@ -283,7 +283,7 @@ class SCLetter(Letter):
 
             title = "Science Commons Material Transfer Agreement Implementing Letter"
 
-            self.PGraph("Reference URL: " + legalURL)
+            self.PGraph("Reference URL: http://mta.sciencecommons.org/" + legalURL)
 
             self.story.append(Spacer(0, .2 * inch))
             
