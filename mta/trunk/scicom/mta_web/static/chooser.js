@@ -188,6 +188,17 @@ YAHOO.mta.prepare_popup = function() {
     var dialog = document.getElementById("add-offer-dlg");
     window.size = dialog.size;
     popup = true;
+    window.focus();
+
+    // hook up event
+    var evt = window.opener.document.onOfferEvent;
+    if (evt == null) {
+	alert('popup called by document without a handler');
+    }
+    else {
+	document.offerEvent.subscribe(evt, document);
+    }
+
 }
 
 YAHOO.mta.add_offer = function(event) {
