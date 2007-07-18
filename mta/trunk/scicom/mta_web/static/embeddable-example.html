@@ -1,6 +1,13 @@
 <html>
 
-<!-- An example of how to use the MTA Embeddable chooser.  -->
+<!-- An example of how to use the MTA Embeddable chooser.  
+     Note that exit_url should point to a page served from the same domain as 
+     this one, in this case, http://localhost:8082/embed-response-example.html.
+     That page handles all the processing of the generated offer.  The exit_url
+     parameter contains parameter names surrounded by curly braces, which will
+     be replaced with values by the chooser. At the moment, the most interesting
+     one is {offer} which will be filled with a JSON representation of all the 
+     offer details.   -->
   <head>
 
     <title>MTA Embeddable Chooser Tester</title>
@@ -24,9 +31,10 @@
 
       doPopup = function() {
  
-          var wp = window.open("popup?source=mta&exit_url=embed-response-example.html?offer={offer}%26deedURL={deedURl}", "MTA popup", "width=500,height=300,resizable=no,status=no");
+          var wp = window.open("http://mta.sciencecommons.org/popup?source=mta&exit_url=http://localhost:8082/embed-response-example.html?offer={offer}%26deedURL={deedURl}", "MTA popup", "width=500,height=300,resizable=no,status=no");
 
        }
+
 
 
     </script>
