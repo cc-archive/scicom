@@ -1,4 +1,6 @@
 <html>
+
+<!-- An example of how to use the MTA Embeddable chooser.  -->
   <head>
 
     <title>MTA Embeddable Chooser Tester</title>
@@ -22,37 +24,10 @@
 
       doPopup = function() {
  
-            var wp = window.open("popup", "MTA popup", "width=500,height=300,resizable=no,status=no");
-<!--            var wp = window.open("http://mta.sciencecommons.org/popup", "MTA popup", "width=500,height=300,resizable=no,status=no"); -->
-<!-- 	   wp.onload = function() { -->
-<!--               wp.focus();   // should bring to top, but doesn't always -->
-<!--               wp.document.offerEvent.subscribe(onOfferEvent, wp.document); -->
-<!-- 	  } -->
+          var wp = window.open("popup?source=mta&exit_url=embed-response-example.html?offer={offer}%26deedURL={deedURl}", "MTA popup", "width=500,height=300,resizable=no,status=no");
+
        }
 
-      window.onOfferEvent = function(type, args, me) { 
-        var offer = args[0];
-
-	var container = document.getElementById("offers");
-	var offerdiv = document.createElement("div");
-	offerdiv.setAttribute('style', 'border: 1px; border-style: solid; padding: 5px');
-	container.appendChild(offerdiv);
-
-	var metadata = document.createElement("div");
-	metadata.innerHTML = offer.get_metadata();
-	offerdiv.appendChild(metadata);
-
-	var parameters = document.createElement("div");
-        parameters.setAttribute('style', 'border: 1px; border-style: solid; padding: 5px');
-	var info = offer.get_info();
-	for (var prop in info) {
-	    var textnode = document.createTextNode(prop + ": " + info[prop]);
-	    parameters.appendChild(textnode);
-	    parameters.appendChild(document.createElement('br'));
-        }
-	offerdiv.appendChild(parameters);
-
-      };
 
     </script>
 

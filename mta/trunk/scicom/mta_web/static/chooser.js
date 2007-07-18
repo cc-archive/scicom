@@ -144,8 +144,34 @@ YAHOO.mta.finish_offer = function() {
 // finish offer, iframe version
 YAHOO.mta.finish_offer_iframe = function() {
 
-    offerEvent.fire(current_offer);
-    
+//    offerEvent.fire(current_offer);
+    // NEW, exciting version.
+    // plug information into exit_url +++
+
+    // encodeURIComponent()
+
+    var template = new Ext.Template(MTA_exit_url);
+    var new_url = template.apply({
+	offer: encodeURIComponent(Ext.encode(current_offer.get_info())), 
+	deedURL: encodeURIComponent(current_offer.get_deed_uri()) });
+    window.location = new_url;
+
+}
+
+YAHOO.mta.prepare_popup = function() {
+    var dialog = document.getElementById("add-offer-dlg");
+    window.size = dialog.size;
+    popup = true;
+    window.focus();
+
+    // hook up event
+//     var evt = window.opener.onOfferEvent;
+//     if (evt == null) {
+// 	alert('popup called by document without a handler');
+//     }
+//     else {
+// 	document.offerEvent.subscribe(evt, document);
+//     }
 }
 
 YAHOO.mta.hide_dlg = function() {
@@ -183,23 +209,6 @@ YAHOO.mta.read_cookie = function() {
 
 
 var popup = false;
-
-YAHOO.mta.prepare_popup = function() {
-    var dialog = document.getElementById("add-offer-dlg");
-    window.size = dialog.size;
-    popup = true;
-    window.focus();
-
-    // hook up event
-    var evt = window.opener.onOfferEvent;
-    if (evt == null) {
-	alert('popup called by document without a handler');
-    }
-    else {
-	document.offerEvent.subscribe(evt, document);
-    }
-
-}
 
 YAHOO.mta.add_offer = function(event) {
     
@@ -288,8 +297,8 @@ YAHOO.mta.add_offer = function(event) {
 		}
 		else {
     		    YAHOO.mta.finish_offer();
+   		    YAHOO.mta.hide_dlg();
 		}
-		YAHOO.mta.hide_dlg();
 		return;
 	    }
 
@@ -706,8 +715,8 @@ function readCookie(name) {
 }
 
 // event for iframe
-var offerEvent = new YAHOO.util.CustomEvent("offerEvent");
-parent.document.offerEvent = offerEvent;
+//var offerEvent = new YAHOO.util.CustomEvent("offerEvent");
+//parent.document.offerEvent = offerEvent;
 
 
 // SIGH!

@@ -46,6 +46,7 @@
     <!-- Pass iframe down below -->
     <script py:if="iframe" type="text/javascript">
       MTA_iframe = true;
+      MTA_exit_url = '${exit_url}';
     </script>
     <script py:if="not(iframe)" type="text/javascript">
       MTA_iframe = false;

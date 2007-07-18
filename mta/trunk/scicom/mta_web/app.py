@@ -294,9 +294,9 @@ class MtaWeb(object):
         return stream.render("xhtml")        
 
     @cherrypy.expose
-    def popup(self):
+    def popup(self, **kwargs):
         template = self.__loader.load("popup.html")
-        stream = template.generate(iframe=True)   # not exactly iframe, but close for now
+        stream = template.generate(iframe=True, **kwargs)   # not exactly iframe, but close for now
         return stream.render("xhtml")        
 
 
