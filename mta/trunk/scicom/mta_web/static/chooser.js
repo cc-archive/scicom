@@ -191,7 +191,7 @@ YAHOO.mta.prepare_popup = function() {
     window.focus();
 
     // hook up event
-    var evt = window.opener.document.onOfferEvent;
+    var evt = window.opener.onOfferEvent;
     if (evt == null) {
 	alert('popup called by document without a handler');
     }

@@ -22,14 +22,15 @@
 
       doPopup = function() {
  
-           var wp = window.open("popup", "MTA popup", "width=500,height=300,resizable=no,status=no");
+            var wp = window.open("popup", "MTA popup", "width=500,height=300,resizable=no,status=no");
+<!--            var wp = window.open("http://mta.sciencecommons.org/popup", "MTA popup", "width=500,height=300,resizable=no,status=no"); -->
 <!-- 	   wp.onload = function() { -->
 <!--               wp.focus();   // should bring to top, but doesn't always -->
 <!--               wp.document.offerEvent.subscribe(onOfferEvent, wp.document); -->
 <!-- 	  } -->
        }
 
-      document.onOfferEvent = function(type, args, me) { 
+      window.onOfferEvent = function(type, args, me) { 
         var offer = args[0];
 
 	var container = document.getElementById("offers");
