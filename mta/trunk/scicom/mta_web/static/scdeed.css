@@ -216,6 +216,9 @@
 		li.return {
 					background: url("/images/returndestroy.png") 0 0 no-repeat;
 		}
+		li.end-date {
+					background: url("/images/time.png") 0 0 no-repeat;
+		}
 		
 		li a {
 			color: #0000ff;

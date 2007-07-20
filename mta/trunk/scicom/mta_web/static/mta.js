@@ -209,7 +209,7 @@ UbmtaClass.prototype.class_id = 'ubmta';
 UbmtaClass.prototype.class_name = 'UBMTA';
 UbmtaClass.prototype.constructor = UbmtaClass; // get around JavaScript weirdness
 UbmtaClass.prototype.get_panels = function() {
-    return ["agreement_type", "for_whom", "logistics", "finish"];
+    return ["agreement_type", "logistics", "finish"];
 }
 
 
@@ -231,7 +231,7 @@ SlaClass.prototype.class_id = 'sla';
 SlaClass.prototype.class_name = 'Simple Letter Agreement';
 SlaClass.prototype.constructor = SlaClass; // get around JavaScript weirdness
 SlaClass.prototype.get_panels = function() {
-    return ["agreement_type", "for_whom", "logistics", "finish"];
+    return ["agreement_type", "logistics", "finish"];
 }
 
 
@@ -255,7 +255,7 @@ CustomMta.prototype.class_id = 'custom';
 CustomMta.prototype.class_name = 'Custom Agreement';
 CustomMta.prototype.constructor = CustomMta; // get around JavaScript weirdness
 CustomMta.prototype.get_panels = function() {
-    return ["agreement_type", "for_whom", "custom", "finish"];
+    return ["agreement_type", "custom", "finish"];
 }
 
 

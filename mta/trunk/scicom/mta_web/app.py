@@ -133,7 +133,7 @@ class MtaAgreements(object):
 
         # default
         footer = 'You will acknowledge provider in publications reporting use of the materials.'
-        legalurl = '/agreements/' + basecode + "/" + version + '/legalcode'
+        legalurl = '/agreements/' + code + "/" + version + '/legalcode'
         
         if code == 'ubmta':
             longname = 'Uniform Biological Material Transfer Agreement'
@@ -201,6 +201,10 @@ class MtaAgreements(object):
                 conditions.append({'long': 'You will return or destroy the materials upon completion of research or the termination of the agreement.',
                                    'uri': 'sc:Retention',
                                    'code': 'return'})
+
+        if kwargs.__contains__('endDate'):
+            conditions.append({'long':  'This agreement terminates on %s' % kwargs['endDate'],
+                               'code':  'end-date'})
 
         stream = template.generate(code=code, version=version, permissions=permissions, conditions=conditions, footer=footer, legalurl=legalurl, longname=longname)
         return stream.render("xhtml")

@@ -7,7 +7,7 @@
 	<META NAME="AUTHOR" CONTENT="Mike Travers">
 	<META NAME="CREATED" CONTENT="20070711;12225800">
 	<META NAME="CHANGEDBY" CONTENT="Mike Travers">
-	<META NAME="CHANGED" CONTENT="20070711;16115200">
+	<META NAME="CHANGED" CONTENT="20070718;17280800">
 	<STYLE TYPE="text/css">
 	<!--
 		@page { size: 8.5in 11in; margin: 0.79in }
@@ -32,11 +32,11 @@ Chooser</H1>
 <P><BR><BR>
 </P>
 <P ALIGN=CENTER><FONT SIZE=4 STYLE="font-size: 16pt"><I>Preliminary
-documenation; subject to change!</I></FONT></P>
+documentation; subject to change!</I></FONT></P>
 <H2>Introduction</H2>
 <P>Science Commons Materials Transfer Agreements (MTAs) are contracts
 that govern the transfer of tangible research materials from one
-research institution (the provider) to another (the recipient).  They
+research institution (the provider) to another (the recipient). They
 are most commonly employed in the transfer of &quot;unique research
 resources&quot; such as cell lines, monoclonal antibodies, reagents,
 animal models, growth factors, combinatorial chemistry and DNA
@@ -48,7 +48,7 @@ chemical substrates may be shared under MTAs as well.</P>
 agreement for a material. There are two forms of the chooser: a
 <A HREF="http://mta.sciencecommons.org/chooser">standalone web page</A>,
 and an embeddable version designed to be used from a provide's web
-pages.  
+pages. 
 </P>
 <H2><A NAME="AbiTOC0__"></A>Terminology</H2>
 <TABLE WIDTH=665 BORDER=0 CELLPADDING=4 CELLSPACING=0>
@@ -217,39 +217,35 @@ Legal values for &lt;DocumentType&gt; are:</P>
 		</TD>
 	</TR>
 </TABLE>
-<P ALIGN=LEFT>The URLs for deeds and letters may contain optional URL parameters.
-The exact set of parameters is still being defined. 
+<P ALIGN=LEFT>The URLs for deeds and letters may contain optional URL
+parameters. The exact set of parameters is still being defined. 
 </P>
 <P ALIGN=LEFT>It is likely that other document types will be defined,
 i.e. for icons representing the agreements.</P>
 <H2><A NAME="AbiTOC3__"></A>Metadata</H2>
-<P>An RDF-based system of metadata for encoding information about agreements and offers will be defined. The current development version of the metadata schema <A HREF="http://mta.sciencecommons.org/mta-schema.rdf">may be found here</A>.  </P>
-<H2><A NAME="AbiTOC4__"></A>Chooser API</H2>
-<P ALIGN=LEFT>The embeddable version of the chooser is designed to be called from web pages hosted by material providers. It is invoked via a Javascript call, and the caller can register event handlers that will be called when the chooser has generated an offer.
-<p>An example use of the embeddable chooser <A HREF="http://mta.sciencecommons.org/embeddable-example.html">may be found here</A>.</P>
-<H3 CLASS="western">Calling the chooser</H3>
-<P ALIGN=LEFT>This code creates a popup window with the chooser, and
-arranges for the onOfferEvent function to be called when an offer is
-complete:</P>
-<PRE STYLE="margin-left: 0.45in"><TT CLASS="code">    var wp = window.open(&quot;http://mta.sciencecommons.org/popup&quot;, &quot;MTA popup&quot;,          &quot;width=500,height=300,resizable=no,status=no&quot;);</TT>
-<TT CLASS="code">    wp.onload = function() {</TT>
-<TT CLASS="code">        wp.document.offerEvent.subscribe(onOfferEvent, wp.document);</TT>
-<TT CLASS="code">    }</TT>
-</PRE><P ALIGN=LEFT>
-The event handler is passed an offer argument, which has an API
-defined below. 
+<P>An RDF-based system of metadata for encoding information about
+agreements and offers will be defined. The current development
+version of the metadata schema <A HREF="http://mta.sciencecommons.org/mta-schema.rdf">may
+be found here</A>. 
 </P>
-<PRE STYLE="margin-left: 0.45in"><TT CLASS="code">onOfferEvent = function(type, args, me) { </TT>
-<TT CLASS="code">     var offer = args[0];</TT>
-<TT CLASS="code">     ...</TT>
-<TT CLASS="code">}</TT></PRE><H3 CLASS="western">
-Offer object API</H3>
+<H2><A NAME="AbiTOC4__"></A>Chooser API</H2>
+<P ALIGN=LEFT>The embeddable version of the chooser is designed to be
+called from web pages hosted by material providers. It is invoked via
+a Javascript call, and the caller can register event handlers that
+will be called when the chooser has generated an offer. 
+</P>
+<P>An example use of the embeddable chooser <A HREF="http://mta.sciencecommons.org/embeddable-example.html">may
+be found here</A>.</P>
+<H3 CLASS="western">Offer info  API</H3>
+<P>The end product of the chooser API is a JSON object containing all
+the relevant parameters of the offer. These are described below. Not
+that not all parameters will always be present</P>
 <TABLE WIDTH=665 BORDER=0 CELLPADDING=4 CELLSPACING=0>
 	<COL WIDTH=211>
 	<COL WIDTH=438>
 	<TR VALIGN=TOP>
 		<TD WIDTH=211>
-			<P ALIGN=LEFT><TT CLASS="code"><B>get_agreement_id()</B></TT></P>
+			<P ALIGN=LEFT><TT CLASS="code"><B>code</B></TT></P>
 		</TD>
 		<TD WIDTH=438>
 			<P ALIGN=LEFT>Returns the agreement code (ie, 'sc-rp-ns')</P>
@@ -257,23 +253,24 @@ Offer object API</H3>
 	</TR>
 	<TR VALIGN=TOP>
 		<TD WIDTH=211>
-			<P ALIGN=LEFT><TT CLASS="code"><B>get_name()</B></TT></P>
+			<P ALIGN=LEFT><TT CLASS="code"><B>agreement_name</B></TT></P>
 		</TD>
 		<TD WIDTH=438>
-			<P ALIGN=LEFT>Get a human-readable name for the offer</P>
+			<P ALIGN=LEFT>The a human-readable name for the offer (ie 'Simple
+			Letter Agreement')</P>
 		</TD>
 	</TR>
 	<TR VALIGN=TOP>
 		<TD WIDTH=211>
-			<P ALIGN=LEFT><TT CLASS="code"><B>get_version()</B></TT></P>
+			<P ALIGN=LEFT><TT CLASS="code"><B>version</B></TT></P>
 		</TD>
 		<TD WIDTH=438>
-			<P ALIGN=LEFT>Return the version (currently always '1.0')</P>
+			<P ALIGN=LEFT> The agreement version (currently always '1.0')</P>
 		</TD>
 	</TR>
 	<TR VALIGN=TOP>
 		<TD WIDTH=211>
-			<P ALIGN=LEFT><TT CLASS="code"><B>get_deed_uri()<BR>get_letter_uri()<BR>get_legalcode_uri()<BR>get_legaltext_uri</B></TT></P>
+			<P ALIGN=LEFT><B><TT CLASS="code">agreement</TT><TT CLASS="code">_uri<BR>letter_uri<BR>legalcode_uri<BR>legaltext_uri</TT></B></P>
 		</TD>
 		<TD WIDTH=438>
 			<P ALIGN=LEFT>Return URIs for the various documents associated
@@ -282,20 +279,65 @@ Offer object API</H3>
 	</TR>
 	<TR VALIGN=TOP>
 		<TD WIDTH=211>
-			<P ALIGN=LEFT><TT CLASS="code"><B><BR>get_metadata()</B></TT></P>
+			<P ALIGN=LEFT><TT CLASS="code"><B>to_nonprofit<BR>to_forprofit</B></TT></P>
 		</TD>
 		<TD WIDTH=438>
-			<P ALIGN=LEFT>Returns a representation of the offer in HTML with
-			RDFa embedded metadata</P>
+			<P ALIGN=LEFT>Boolean values indicating whether the offer is
+			available to nonprofits and/or for-profit organizations.</P>
 		</TD>
 	</TR>
 	<TR VALIGN=TOP>
 		<TD WIDTH=211>
-			<P ALIGN=LEFT><TT CLASS="code"><B>get_info()</B></TT></P>
+			<P ALIGN=LEFT><TT CLASS="code"><B>endDate</B></TT></P>
 		</TD>
 		<TD WIDTH=438>
-			<P ALIGN=LEFT>Returns an object containing all parameters of the
-			offer.</P>
+			<P ALIGN=LEFT>Termination date of the agreement</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=211>
+			<P ALIGN=LEFT><FONT FACE="DejaVu Sans Mono, sans-serif"><FONT SIZE=2><B>transmittalFee</B></FONT></FONT></P>
+		</TD>
+		<TD WIDTH=438>
+			<P ALIGN=LEFT><BR>
+			</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=211>
+			<P ALIGN=LEFT><FONT FACE="DejaVu Sans Mono, sans-serif"><FONT SIZE=2><B>scaleUpAllowed</B></FONT></FONT></P>
+		</TD>
+		<TD WIDTH=438>
+			<P ALIGN=LEFT><BR>
+			</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=211>
+			<P ALIGN=LEFT><FONT FACE="DejaVu Sans Mono, sans-serif"><FONT SIZE=2><B>retentionAllowed</B></FONT></FONT></P>
+		</TD>
+		<TD WIDTH=438>
+			<P ALIGN=LEFT><BR>
+			</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=211>
+			<P ALIGN=LEFT><FONT FACE="DejaVu Sans Mono, sans-serif"><FONT SIZE=2><B>fieldOfUse</B></FONT></FONT></P>
+		</TD>
+		<TD WIDTH=438>
+			<P ALIGN=LEFT>Indicates whether license is restricted to a
+			particular disease ('disease'), protocol ('protocol'), or is
+			allowed for all uses ('all).</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=211>
+			<P ALIGN=LEFT><FONT FACE="DejaVu Sans Mono, sans-serif"><FONT SIZE=2><B>fieldSpec</B></FONT></FONT></P>
+		</TD>
+		<TD WIDTH=438>
+			<P ALIGN=LEFT>The particular disease or protocol the offer is
+			restricted to.</P>
 		</TD>
 	</TR>
 </TABLE>
