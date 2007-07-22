@@ -20,6 +20,7 @@ YAHOO.mta.pnl_type_activate = function(obj) {
 } // pnl_type_activate
 
 
+// +++ no longer used, flush
 YAHOO.mta.pnl_for_whom_activate = function(obj) {
 
     // get agreement type, and enable checkboxes accordingly.
@@ -33,7 +34,6 @@ YAHOO.mta.pnl_for_whom_activate = function(obj) {
     forprofit_box.disabled = !forprofit;
     nonprofit_box.disabled = !nonprofit;
 
-    //  why don't we just skip this panel if there's only one choice? +++
     if (!forprofit) {
 	forprofit_box.checked = false;
 	nonprofit_box.checked = true;
@@ -64,10 +64,10 @@ YAHOO.mta.update_metadata = function() {
 	
     // constant, we don't have to really make this each time
     var template = new Ext.Template(
-	'<div xmlns:cc="http://creativecommons.org/ns# xmlns:sc="http://sciencecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">\n' +
-	    '<div class=sc:Material about="{material_uri}">' +
+	'<div xmlns:cc="http://creativecommons.org/ns#" xmlns:sc="http://sciencecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">\n' +
+	    '<div class="sc:Material" about="{material_uri}">' +
 	    'The material <a href="{material_uri}">{material_description}</a>' +
-	    ' is available from <a href="{provider_url}">{provider_name}</a> under the following offers:<br/>\n<ul>\n');
+	    ' is available from <a rel="sc:provider" href="{provider_url}">{provider_name}</a> under the following offers:<br/>\n<ul>\n');
 
 
     var info = YAHOO.mta.agreement_info();
@@ -145,10 +145,7 @@ YAHOO.mta.finish_offer = function() {
 YAHOO.mta.finish_offer_iframe = function() {
 
 //    offerEvent.fire(current_offer);
-    // NEW, exciting version.
-    // plug information into exit_url +++
-
-    // encodeURIComponent()
+    // NEW version -- plug information into exit_url 
 
     var template = new Ext.Template(MTA_exit_url);
     var new_url = template.apply({
@@ -370,15 +367,44 @@ YAHOO.mta.add_offer = function(event) {
 	
 	panel = new Ext.ContentPanel('for_whom');
 	YAHOO.mta.dlg_offer.wiz_panels['for_whom'] = panel;
-	panel.addListener('activate', YAHOO.mta.pnl_for_whom_activate);
+//	panel.addListener('activate', YAHOO.mta.pnl_for_whom_activate);
+
+	// +++ let's try a new scheme
+	var for_whom_form =  new Ext.form.Form({
+	    labelAlign: 'right',
+            labelWidth: 200});
+	for_whom_form.add(
+	    new Ext.form.Radio({
+		fieldLabel: "Recipient class",
+		boxLabel : "All types of recipients",
+		inputValue: 'all',
+		name : 'recipientType'
+	    }), 
+
+	    new Ext.form.Radio({
+		boxLabel : "Offer to non-profits only",
+		inputValue: 'nonProfit',
+		name : 'recipientType'
+	    }), 
+
+	    new Ext.form.Radio({
+		boxLabel : "Offer to for-profits only",
+		inputValue: 'forProfit',
+		name : 'recipientType'
+	    })
+	);
+
+	for_whom_form.render(panel.getEl().child(".x-contents"));
 
 	panel.verify_panel_complete = function (offer) {
 	    
 	}
 
 	panel.gather_info = function(result) {
-	    result['to_nonprofit'] = document.getElementById("offer_to_nonprofit").checked;
-	    result['to_forprofit'] = document.getElementById("offer_to_forprofit").checked;
+
+	    // new style
+	    var rawspecs = for_whom_form.getValues();
+	    Ext.apply(result, rawspecs);
 	}
 
 	// *** finish panel
@@ -476,6 +502,13 @@ YAHOO.mta.add_offer = function(event) {
 		inputValue: 'disease',
 		name : 'fieldOfUse'
 	    }), 
+
+	    new Ext.form.Radio({
+		boxLabel : "All uses <i>except</i> disease",
+		inputValue: 'notDisease',
+		name : 'fieldOfUse'
+	    }), 
+
 	    new Ext.form.Radio({
 		boxLabel : "Restrict to protocol",
 		inputValue: 'protocol',
@@ -511,6 +544,9 @@ YAHOO.mta.add_offer = function(event) {
 	    })
 	    
 	);
+
+	// set up auto complete +++
+	// currently in YAHOO.mta.init...also see css stuff in chooser-scripts.html
 
 	sc_form.render(panel.getEl().child(".x-contents"));
 	panel.verify_panel_complete = function (offer) {
@@ -627,7 +663,6 @@ YAHOO.mta.init = function() {
 	return aResultItem[0] + " (" + aResultItem[1] + ")";
     } // formatResult
 
-
     // initialize the add offer button
     new YAHOO.widget.Button("btn_add_offer", {onclick: {fn: YAHOO.mta.add_offer } });
 
@@ -636,16 +671,8 @@ YAHOO.mta.init = function() {
 			    { onclick: { fn: YAHOO.mta.generate_material_uri } });
 
 
-    // temp
-    new YAHOO.widget.Button("btn_implementing_letter",
-			    { onclick: { fn: YAHOO.mta.generate_implementing_letter } });
-
     // initialize the stack of offers
     YAHOO.mta.offer_list = new Array();
-
-    // call updateMta to generate the information for the base MTA
-    // apparently dead? +++
-    //	updateMta();
 
     YAHOO.mta.init_help_text('material_provider_hl', 'material_provider_help');	
     YAHOO.mta.init_help_text('material_provider_url_hl', 'material_provider_url_help');	

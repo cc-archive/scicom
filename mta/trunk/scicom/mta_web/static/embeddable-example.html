@@ -19,7 +19,11 @@
     <h1>MTA Embeddable Chooser Tester</h1>
     
     <div>
-         <button onclick="doPopup()">Add offer</button>
+         <button onclick='window.open("http://mta.sciencecommons.org/popup?source=mta&exit_url=http://localhost:8082/embed-response-example.html?offer={offer}%26deedURL={deedURl}", "MTA popup", "width=500,height=300,resizable=no,status=no");'>Add offer (from sciencecommons.org)</button>
+	 <br>
+         <button onclick='window.open("popup?source=mta&exit_url=http://localhost:8082/embed-response-example.html?offer={offer}%26deedURL={deedURl}", "MTA popup", "width=500,height=300,resizable=no,status=no");'>Add offer (from local server)</button>
+	 <br>
+         <button onclick='window.open("popup?source=mta&no_logistics=true&exit_url=http://localhost:8082/embed-response-example.html?offer={offer}%26deedURL={deedURl}", "MTA popup", "width=500,height=300,resizable=no,status=no");'>Add offer (local server, no logistics)</button>
     </div>
 
      <b>Offers:</b><br/>
@@ -28,20 +32,9 @@
      </div>
 
     <script type="text/javascript">
-
-      doPopup = function() {
- 
-          var wp = window.open("http://mta.sciencecommons.org/popup?source=mta&exit_url=http://localhost:8082/embed-response-example.html?offer={offer}%26deedURL={deedURl}", "MTA popup", "width=500,height=300,resizable=no,status=no");
-
-       }
-
-
-
     </script>
 
 
   </body>
-
-
 
 </html>

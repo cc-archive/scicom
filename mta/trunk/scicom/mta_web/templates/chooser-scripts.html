@@ -47,9 +47,11 @@
     <script py:if="iframe" type="text/javascript">
       MTA_iframe = true;
       MTA_exit_url = '${exit_url}';
+      MTA_no_logistics = '${no_logistics}';
     </script>
     <script py:if="not(iframe)" type="text/javascript">
       MTA_iframe = false;
+      MTA_no_logistics = '';
     </script>
 
 

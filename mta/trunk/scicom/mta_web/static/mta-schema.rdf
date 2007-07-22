@@ -87,8 +87,15 @@
 	<rdfs:subPropertyOf rdf:resource="http://purl.org/dc/terms/license" />
     </rdf:Property>
 
-    <rdf:Property rdf:about="nonProfitsOnly">
-        <dc:title>limited to nonprofit recipients</dc:title>
+    <rdf:Property rdf:about="recipientTypes">
+        <dc:title>type of institution this offer is for</dc:title>
+        <rdfs:domain rdf:resource="Offer"/>
+	<!-- values are all, forProfit, or nonProfit -->
+        <rdfs:range rdf:resource="Literal"/>
+    </rdf:Property>
+
+    <rdf:Property rdf:about="toNonProfits">
+        <dc:title>offer is made to not-profit recipients</dc:title>
         <rdfs:domain rdf:resource="Offer"/>
 	<!-- boolean range -->
         <rdfs:range rdf:resource="Literal"/>
@@ -101,7 +108,7 @@
 	<rdfs:range rdf:resource="Literal"/>
     </rdf:Property>
 
-    <rdf:Property rdf:about="oneTimeFee">
+    <rdf:Property rdf:about="transmittalFee">
         <dc:title>One-time transmittal fee</dc:title>
         <rdfs:domain rdf:resource="Offer"/>
 	<!-- currency range-->
@@ -155,44 +162,46 @@
       <dc:description>Transfer or redistribution of materials to a for-profit entity</dc:description>
     </cc:Prohibition>
 
-    <!-- Requirements  -->
-
-    <!-- Class of disease requirements (necessary to define disease property -->
-    <rdfs:Class rdf:about="DiseaseRequirement">		       
-        <dc:title>Disease Requirement class</dc:title>
-        <dc:description>Class of disease requirements</dc:description>
-	<rdfs:subClassOf rdf:resource="cc:Requirement"/>
+    <!-- Class of disease prohibitions (necessary to define disease property -->
+    <rdfs:Class rdf:about="DiseaseProhibition">		       
+        <dc:title>Disease Prohibition class</dc:title>
+        <dc:description>Class of disease prohibitions</dc:description>
+	<rdfs:subClassOf rdf:resource="cc:Prohibition"/>
     </rdfs:Class>
 
-    <!-- The generic disease requirement -->
-    <DiseaseRequirement rdf:about="Disease ">
+    <!-- The generic disease prohibition -->
+    <DiseaseProhibition rdf:about="Disease ">
       <dc:description>Use is limited to work on a particular disease</dc:description>
-    </DiseaseRequirement>
+    </DiseaseProhibition>
 
     <rdf:Property rdf:about="disease">
         <dc:title>limited to disease</dc:title>
-        <rdfs:domain rdf:resource="DiseaseRequirement"/>
+        <rdfs:domain rdf:resource="DiseaseProhibition"/>
 	<!-- range is MeSH terms or free text -->
         <rdfs:range rdf:resource="Literal"/>
     </rdf:Property>
 
-    <!-- Class of protocol requirements (necessary to define protocol property -->
-    <rdfs:Class rdf:about="ProtocolRequirement">		       
-        <dc:title>Protocol requirement class</dc:title>
-        <dc:description>Class of protocol requirements</dc:description>
-	<rdfs:subClassOf rdf:resource="cc:Requirement"/>
+    <!-- Class of protocol prohibitions (necessary to define protocol property -->
+    <rdfs:Class rdf:about="ProtocolProhibition">		       
+        <dc:title>Protocol prohibition class</dc:title>
+        <dc:description>Class of protocol prohibitions</dc:description>
+	<rdfs:subClassOf rdf:resource="cc:Prohibition"/>
     </rdfs:Class>
 
-    <!-- Generic protocol requirement -->
-    <ProtocolRequirement rdf:about="Protocol">
+    <!-- Generic protocol prohibition -->
+    <ProtocolProhibition rdf:about="Protocol">
 	<dc:description>Use is limited to an agreed protocol</dc:description>
-    </ProtocolRequirement>
+    </ProtocolProhibition>
 
     <rdf:Property rdf:about="protocol">
         <dc:title>limited to protocol</dc:title>
-        <rdfs:domain rdf:resource="ProtocolRequirement"/>
+        <rdfs:domain rdf:resource="ProtocolProhibition"/>
         <rdfs:range rdf:resource="Literal"/>
     </rdf:Property>
+
+
+    <!-- Requirements  -->
+
 
 </rdf:RDF>
 

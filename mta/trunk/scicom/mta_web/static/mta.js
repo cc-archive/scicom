@@ -21,7 +21,11 @@ function MtaClass() {
 	var panels = this.get_panels();
 	for (i = 0; i < panels.length; i++) {
 	    if (panels[i] == current_panel) {
-		return panels[i+1];
+		var npanel = panels[i+1];
+		// special hack to skip logistics panel
+		if (npanel == 'logistics' && MTA_no_logistics != '')
+		    return panels[i+2];
+		return npanel;
 	    }
 	}
     }
@@ -49,7 +53,7 @@ function MtaClass() {
 
 	maparray(this.get_panels(), function(panel_name) {
 	
-	YAHOO.mta.dlg_offer.wiz_panels[panel_name].gather_info(result);
+	    YAHOO.mta.dlg_offer.wiz_panels[panel_name].gather_info(result);
 	});
 
 	return result;
@@ -71,14 +75,34 @@ function MtaClass() {
     this.get_metadata_template = function() {
 	return new Ext.Template(
 	    "<li class='sc:Offer' rel='sc:offer'>\n" +
-		"  <a rel=sc:agreement href='{agreement_uri}'>{agreement_name}</a>.\n" +
+		"  <a rel='sc:agreement' href='{agreement_uri}'>{agreement_name}</a>.\n" +
 		this.get_metadata_template_additional() +
 		"</li>");
     }
     
-    // subclasses override this to add metadata
+    // was going to allow classes to override, but instead it's data-driven from the info
     this.get_metadata_template_additional = function() {
-	return '';
+	var info = this.get_info();
+	var result = '';
+	// note: scaleup isn't actually going to be here, it's in the agreement
+	if (info['endDate'] != '') {
+	    result = result + '<br/>The offer expires on <span property="sc:expires">{endDate}</span>';
+	}
+	if (info['transmittalFee'] != '') {
+	    result = result + '<br/>The transmittal fee is <span property="sc:transmittalFee">{transmittalFee}</span>';
+	}
+	if (info['recipientType']) {
+	    result = result + '<br/>The offer is available to <span property="sc:recipientType">{recipientType}</span> institutions';
+	}
+	if (info['fieldOfUse'] == 'disease') {
+	    result = result + '<br/><span rel="cc:prohbits" class="sc:DiseaseProhibition">Offer is limited to use with disease <span property="sc:disease">{fieldSpec}</span> </span>';
+	}
+	if (info['fieldOfUse'] == 'protocol') {
+	    result = result + '<br/><span rel="cc:prohbits" class="sc:ProtocolProhibition">Offer is limited to use with protocol <span property="sc:protocol">{fieldSpec}</span> </span>';
+	}
+	// assuming most other parameters live on the deed, so needn't be here.
+	// +++ more here
+	return result
     }
 
     this.get_metadata = function() {
@@ -265,38 +289,10 @@ CustomMta.prototype.get_panels = function() {
 function SciComMta() {
 
 
-    this.get_metadata_template_additional = function() {
-	var info = this.get_info();
-	var result = '';
-	// note: scaleup isn't actually going to be here, it's in the agreement
-	if (info['endDate'] != '') {
-	    result = result + '<br>Permission expires on <span property=cc:expires">{endDate}</span>';
-	}
-
-	// this all lives on deed, so nthing for it here.
-	// maybe put in disease or protocol specifics
-// 	if (info['protocol'] != '') {
-// 	    result = result + '<br><span ref="cc:requires" class="sc:ProtocolRequirement">Restricted to protocol <span property="sc:protocol">{protocol}</span></span>';
-// 	}
-// 	if (info['disease'] != '') {
-// 	    result = result + '<br><span ref="cc:requires" class="sc:DiseaseRequirement">Restricted to disease <span property="sc:disease">{disease}</span></span>';
-// 	}
-
-// 	if (info['scaleUpAllowed'] == "on") {
-// 	    result = result + '<br><span rel=cc:permits class="sc:ScalingUp">Scaling up is permitted</span>';
-// 	}
-// 	if (info['retentionAllowed'] == "on") {
-// 	    result = result + '<br><span rel=cc:permits class="sc:Retention">Retention of unused materials is permitted</span>';
-// 	}
-
-	// +++ more here
-	return result
-    }
 
     this.add_additional_url_parameters = function(url) {
 	var info = this.get_specs();
 	// +++ much more here
-	
 	url = this.url_add_parameter(url, "fieldSpec", info['fieldSpec']);
 	url = this.url_add_parameter(url, "endDate", info['endDate']);
 	url = this.url_add_parameter(url, "transmittalFee", info['transmittalFee']);
