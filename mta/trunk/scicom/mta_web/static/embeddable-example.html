@@ -1,13 +1,19 @@
 <html>
 
 <!-- An example of how to use the MTA Embeddable chooser.  
-     Note that exit_url should point to a page served from the same domain as 
+
+     The exit_url parameter should point to a page served from the same domain as 
      this one, in this case, http://localhost:8082/embed-response-example.html.
      That page handles all the processing of the generated offer.  The exit_url
      parameter contains parameter names surrounded by curly braces, which will
      be replaced with values by the chooser. At the moment, the most interesting
      one is {offer} which will be filled with a JSON representation of all the 
-     offer details.   -->
+     offer details. 
+
+     The no_logistics parameter if present will cause the logistics page of the
+     wizard (fee/termination date) to be skipped.
+
+  -->
   <head>
 
     <title>MTA Embeddable Chooser Tester</title>

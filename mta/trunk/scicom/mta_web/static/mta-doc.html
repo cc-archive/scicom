@@ -7,7 +7,7 @@
 	<META NAME="AUTHOR" CONTENT="Mike Travers">
 	<META NAME="CREATED" CONTENT="20070711;12225800">
 	<META NAME="CHANGEDBY" CONTENT="Mike Travers">
-	<META NAME="CHANGED" CONTENT="20070718;17280800">
+	<META NAME="CHANGED" CONTENT="20070723;9440300">
 	<STYLE TYPE="text/css">
 	<!--
 		@page { size: 8.5in 11in; margin: 0.79in }
@@ -235,9 +235,10 @@ a Javascript call, and the caller can register event handlers that
 will be called when the chooser has generated an offer. 
 </P>
 <P>An example use of the embeddable chooser <A HREF="http://mta.sciencecommons.org/embeddable-example.html">may
-be found here</A>.</P>
-<P>Todo: document arguments: exit_url, no_logistics, etc</P>
-<H3 CLASS="western">Offer info  API</H3>
+be found here</A>. There is some internal documentation in the HTML
+source.</P>
+<P>Note that the chooser API is likely to change.</P>
+<H3 CLASS="western">Offer info API</H3>
 <P>The end product of the chooser API is a JSON object containing all
 the relevant parameters of the offer. These are described below. Not
 that not all parameters will always be present</P>
@@ -266,12 +267,12 @@ that not all parameters will always be present</P>
 			<P ALIGN=LEFT><TT CLASS="code"><B>version</B></TT></P>
 		</TD>
 		<TD WIDTH=438>
-			<P ALIGN=LEFT> The agreement version (currently always '1.0')</P>
+			<P ALIGN=LEFT>The agreement version (currently always '1.0')</P>
 		</TD>
 	</TR>
 	<TR VALIGN=TOP>
 		<TD WIDTH=211>
-			<P ALIGN=LEFT><B><TT CLASS="code">agreement</TT><TT CLASS="code">_uri<BR>letter_uri<BR>legalcode_uri<BR>legaltext_uri</TT></B></P>
+			<P ALIGN=LEFT><TT CLASS="code"><B>agreement_uri<BR>letter_uri<BR>legalcode_uri<BR>legaltext_uri</B></TT></P>
 		</TD>
 		<TD WIDTH=438>
 			<P ALIGN=LEFT>Return URIs for the various documents associated
