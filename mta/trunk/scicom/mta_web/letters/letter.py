@@ -101,7 +101,6 @@ class UBMTALetter(Letter):
                  materialDesc='',
                  address1="",
                  address2="",
-                 termination="",
                  endDate="",
                  transmittalFee="",
                  **kwargs):
@@ -191,7 +190,6 @@ class SLALetter(Letter):
                  materialDesc='',
                  address1="",
                  address2="",
-                 termination="",
                  endDate="",
                  transmittalFee="",
                  purpose="",
@@ -270,7 +268,6 @@ class SCLetter(Letter):
                  materialDesc='',
                  address1="",
                  address2="",
-                 termination="",
                  endDate="",
                  transmittalFee="",
                  legalURL="",

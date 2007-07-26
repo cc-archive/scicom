@@ -4,7 +4,7 @@ YAHOO.namespace("mta");
 var getEl = Ext.Element.get;
 
 // set by containing html, we don't want to change it here.
-//var MTA_iframe = false;  
+//var MTA_embedded = false;  
 
 YAHOO.mta.pnl_type_activate = function(obj) {
 
@@ -138,38 +138,18 @@ YAHOO.mta.finish_offer = function() {
     module.setBody(body);
     module.render("offer_container");
     module.show();
+    YAHOO.mta.hide_dlg();
     
 } // finish_offer
 	    
-// finish offer, iframe version
-YAHOO.mta.finish_offer_iframe = function() {
+// finish offer, embedded version
+YAHOO.mta.finish_offer_embedded = function() {
 
-//    offerEvent.fire(current_offer);
-    // NEW version -- plug information into exit_url 
-
-    var template = new Ext.Template(MTA_exit_url);
-    var new_url = template.apply({
-	offer: encodeURIComponent(Ext.encode(current_offer.get_info())), 
-	deedURL: encodeURIComponent(current_offer.get_deed_uri()) });
-    window.location = new_url;
+    offerEvent.fire(current_offer);
+    YAHOO.mta.hide_dlg();
 
 }
 
-YAHOO.mta.prepare_popup = function() {
-    var dialog = document.getElementById("add-offer-dlg");
-    window.size = dialog.size;
-    popup = true;
-    window.focus();
-
-    // hook up event
-//     var evt = window.opener.onOfferEvent;
-//     if (evt == null) {
-// 	alert('popup called by document without a handler');
-//     }
-//     else {
-// 	document.offerEvent.subscribe(evt, document);
-//     }
-}
 
 YAHOO.mta.hide_dlg = function() {
     if (popup) {
@@ -210,7 +190,7 @@ var popup = false;
 YAHOO.mta.add_offer = function(event) {
     
     // good a place as any.
-    if (!MTA_iframe) {
+    if (!MTA_embedded) {
 	YAHOO.mta.write_cookie();
     }
 
@@ -289,12 +269,11 @@ YAHOO.mta.add_offer = function(event) {
 	    if (next_panel_name == null) {
 
 		// finish the offer creation process
-		if (MTA_iframe) {
-    		    YAHOO.mta.finish_offer_iframe();
+		if (MTA_embedded) {
+    		    YAHOO.mta.finish_offer_embedded();
 		}
 		else {
     		    YAHOO.mta.finish_offer();
-   		    YAHOO.mta.hide_dlg();
 		}
 		return;
 	    }
@@ -631,8 +610,8 @@ YAHOO.mta.generate_material_uri = function(event) {
 // this should take care of most "reaching into the dom" functionality.
 YAHOO.mta.agreement_info = function() {
 
-    // in iframe case we have none of this information
-    if (MTA_iframe) {
+    // in embedded case we have none of this information
+    if (MTA_embedded) {
 	return {};
     }
 
@@ -679,7 +658,7 @@ YAHOO.mta.init = function() {
     YAHOO.mta.init_help_text('material_desc_hl', 'material_desc_help');	
     YAHOO.mta.init_help_text('material_uri_hl', 'material_uri_help');	
 
-    if (!MTA_iframe) {
+    if (!MTA_embedded) {
 	YAHOO.mta.read_cookie();
     }
 
@@ -741,9 +720,8 @@ function readCookie(name) {
 	return null;
 }
 
-// event for iframe
-//var offerEvent = new YAHOO.util.CustomEvent("offerEvent");
-//parent.document.offerEvent = offerEvent;
+// event for embedded
+var offerEvent = new YAHOO.util.CustomEvent("offerEvent");
 
 
 // SIGH!

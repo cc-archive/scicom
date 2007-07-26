@@ -1,35 +1,16 @@
 <html>
-
-<!-- An example of how to use the MTA Embeddable chooser.  
-
-     The exit_url parameter should point to a page served from the same domain as 
-     this one, in this case, http://localhost:8082/embed-response-example.html.
-     That page handles all the processing of the generated offer.  The exit_url
-     parameter contains parameter names surrounded by curly braces, which will
-     be replaced with values by the chooser. At the moment, the most interesting
-     one is {offer} which will be filled with a JSON representation of all the 
-     offer details. 
-
-     The no_logistics parameter if present will cause the logistics page of the
-     wizard (fee/termination date) to be skipped.
-
-  -->
   <head>
 
-    <title>MTA Embeddable Chooser Tester</title>
+    <title>MTA Embeddable Chooser Tester (NEW MAGIC VERSION)</title>
 
   </head>
 
   <body>
 
-    <h1>MTA Embeddable Chooser Tester</h1>
+    <h1>MTA Embeddable Chooser Tester (NEW MAGIC VERSION)</h1>
     
     <div>
-         <button onclick='window.open("http://mta.sciencecommons.org/popup?source=mta&exit_url=http://localhost:8082/embed-response-example.html?offer={offer}%26deedURL={deedURl}", "MTA popup", "width=500,height=300,resizable=no,status=no");'>Add offer (from sciencecommons.org)</button>
-	 <br>
-         <button onclick='window.open("popup?source=mta&exit_url=http://localhost:8082/embed-response-example.html?offer={offer}%26deedURL={deedURl}", "MTA popup", "width=500,height=300,resizable=no,status=no");'>Add offer (from local server)</button>
-	 <br>
-         <button onclick='window.open("popup?source=mta&no_logistics=true&exit_url=http://localhost:8082/embed-response-example.html?offer={offer}%26deedURL={deedURl}", "MTA popup", "width=500,height=300,resizable=no,status=no");'>Add offer (local server, no logistics)</button>
+         <button onclick="YAHOO.mta.add_offer(null)">Add offer</button>
     </div>
 
      <b>Offers:</b><br/>
@@ -37,10 +18,15 @@
 
      </div>
 
-    <script type="text/javascript">
-    </script>
+     <!-- Real version -->
+<!--      <script src="http://mta.sciencecommons.org/embed_wizard.js" type="text/javascript"/>  -->
+ <!-- Debugging version  -->
+     <script src="embed_wizard.js" type="text/javascript"/>
 
+     <script type="text/javascript" src="embed.js">
 
   </body>
+
+
 
 </html>

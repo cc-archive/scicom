@@ -12,7 +12,7 @@
 
   <body>
 
-    <py:if test="not(iframe)">
+    <py:if test="not(embedded)">
 
       <img src="http://sciencecommons.org/wp-content/themes/scowp/images/logo.gif" alt="Science Commons"/>
       <p/>
@@ -121,10 +121,10 @@
 	<div id="metadata_preview"></div>
 	</div>
       </div>
-    </py:if> <!-- ends long if on ~iframe -->
+    </py:if> <!-- ends long if on ~embedded -->
 
-    <!-- for iframe, just the button and dialog -->
-    <py:if test="iframe">
+    <!-- for embedded, just the button and dialog -->
+    <py:if test="embedded">
       <span id="btn_add_offer" class="yuibutton">
 	<span class="first-child">
 	  <button type="button" name="add_offer">Add an offer</button>
@@ -155,7 +155,7 @@
       <div class="bd">
 	<p>Type a description of the material being made available.</p>
 	<p>Example: <i>Rat liver puree</i></p>
-      </div>
+	      </div>
     </div>
 
     <div id="material_uri_help" class="helpPopup">
