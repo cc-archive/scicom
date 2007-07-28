@@ -1,3 +1,5 @@
+// this is an example of application-specific code for a web page containing the MTA chooser.
+
 onOfferEvent = function(type, args, me) { 
     var offer = args[0];
     var container = document.getElementById("offers");
@@ -24,4 +26,8 @@ onOfferEvent = function(type, args, me) {
     
 };
 
+// arrange for onOfferEvent to be called when an offer is complete.
 offerEvent.subscribe(onOfferEvent, document);
+
+// enable the add offer button
+document.getElementById("button").disabled = false;
