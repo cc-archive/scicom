@@ -730,3 +730,8 @@ maparray = function(array, proc) {
 	proc(array[i]);
     }
 }
+
+// expose something without YAHOO in the name
+add_offer = function() {
+    YAHOO.mta.add_offer(null);
+}

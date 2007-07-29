@@ -282,27 +282,10 @@ class MtaWeb(object):
     def chooser_debug(self):
         return self.chooser_gen(debug=True)
 
-#     # iframe version (+++ remove or redo)
-#     @cherrypy.expose
-#     def iframe(self):
-#         return self.chooser_gen(iframe=True)
-
-#     # debugging version of the iframe chooser
-#     @cherrypy.expose
-#     def iframe_debug(self):
-#         return self.chooser_gen(debug=True, iframe=True)
-    
     def chooser_gen(self, template_file="chooser.html", debug=False, embedded=False):
         template = self.__loader.load(template_file)
         stream = template.generate(debug=debug, embedded=embedded)
         return stream.render("xhtml")        
-
-#     @cherrypy.expose
-#     def popup(self, **kwargs):
-#         template = self.__loader.load("popup.html")
-#         stream = template.generate(embedded=True, **kwargs) 
-#         return stream.render("xhtml")        
-
 
     # and now for something completely different
     # return a javascripty version of the wizard

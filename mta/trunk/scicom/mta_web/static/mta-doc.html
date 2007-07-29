@@ -7,19 +7,24 @@
 	<META NAME="AUTHOR" CONTENT="Mike Travers">
 	<META NAME="CREATED" CONTENT="20070711;12225800">
 	<META NAME="CHANGEDBY" CONTENT="Mike Travers">
-	<META NAME="CHANGED" CONTENT="20070723;9440300">
+	<META NAME="CHANGED" CONTENT="20070728;18202000">
 	<STYLE TYPE="text/css">
 	<!--
 		@page { size: 8.5in 11in; margin: 0.79in }
+		P { margin-bottom: 0.08in }
 		TD P { margin-bottom: 0.08in }
 		H1 { margin-bottom: 0.08in }
 		H1.western { font-family: "Helvetica"; font-size: 16pt }
 		H1.cjk { font-family: "DejaVu Sans"; font-size: 16pt }
 		H1.ctl { font-family: "DejaVu Sans"; font-size: 16pt }
-		P { margin-bottom: 0.08in }
 		H2 { margin-bottom: 0.08in }
+		H2.western { font-family: "Albany", sans-serif; font-size: 14pt; font-style: italic }
+		H2.cjk { font-family: "HG Mincho Light J"; font-size: 14pt; font-style: italic }
+		H2.ctl { font-family: "Arial Unicode MS"; font-size: 14pt; font-style: italic }
 		H3 { margin-bottom: 0.08in }
 		H3.western { font-family: "Helvetica" }
+		H3.cjk { font-family: "HG Mincho Light J" }
+		H3.ctl { font-family: "Arial Unicode MS" }
 		P.indent { margin-left: 0.47in }
 		TT.code { font-size: 10pt }
 	-->
@@ -28,12 +33,12 @@
 <BODY LANG="en-US" DIR="LTR">
 <H1 CLASS="western">Science Commons <BR>Materials Transfer Agreement
 Chooser</H1>
-<P>Michael Travers, 11 July 2007</P>
+<P>Michael Travers, <SDFIELD TYPE=DATETIME SDVAL="39291.7629976852" SDNUM="1033;1033;MMM D, YYYY">Jul 28, 2007</SDFIELD></P>
 <P><BR><BR>
 </P>
 <P ALIGN=CENTER><FONT SIZE=4 STYLE="font-size: 16pt"><I>Preliminary
 documentation; subject to change!</I></FONT></P>
-<H2>Introduction</H2>
+<H2 CLASS="western">Introduction</H2>
 <P>Science Commons Materials Transfer Agreements (MTAs) are contracts
 that govern the transfer of tangible research materials from one
 research institution (the provider) to another (the recipient). They
@@ -47,10 +52,10 @@ chemical substrates may be shared under MTAs as well.</P>
 <P>The MTA Chooser is a web-based tool for selecting an appropriate
 agreement for a material. There are two forms of the chooser: a
 <A HREF="http://mta.sciencecommons.org/chooser">standalone web page</A>,
-and an embeddable version designed to be used from a provide's web
+and an embeddable version designed to be used from a provider's web
 pages. 
 </P>
-<H2><A NAME="AbiTOC0__"></A>Terminology</H2>
+<H2 CLASS="western"><A NAME="AbiTOC0__"></A>Terminology</H2>
 <TABLE WIDTH=665 BORDER=0 CELLPADDING=4 CELLSPACING=0>
 	<COL WIDTH=132>
 	<COL WIDTH=517>
@@ -95,7 +100,7 @@ pages.
 </TABLE>
 <P ALIGN=LEFT><BR><BR>
 </P>
-<H2><A NAME="AbiTOC1__"></A>Agreement types</H2>
+<H2 CLASS="western"><A NAME="AbiTOC1__"></A>Agreement types</H2>
 <P ALIGN=LEFT>There are four basic types of agreement:</P>
 <OL>
 	<LI><P ALIGN=LEFT STYLE="margin-bottom: 0in">&nbsp;UBMTA (ubmta) 
@@ -112,7 +117,7 @@ pages.
 different restrictions. Each agreement type other than custom has an
 associated set of documents available through the MTA web site.
 Custom agreements have a user-specified URL.</P>
-<H2><A NAME="AbiTOC2__"></A>URLs and documents</H2>
+<H2 CLASS="western"><A NAME="AbiTOC2__"></A>URLs and documents</H2>
 <P ALIGN=LEFT>Every agreement type defines a set of URLs. &nbsp;These
 look like this:</P>
 <P CLASS="indent"><TT><FONT SIZE=2>http://mta.sciencecommons.org/agreements/&lt;Agreement&gt;/&lt;Version&gt;[/&lt;DocumentType&gt;][&lt;Parameters&gt;</FONT></TT></P>
@@ -222,13 +227,13 @@ parameters. The exact set of parameters is still being defined.
 </P>
 <P ALIGN=LEFT>It is likely that other document types will be defined,
 i.e. for icons representing the agreements.</P>
-<H2><A NAME="AbiTOC3__"></A>Metadata</H2>
+<H2 CLASS="western"><A NAME="AbiTOC3__"></A>Metadata</H2>
 <P>An RDF-based system of metadata for encoding information about
 agreements and offers will be defined. The current development
 version of the metadata schema <A HREF="http://mta.sciencecommons.org/mta-schema.rdf">may
 be found here</A>. 
 </P>
-<H2><A NAME="AbiTOC4__"></A>Chooser API</H2>
+<H2 CLASS="western">Embeddable Chooser</H2>
 <P ALIGN=LEFT>The embeddable version of the chooser is designed to be
 called from web pages hosted by material providers. It is invoked via
 a Javascript call, and the caller can register event handlers that
@@ -238,10 +243,55 @@ will be called when the chooser has generated an offer.
 be found here</A>. There is some internal documentation in the HTML
 source.</P>
 <P>Note that the chooser API is likely to change.</P>
+<H3 CLASS="western">Chooser API</H3>
+<P>The end product of the chooser is a Javascript object representing
+an offer.</P>
+<P><BR><BR>
+</P>
+<TABLE WIDTH=665 BORDER=0 CELLPADDING=4 CELLSPACING=0>
+	<COL WIDTH=211>
+	<COL WIDTH=438>
+	<TR VALIGN=TOP>
+		<TD WIDTH=211>
+			<P ALIGN=LEFT><TT CLASS="code"><B>get_info()</B></TT></P>
+		</TD>
+		<TD WIDTH=438>
+			<P ALIGN=LEFT>Returns an object containing all offer parameters
+			(see below)</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=211>
+			<P ALIGN=LEFT><TT CLASS="code"><B>get_metadata()</B></TT></P>
+		</TD>
+		<TD WIDTH=438>
+			<P ALIGN=LEFT>Return an HTML/RDFa string representing the offer's
+			metadata.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=211>
+			<P ALIGN=LEFT><TT CLASS="code"><B>get_name()</B></TT></P>
+		</TD>
+		<TD WIDTH=438>
+			<P ALIGN=LEFT>Return a human-readable name for the offer (ie,
+			“Science Commons MTA”).</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=211>
+			<P ALIGN=LEFT><B><TT CLASS="code">get_deed</TT><TT CLASS="code">_uri()<BR>get_letter_uri()<BR>get_legalcode_uri()<BR>get_legaltext_uri()</TT></B></P>
+		</TD>
+		<TD WIDTH=438>
+			<P ALIGN=LEFT>Return URIs for the various documents associated
+			with the offer</P>
+		</TD>
+	</TR>
+</TABLE>
 <H3 CLASS="western">Offer info API</H3>
-<P>The end product of the chooser API is a JSON object containing all
-the relevant parameters of the offer. These are described below. Not
-that not all parameters will always be present</P>
+<P>A get_info call to an offer object returns a JSON object
+containing all the relevant parameters of the offer. These are
+described below. Not that not all parameters will always be present.</P>
 <TABLE WIDTH=665 BORDER=0 CELLPADDING=4 CELLSPACING=0>
 	<COL WIDTH=211>
 	<COL WIDTH=438>
