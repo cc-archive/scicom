@@ -23,7 +23,7 @@ function MtaClass() {
 	    if (panels[i] == current_panel) {
 		var npanel = panels[i+1];
 		// special hack to skip logistics panel
-		if (npanel == 'logistics' && MTA_no_logistics != '')
+		if (npanel == 'logistics' && !include_logistics)
 		    return panels[i+2];
 		return npanel;
 	    }
@@ -72,12 +72,13 @@ function MtaClass() {
 	return specs;
     }
 
+    // namespace definitions are external to this...
     this.get_metadata_template = function() {
 	return new Ext.Template(
-	    "<li class='sc:Offer' rel='sc:offer'>\n" +
+	    "<div class='sc:Offer' rel='sc:offer'>\n" +
 		"  <a rel='sc:agreement' href='{agreement_uri}'>{agreement_name}</a>.\n" +
 		this.get_metadata_template_additional() +
-		"</li>");
+		"</div>");
     }
     
     // was going to allow classes to override, but instead it's data-driven from the info

@@ -76,7 +76,7 @@ YAHOO.mta.update_metadata = function() {
     // iterate over the offers
     for (var i=0; i < YAHOO.mta.offer_list.length; i++) {
 	var offer = YAHOO.mta.offer_list[i];
-	metadata = metadata + offer.get_metadata();
+	metadata = metadata + '\n<li>' +  offer.get_metadata() + '</li>';
     } // for each offer
 
     metadata = metadata + "</ul>\n</div>\n</div>\n";
@@ -720,18 +720,20 @@ function readCookie(name) {
 	return null;
 }
 
-// event for embedded
-var offerEvent = new YAHOO.util.CustomEvent("offerEvent");
-
-
-// SIGH!
+// Utility that I can't live without
 maparray = function(array, proc) {
     for (i = 0; i < array.length; i++) {
 	proc(array[i]);
     }
 }
 
-// expose something without YAHOO in the name
-add_offer = function() {
+
+// event for embedded
+var offerEvent = new YAHOO.util.CustomEvent("offerEvent");
+var include_logistics = true;
+
+// expose something without YAHOO in the name, for embeddable version
+add_offer = function(logistics) {
+    include_logistics = logistics;
     YAHOO.mta.add_offer(null);
 }

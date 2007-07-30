@@ -4,6 +4,7 @@
  * licensing@extjs.com
  * 
  * http://www.extjs.com/license
+ * Customized for MTA, see file ext-customization.pdf for selected components
  */
 
 
@@ -172,6 +173,22 @@ Ext.menu.MenuMgr=function(){var _1,_2,_3={},_4=false,_5=new Date();function init
 
 
 Ext.menu.BaseItem=function(_1){Ext.menu.BaseItem.superclass.constructor.call(this,_1);this.addEvents({click:true,activate:true,deactivate:true});if(this.handler){this.on("click",this.handler,this.scope,true);}};Ext.extend(Ext.menu.BaseItem,Ext.Component,{canActivate:false,activeClass:"x-menu-item-active",hideOnClick:true,hideDelay:100,ctype:"Ext.menu.BaseItem",actionMode:"container",render:function(_2,_3){this.parentMenu=_3;Ext.menu.BaseItem.superclass.render.call(this,_2);this.container.menuItemId=this.id;},onRender:function(_4,_5){this.el=Ext.get(this.el);_4.dom.appendChild(this.el.dom);},onClick:function(e){if(!this.disabled&&this.fireEvent("click",this,e)!==false&&this.parentMenu.fireEvent("itemclick",this,e)!==false){this.handleClick(e);}else{e.stopEvent();}},activate:function(){if(this.disabled){return false;}var li=this.container;li.addClass(this.activeClass);this.region=li.getRegion().adjust(2,2,-2,-2);this.fireEvent("activate",this);return true;},deactivate:function(){this.container.removeClass(this.activeClass);this.fireEvent("deactivate",this);},shouldDeactivate:function(e){return !this.region||!this.region.contains(e.getPoint());},handleClick:function(e){if(this.hideOnClick){this.parentMenu.hide.defer(this.hideDelay,this.parentMenu,[true]);}},expandMenu:function(_a){},hideMenu:function(){}});
+
+
+
+Ext.menu.TextItem=function(_1){this.text=_1;Ext.menu.TextItem.superclass.constructor.call(this);};Ext.extend(Ext.menu.TextItem,Ext.menu.BaseItem,{hideOnClick:false,itemCls:"x-menu-text",onRender:function(){var s=document.createElement("span");s.className=this.itemCls;s.innerHTML=this.text;this.el=s;Ext.menu.TextItem.superclass.onRender.apply(this,arguments);}});
+
+
+
+Ext.menu.Separator=function(_1){Ext.menu.Separator.superclass.constructor.call(this,_1);};Ext.extend(Ext.menu.Separator,Ext.menu.BaseItem,{itemCls:"x-menu-sep",hideOnClick:false,onRender:function(li){var s=document.createElement("span");s.className=this.itemCls;s.innerHTML="&#160;";this.el=s;li.addClass("x-menu-sep-li");Ext.menu.Separator.superclass.onRender.apply(this,arguments);}});
+
+
+
+Ext.menu.Item=function(_1){Ext.menu.Item.superclass.constructor.call(this,_1);if(this.menu){this.menu=Ext.menu.MenuMgr.get(this.menu);}};Ext.extend(Ext.menu.Item,Ext.menu.BaseItem,{itemCls:"x-menu-item",canActivate:true,ctype:"Ext.menu.Item",onRender:function(_2,_3){var el=document.createElement("a");el.hideFocus=true;el.unselectable="on";el.href=this.href||"#";if(this.hrefTarget){el.target=this.hrefTarget;}el.className=this.itemCls+(this.menu?" x-menu-item-arrow":"")+(this.cls?" "+this.cls:"");el.innerHTML=String.format("<img src=\"{0}\" class=\"x-menu-item-icon\">{1}",this.icon||Ext.BLANK_IMAGE_URL,this.text);this.el=el;Ext.menu.Item.superclass.onRender.call(this,_2,_3);},setText:function(_5){this.text=_5;if(this.rendered){this.el.update(String.format("<img src=\"{0}\" class=\"x-menu-item-icon\">{1}",this.icon||Ext.BLANK_IMAGE_URL,this.text));this.parentMenu.autoWidth();}},handleClick:function(e){if(!this.href){e.stopEvent();}Ext.menu.Item.superclass.handleClick.apply(this,arguments);},activate:function(_7){if(Ext.menu.Item.superclass.activate.apply(this,arguments)){this.focus();if(_7){this.expandMenu();}}return true;},shouldDeactivate:function(e){if(Ext.menu.Item.superclass.shouldDeactivate.call(this,e)){if(this.menu&&this.menu.isVisible()){return !this.menu.getEl().getRegion().contains(e.getPoint());}return true;}return false;},deactivate:function(){Ext.menu.Item.superclass.deactivate.apply(this,arguments);this.hideMenu();},expandMenu:function(_9){if(!this.disabled&&this.menu){if(!this.menu.isVisible()){this.menu.show(this.container,this.parentMenu.subMenuAlign||"tl-tr?",this.parentMenu);}if(_9){this.menu.tryActivate(0,1);}}},hideMenu:function(){if(this.menu&&this.menu.isVisible()){this.menu.hide();}}});
+
+
+
+Ext.menu.CheckItem=function(_1){Ext.menu.CheckItem.superclass.constructor.call(this,_1);this.addEvents({"beforecheckchange":true,"checkchange":true});if(this.checkHandler){this.on("checkchange",this.checkHandler,this.scope);}};Ext.extend(Ext.menu.CheckItem,Ext.menu.Item,{itemCls:"x-menu-item x-menu-check-item",groupClass:"x-menu-group-item",checked:false,ctype:"Ext.menu.CheckItem",onRender:function(c){Ext.menu.CheckItem.superclass.onRender.apply(this,arguments);if(this.group){this.el.addClass(this.groupClass);}Ext.menu.MenuMgr.registerCheckable(this);if(this.checked){this.checked=false;this.setChecked(true,true);}},destroy:function(){if(this.rendered){Ext.menu.MenuMgr.unregisterCheckable(this);}Ext.menu.CheckItem.superclass.destroy.apply(this,arguments);},setChecked:function(_3,_4){if(this.checked!=_3&&this.fireEvent("beforecheckchange",this,_3)!==false){if(this.container){this.container[_3?"addClass":"removeClass"]("x-menu-item-checked");}this.checked=_3;if(_4!==true){this.fireEvent("checkchange",this,_3);}}},handleClick:function(e){if(!this.disabled&&!(this.checked&&this.group)){this.setChecked(!this.checked);}Ext.menu.CheckItem.superclass.handleClick.apply(this,arguments);}});
 
 
 

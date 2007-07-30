@@ -46,12 +46,9 @@
     <!-- Pass embedded down below -->
     <script py:if="embedded" type="text/javascript">
       MTA_embedded = true;
-      MTA_exit_url = '${exit_url}';
-      MTA_no_logistics = '${no_logistics}';
     </script>
     <script py:if="not(embedded)" type="text/javascript">
       MTA_embedded = false;
-      MTA_no_logistics = '';
     </script>
 
 
