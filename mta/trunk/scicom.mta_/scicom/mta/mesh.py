@@ -3,8 +3,7 @@
 import simplejson
 import cgi
 
-MESH_SOURCE = "mesh_2007_trees"
-
+# represents a single mesh entry
 class MeshEntry(object):
 
     def __init__(self, description, lookup):

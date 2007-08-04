@@ -32,15 +32,17 @@
     <script py:if="not(debug)" type="text/javascript" src="http://mta.sciencecommons.org/ext/ext-custom.js"></script>
     <script py:if="debug" type="text/javascript" src="ext/ext-all-debug.js"></script>
 
+    <!-- Here and not in chooser-styles, because this gets loaded as part of the embeddable chooser 
+         and the other doesn't -->
     <style type="text/css">
-      .yui-ac-content {border:1px solid #404040;background:#fff;overflow:hidden;text-align:left;}
-      .yui-ac-shadow {margin:.3em;background:#a0a0a0;}
+      .yui-ac-content {position:absolute;border:1px solid #404040;background:#fff;overflow:hidden;text-align:left;z-index:9050}
+      .yui-ac-shadow {position:absolute;margin:.3em;background:#a0a0a0;-moz-opacity:0.10;opacity:.10;filter:alpha(opacity=10);z-index:9049;}
       .yui-ac-content ul {padding:5px 0;width:100%;}
       .yui-ac-content li {padding:0 5px;cursor:default;white-space:nowrap;}
       .yui-ac-content li.yui-ac-highlight {background:#ff0;}
 
-
     </style>
+
 
     <!-- Pass embedded down below -->
     <script py:if="embedded" type="text/javascript">
@@ -48,6 +50,13 @@
     </script>
     <script py:if="not(embedded)" type="text/javascript">
       MTA_embedded = false;
+    </script>
+    <!-- similarly for debug -->
+    <script py:if="debug" type="text/javascript">
+      MTA_debug = true;
+    </script>
+    <script py:if="not(debug)" type="text/javascript">
+      MTA_debug = false;
     </script>
 
 

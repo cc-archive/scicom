@@ -576,14 +576,18 @@ YAHOO.mta.init_use_field = function() {
 	    ["Result", "Description", "LookupKey"]
 					    );
 	var diseaseAutoComp = new YAHOO.widget.AutoComplete(fieldEl, acEl, dsMeSH);
+// may need to turn this on for IE.
 //    diseaseAutoComp.useIFrame = true;
-// diseaseAutoComp.forceSelection = true;
+	diseaseAutoComp.forceSelection = false;  // too aggressive
 	diseaseAutoComp.useShadow = true;
-	diseaseAutoComp.typeAhead = true;
+	diseaseAutoComp.typeAhead = false;  // too aggressive
 
 	diseaseAutoComp.formatResult = function(aResultItem, sQuery) {
 	    return aResultItem[0] + " (" + aResultItem[1] + ")";
 	}  
+
+	// save it.
+	sc_panel.fieldSpec.autoComp = diseaseAutoComp;
 
     }
 }
@@ -595,8 +599,11 @@ YAHOO.mta.update_use_field = function(object) {
     if (fieldEnabled) {
 	sc_panel.fieldSpec.enable();
 	YAHOO.mta.init_use_field();
+	// for protocol, we don't want autocomplete at all, but there's no API for turning it off, so try to fake it.
+	sc_panel.fieldSpec.autoComp.queryDelay = (checkedValue == 'protocol' ? 1000 : 0.5)
     }
     else {
+	sc_panel.fieldSpec.setValue("");
 	sc_panel.fieldSpec.disable();
     }
 }
@@ -657,19 +664,21 @@ YAHOO.mta.agreement_info = function() {
 
 YAHOO.mta.init = function() {
 
-    // initialize auto-complete for disease field restriction
-    var dsMeSH = new YAHOO.widget.DS_XHR("/mesh/json",
-	["Result", "Description", "LookupKey"]
-					);
-    var diseaseAutoComp = new YAHOO.widget.AutoComplete("field_disease", "field_disease_ac", dsMeSH);
-//    diseaseAutoComp.useIFrame = true;
-// diseaseAutoComp.forceSelection = true;
-    diseaseAutoComp.useShadow = true;
-    diseaseAutoComp.typeAhead = true;
+    if (MTA_debug) {
+	// initialize auto-complete for disease field restriction
+	var dsMeSH = new YAHOO.widget.DS_XHR("/mesh/json",
+	    ["Result", "Description", "LookupKey"]
+					    );
+	var diseaseAutoComp = new YAHOO.widget.AutoComplete("field_disease", "field_disease_ac", dsMeSH);
+	//    diseaseAutoComp.useIFrame = true;
+	// diseaseAutoComp.forceSelection = true;
+	diseaseAutoComp.useShadow = true;
+	diseaseAutoComp.typeAhead = true;
 
-    diseaseAutoComp.formatResult = function(aResultItem, sQuery) {
-	return aResultItem[0] + " (" + aResultItem[1] + ")";
-    }  
+	diseaseAutoComp.formatResult = function(aResultItem, sQuery) {
+	    return aResultItem[0] + " (" + aResultItem[1] + ")";
+	}  
+    }
 
     // initialize the add offer button
     new YAHOO.widget.Button("btn_add_offer", {onclick: {fn: YAHOO.mta.add_offer } });

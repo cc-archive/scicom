@@ -236,7 +236,8 @@ Ext.form.Checkbox=function(_1){Ext.form.Checkbox.superclass.constructor.call(thi
 
 
 
-Ext.form.Radio=function(){Ext.form.Radio.superclass.constructor.apply(this,arguments);};Ext.extend(Ext.form.Radio,Ext.form.Checkbox,{inputType:"radio",getGroupValue:function(){return this.el.up("form").child("input[name="+this.el.dom.name+"]:checked",true).value;}});
+// MT+++ local addition 
+Ext.form.Radio=function(){Ext.form.Radio.superclass.constructor.apply(this,arguments);};Ext.extend(Ext.form.Radio,Ext.form.Checkbox,{inputType:"radio", onClick : function(){ this.setValue(this.el.dom.checked); },  getGroupValue:function(){return this.el.up("form").child("input[name="+this.el.dom.name+"]:checked",true).value;}});
 
 
 

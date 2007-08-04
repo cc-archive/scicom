@@ -287,14 +287,24 @@ class MtaWeb(object):
         stream = template.generate(debug=debug, embedded=embedded)
         return stream.render("xhtml")        
 
-    # and now for something completely different
-    # return a javascripty version of the wizard
+    # For the embeddable chooser, we take pieces of the regular chooser
+    # and convert them into a javascript file containing document.write() statements.
+    # Horribly ugly but it's about the only way to blend source from two different
+    # sites on one web page.
     @cherrypy.expose
     def embed_wizard_js(self):
         template = self.__loader.load("embed-wizard.html")
         stream = template.generate(embedded=True)
         lines = stream.render("xhtml").split('\n')
         return '\n'.join(map(lambda l: "document.write('%s');" % l.replace("'","\\'"), lines))
+
+    # for debugging
+    @cherrypy.expose
+    def mesh_test(self):
+        template = self.__loader.load("mesh-test.html")
+        stream = template.generate()
+        return stream.render("xhtml")        
+
 
 def serve(host='', port=8082):
 
