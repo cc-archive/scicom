@@ -15,7 +15,9 @@
 
     <div py:if="debug" py:strip="True" >
       <!-- Debugging version - requires link in static directory -->
-      <script type="text/javascript" src="yui/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+      <script type="text/javascript" src="yui/build/yahoo/yahoo-debug.js"></script>
+      <script type="text/javascript" src="yui/build/dom/dom-debug.js"></script>  
+      <script type="text/javascript" src="yui/build/event/event-debug.js"></script>
       <script type="text/javascript" src="yui/build/element/element-beta-debug.js"></script>
       <script type="text/javascript" src="yui/build/button/button-beta-debug.js"></script>
       <script type="text/javascript" src="yui/build/animation/animation-debug.js"></script>
@@ -28,19 +30,16 @@
     <script type="text/javascript" src="http://mta.sciencecommons.org/ext/adapter/yui/ext-yui-adapter.js"></script>
 
     <script py:if="not(debug)" type="text/javascript" src="http://mta.sciencecommons.org/ext/ext-custom.js"></script>
-    <script py:if="debug" type="text/javascript" src="http://mta.sciencecommons.org/ext/ext-all-debug.js"></script>
+    <script py:if="debug" type="text/javascript" src="ext/ext-all-debug.js"></script>
 
     <style type="text/css">
-      #field_disease_detail {z-index:9050;padding-bottom:10px;}
-      #ysearchautocomplete {position:relative;}
-      #field_disease {position:relative;width:20em;height:1.4em;}
-      #field_disease_ac {position:absolute;left:0;top:1.7em;display:inline;}
-      #field_disease_ac .yui-ac-content {position:absolute;left:0;top:0;width:20em;border:1px solid #404040;background:#fff;overflow:hidden;text-align:left;z-index:9050;}
-      #field_disease_ac .yui-ac-shadow {position:absolute;left:0;top:0;margin:.3em;background:#a0a0a0;z-index:9049;}
-      #field_disease_ac ul {padding:5px 0;width:100%;}
-      #field_disease_ac li {padding:0 5px;cursor:default;white-space:nowrap;}
-      #field_disease_ac li.yui-ac-highlight {background:#ff0;}
-      #ysearchsubmit {position:relative;}
+      .yui-ac-content {border:1px solid #404040;background:#fff;overflow:hidden;text-align:left;}
+      .yui-ac-shadow {margin:.3em;background:#a0a0a0;}
+      .yui-ac-content ul {padding:5px 0;width:100%;}
+      .yui-ac-content li {padding:0 5px;cursor:default;white-space:nowrap;}
+      .yui-ac-content li.yui-ac-highlight {background:#ff0;}
+
+
     </style>
 
     <!-- Pass embedded down below -->

@@ -495,6 +495,8 @@ YAHOO.mta.add_offer = function(event) {
 	    })
 		     ];
 
+	// There is an ext bug that prevents this from working, not fixed as of 1.1
+	// I have a patch in the local version, see ext-all-debug.js, search for MT+++
 	maparray(radios, function(radio) {
 	    sc_form.add(radio);
 	    radio.addListener('check', YAHOO.mta.update_use_field, sc_form);
@@ -528,6 +530,7 @@ YAHOO.mta.add_offer = function(event) {
 	// currently in YAHOO.mta.init...also see css stuff in chooser-scripts.html
 
 	sc_form.render(panel.getEl().child(".x-contents"));
+
 	panel.verify_panel_complete = function (offer) {
 	    
 	}
@@ -558,13 +561,40 @@ YAHOO.mta.add_offer = function(event) {
 
 } // YAHOO.mta.add_offer
 
-// +++ for some reason this only gets called once per button, then the event seems to disappear...
+
+var useFieldInitialized = false;
+YAHOO.mta.init_use_field = function() {
+
+    if (!useFieldInitialized) {
+	var sc_panel = YAHOO.mta.dlg_offer.wiz_panels['sc_info'];
+	var fieldEl = sc_panel.fieldSpec.getEl().dom;
+	var acEl = document.createElement('div');
+	// fucking javascript has insertBefore but no insertAfter
+	fieldEl.parentNode.insertBefore(acEl, fieldEl.nextSibling);
+
+	var dsMeSH = new YAHOO.widget.DS_XHR("/mesh/json",
+	    ["Result", "Description", "LookupKey"]
+					    );
+	var diseaseAutoComp = new YAHOO.widget.AutoComplete(fieldEl, acEl, dsMeSH);
+//    diseaseAutoComp.useIFrame = true;
+// diseaseAutoComp.forceSelection = true;
+	diseaseAutoComp.useShadow = true;
+	diseaseAutoComp.typeAhead = true;
+
+	diseaseAutoComp.formatResult = function(aResultItem, sQuery) {
+	    return aResultItem[0] + " (" + aResultItem[1] + ")";
+	}  
+
+    }
+}
+
 YAHOO.mta.update_use_field = function(object) {
     var sc_panel = YAHOO.mta.dlg_offer.wiz_panels['sc_info'];
     var checkedValue = object.inputValue;
-    var fieldEnabled = checkedValue == 'disease' || checkedValue == 'protocol';
+    var fieldEnabled = checkedValue == 'disease' || checkedValue == 'protocol' || checkedValue == 'notDisease';
     if (fieldEnabled) {
 	sc_panel.fieldSpec.enable();
+	YAHOO.mta.init_use_field();
     }
     else {
 	sc_panel.fieldSpec.disable();
@@ -631,16 +661,15 @@ YAHOO.mta.init = function() {
     var dsMeSH = new YAHOO.widget.DS_XHR("/mesh/json",
 	["Result", "Description", "LookupKey"]
 					);
-    var diseaseAutoComp = new YAHOO.widget.AutoComplete("field_disease",
-	"field_disease_ac",
-	dsMeSH);
-    diseaseAutoComp.useIFrame = true;
-    // diseaseAutoComp.forceSelection = true;
+    var diseaseAutoComp = new YAHOO.widget.AutoComplete("field_disease", "field_disease_ac", dsMeSH);
+//    diseaseAutoComp.useIFrame = true;
+// diseaseAutoComp.forceSelection = true;
+    diseaseAutoComp.useShadow = true;
     diseaseAutoComp.typeAhead = true;
 
     diseaseAutoComp.formatResult = function(aResultItem, sQuery) {
 	return aResultItem[0] + " (" + aResultItem[1] + ")";
-    } // formatResult
+    }  
 
     // initialize the add offer button
     new YAHOO.widget.Button("btn_add_offer", {onclick: {fn: YAHOO.mta.add_offer } });
