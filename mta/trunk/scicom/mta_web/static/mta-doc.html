@@ -7,7 +7,7 @@
 	<META NAME="AUTHOR" CONTENT="Mike Travers">
 	<META NAME="CREATED" CONTENT="20070711;12225800">
 	<META NAME="CHANGEDBY" CONTENT="Mike Travers">
-	<META NAME="CHANGED" CONTENT="20070729;19453300">
+	<META NAME="CHANGED" CONTENT="20070804;18271500">
 	<STYLE TYPE="text/css">
 	<!--
 		@page { size: 8.5in 11in; margin: 0.79in }
@@ -281,10 +281,24 @@ will be called when the chooser has generated an offer.
 <P>An example use of the embeddable chooser <A HREF="http://mta.sciencecommons.org/embeddable-example.html">may
 be found here</A>. There is some internal documentation in the HTML
 source.</P>
+<H3 CLASS="western">Autocompletion requires a proxy service</H3>
+<P>The chooser's disease specification field makes use of a web
+service that supplies MeSH heading terms. To use this from within the
+embeddable chooser, you will need to provide a proxy service on your
+host, to get around browser security restrictions.  The chooser
+expects to find this service at:</P>
+<PRE STYLE="margin-left: 0.63in">http://&lt;yourdomain&gt;/mesh/json
+</PRE><P>
+And the service actually is available at;</P>
+<PRE STYLE="margin-left: 0.66in"><A HREF="http://mta.sciencecommons.org/mesh/json">http://mta.sciencecommons.org/mesh/json</A>
+</PRE><P>
+For an explanation of why the proxy is necessary and how to provide
+one, <A HREF="http://developer.yahoo.com/javascript/howto-proxy.html">see
+here</A>. Note that the chooser will work without this proxy, but you
+won't get  autocompletion of disease terms.</P>
 <H3 CLASS="western">Chooser API</H3>
 <P>The chooser is invoked by the Javascript function</P>
-<PRE STYLE="margin-left: 0.64in">addOffer(logistics);
-</PRE><P>
+<PRE STYLE="margin-left: 0.64in; margin-bottom: 0.2in">addOffer(logistics);</PRE><P>
 Where <FONT FACE="DejaVu Sans Mono, sans-serif"><FONT SIZE=2>logistics</FONT></FONT>
 is a boolean indicating whether or not to include the logistics panel
 (termination date and transmittal fee) for offers that support it.</P>
