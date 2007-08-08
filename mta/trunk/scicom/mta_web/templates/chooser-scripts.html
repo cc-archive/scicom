@@ -11,10 +11,13 @@
       <script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/connection/connection-min.js"></script>
       <script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/autocomplete/autocomplete-min.js"></script>
       <script type="text/javascript" src="http://yui.yahooapis.com/2.2.2/build/container/container-min.js"></script>
+      <script type="text/javascript" src="http://mta.sciencecommons.org/ext/adapter/yui/ext-yui-adapter.js"></script>
+      <script type="text/javascript" src="http://mta.sciencecommons.org/ext/ext-custom.js"></script>
+
     </div>
 
+    <!-- Debugging version, loads locally -->
     <div py:if="debug" py:strip="True" >
-      <!-- Debugging version - requires link in static directory -->
       <script type="text/javascript" src="yui/build/yahoo/yahoo-debug.js"></script>
       <script type="text/javascript" src="yui/build/dom/dom-debug.js"></script>  
       <script type="text/javascript" src="yui/build/event/event-debug.js"></script>
@@ -25,12 +28,10 @@
       <script type="text/javascript" src="yui/build/autocomplete/autocomplete-debug.js"></script>
       <script type="text/javascript" src="yui/build/container/container-debug.js"></script>
       <script type="text/javascript" src="yui/build/logger/logger-debug.js"></script>
+      <script type="text/javascript" src="ext/adapter/yui/ext-yui-adapter.js"></script>
+      <script type="text/javascript" src="ext/ext-all-debug.js"></script>
     </div>
 
-    <script type="text/javascript" src="http://mta.sciencecommons.org/ext/adapter/yui/ext-yui-adapter.js"></script>
-
-    <script py:if="not(debug)" type="text/javascript" src="http://mta.sciencecommons.org/ext/ext-custom.js"></script>
-    <script py:if="debug" type="text/javascript" src="ext/ext-all-debug.js"></script>
 
     <!-- Here and not in chooser-styles, because this gets loaded as part of the embeddable chooser 
          and the other doesn't -->

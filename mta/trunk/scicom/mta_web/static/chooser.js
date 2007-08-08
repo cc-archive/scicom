@@ -81,8 +81,9 @@ YAHOO.mta.update_metadata = function() {
 
     metadata = metadata + "</ul>\n</div>\n</div>\n";
 
-    document.getElementById("metadata").innerHTML = metadata;
+    document.getElementById("metadata").value = metadata;  // innerHTML gets error in IE
     document.getElementById("metadata_preview").innerHTML = metadata;
+
 	
 } // update_metadata
 
@@ -113,7 +114,6 @@ YAHOO.mta.finish_offer = function() {
 
     // push the offer onto the stack
     YAHOO.mta.offer_list.push(current_offer);
-
     // update the metadata
     YAHOO.mta.update_metadata();
 
@@ -767,6 +767,7 @@ maparray = function(array, proc) {
 
 
 // event for embedded
+// this apparently fails in IE +++
 var offerEvent = new YAHOO.util.CustomEvent("offerEvent");
 var include_logistics = true;
 
@@ -775,3 +776,4 @@ add_offer = function(logistics) {
     include_logistics = logistics;
     YAHOO.mta.add_offer(null);
 }
+
