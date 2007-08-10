@@ -26,7 +26,7 @@ MESH_SOURCE = os.path.join(STATIC_DIR, 'mesh_2007_trees')
 
 class Mesh(object):
     """Serve MeSH information as part of a CherryPy web application."""
-            
+
     @cherrypy.expose
     def json(self, query=None):
 

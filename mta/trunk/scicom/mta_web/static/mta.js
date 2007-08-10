@@ -86,10 +86,10 @@ function MtaClass() {
 	var info = this.get_info();
 	var result = '';
 	// note: scaleup isn't actually going to be here, it's in the agreement
-	if (info['endDate'] != '') {
+	if (nonBlank(info['endDate'])) {
 	    result = result + '<br/>The offer expires on <span property="sc:expires">{endDate}</span>';
 	}
-	if (info['transmittalFee'] != '') {
+	if (nonBlank(info['transmittalFee'])) {
 	    result = result + '<br/>The transmittal fee is <span property="sc:transmittalFee">{transmittalFee}</span>';
 	}
 	if (info['recipientType']) {

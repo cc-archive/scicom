@@ -131,6 +131,12 @@ YAHOO.mta.finish_offer = function() {
 	    '<li><a href="{letter_uri}" target="letter">Implementing letter (PDF)</a>' +
 	    '<li><a href="{legalcode_uri}" target="legal">Legal code</a></ul>' );
     
+    // special-case custom
+    if (current_offer.class_id == 'custom') {
+	template = new Ext.Template(
+	    '<ul><li><a href="{agreement_uri}" target="deed">Deed</a></ul>');
+    }
+
     var body = template.apply(info);
 
     current_offer.module = module;
@@ -263,35 +269,35 @@ YAHOO.mta.add_offer = function(event) {
 	    current_panel = dialog.getLayout().getRegion("center").getActivePanel();
 	    current_name = current_panel.getId();
 
-	    current_panel.verify_panel_complete();
-	    next_panel_name = current_offer.get_next_panel(current_panel.getId());
+	    if (current_panel.verify_panel_complete()) {
+		next_panel_name = current_offer.get_next_panel(current_panel.getId());
 
-	    if (next_panel_name == null) {
+		if (next_panel_name == null) {
 
-		// finish the offer creation process
-		if (MTA_embedded) {
-    		    YAHOO.mta.finish_offer_embedded();
+		    // finish the offer creation process
+		    if (MTA_embedded) {
+    			YAHOO.mta.finish_offer_embedded();
+		    }
+		    else {
+    			YAHOO.mta.finish_offer();
+		    }
+		    return;
 		}
-		else {
-    		    YAHOO.mta.finish_offer();
-		}
-		return;
+
+		// store the current panel in the history
+		dialog.panel_history.push(current_panel);
+
+		// show the next panel
+		next_panel = dialog.wiz_panels[next_panel_name];
+		dialog.getLayout().beginUpdate();
+		dialog.getLayout().getRegion("center").remove(current_name);
+		dialog.getLayout().add("center", next_panel);
+		dialog.getLayout().getRegion("center").showPanel(next_panel.id);
+		dialog.getLayout().endUpdate();
+
+		// update the back button
+		YAHOO.mta.dlg_offer.update_buttons();
 	    }
-
-	    // store the current panel in the history
-	    dialog.panel_history.push(current_panel);
-
-	    // show the next panel
-	    next_panel = dialog.wiz_panels[next_panel_name];
-	    dialog.getLayout().beginUpdate();
-	    dialog.getLayout().getRegion("center").remove(current_name);
-	    dialog.getLayout().add("center", next_panel);
-	    dialog.getLayout().getRegion("center").showPanel(next_panel.id);
-	    dialog.getLayout().endUpdate();
-
-	    // update the back button
-	    YAHOO.mta.dlg_offer.update_buttons();
-
 	} // on_next
 	
 	// dialog control buttons
@@ -376,7 +382,7 @@ YAHOO.mta.add_offer = function(event) {
 	for_whom_form.render(panel.getEl().child(".x-contents"));
 
 	panel.verify_panel_complete = function (offer) {
-	    
+	    return true;
 	}
 
 	panel.gather_info = function(result) {
@@ -420,7 +426,7 @@ YAHOO.mta.add_offer = function(event) {
 	logistics_form.render(panel.getEl().child(".x-contents"));
 
 	panel.verify_panel_complete = function (offer) {
-	    
+	    return true;
 	}
 
 	panel.gather_info = function(result) {
@@ -451,6 +457,14 @@ YAHOO.mta.add_offer = function(event) {
 	custom_form.render(panel.getEl().child(".x-contents"));
 
 	panel.verify_panel_complete = function (offer) {
+	    var url = custom_form.findField('custom_url').getValue();
+	    if (!isUrl(url)) {
+	    	Ext.MessageBox.alert('Error', 'Please enter a valid URL.');
+		return false;
+	    }
+	    else {
+		return true;
+	    }
 	}
 
 	panel.gather_info = function(result) {
@@ -532,7 +546,7 @@ YAHOO.mta.add_offer = function(event) {
 	sc_form.render(panel.getEl().child(".x-contents"));
 
 	panel.verify_panel_complete = function (offer) {
-	    
+	    return true;
 	}
 
 	panel.gather_info = function(result) {
@@ -547,6 +561,10 @@ YAHOO.mta.add_offer = function(event) {
     // set the initial panel
     var layout = YAHOO.mta.dlg_offer.getLayout();
     layout.beginUpdate();
+    var cp = layout.getRegion("center").getActivePanel();
+    if (cp != null) {
+	layout.getRegion("center").remove(cp);
+    }
     layout.add('center', YAHOO.mta.dlg_offer.wiz_panels['agreement_type']);
     layout.endUpdate();
 
@@ -765,6 +783,14 @@ maparray = function(array, proc) {
     }
 }
 
+isUrl = function(s) {
+	var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+	return regexp.test(s);
+}
+
+nonBlank = function(s) {
+    return s != null && s != '';
+}
 
 // event for embedded
 // this apparently fails in IE +++
