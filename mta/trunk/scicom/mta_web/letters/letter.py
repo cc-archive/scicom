@@ -85,22 +85,31 @@ class Letter(object):
         result.hAlign = 'LEFT'
         self.story.append(result)
 
-    def SignatureBlock(self, name):
+
+class UBMTALetter(Letter):
+
+    def SignatureBlock(self, nameLabel, name='', title='', address1=''):
         self.AddTable(
-            [[name + ':', ""],
-             ["Title:", ""],
-             ["Address:", ""],
+            [[nameLabel + ':', name],
+             ["Title:", title],
+             ["Address:", address1],
              ["", ""],
              ["Signature:", ""],
              ["Date:", ""]])
 
 
-class UBMTALetter(Letter):
-
-    def __call__(self, providerOrg='',
+    def __call__(self,
                  materialDesc='',
-                 address1="",
-                 address2="",
+                 providerScientist='',
+                 providerTitle='',
+                 providerOrg='',
+                 providerAddress1="",
+                 providerAddress2="",
+                 recipientScientist='',
+                 recipientTitle='',
+                 recipientOrg='',
+                 recipientAddress1="",
+                 recipientAddress2="",
                  endDate="",
                  transmittalFee="",
                  **kwargs):
@@ -121,14 +130,14 @@ class UBMTALetter(Letter):
             self.SectionHead(1, "PROVIDER: Organization providing the ORIGINAL MATERIAL:")
             self.AddTable(
                      [["Organization", providerOrg],
-                      ["Address", address1],
-                      ["", address2]])
+                      ["Address", providerAddress1],
+                      ["", providerAddress2]])
 
             self.SectionHead(2, "RECIPIENT: Organization receiving the ORIGINAL MATERIAL:")
             self.AddTable(
-                [["Organization:", ""],
-                 ["Address:", ""],
-                 ["", ""]])
+                [["Organization:", recipientOrg],
+                 ["Address:", recipientAddress1],
+                 ["", recipientAddress2]])
 
             self.SectionHead(3, "ORIGINAL MATERIAL")
             self.AddTable(
@@ -151,10 +160,10 @@ class UBMTALetter(Letter):
                 """This Implementing Letter is effective when signed by all parties. The parties executing this Implementing Letter certify that their respective organizations have accepted and signed an unmodified copy of the UBMTA, and further agree to be bound by its terms, for the transfer specified above.""",  styles['outer_style']))
 
             self.UnSectionHead('PROVIDER SCIENTIST')
-            self.SignatureBlock('Name')
+            self.SignatureBlock('Name', providerScientist, providerTitle, providerAddress1)
 
             self.UnSectionHead('RECIPIENT SCIENTIST')
-            self.SignatureBlock('Name')
+            self.SignatureBlock('Name', recipientScientist, recipientTitle, recipientAddress1)
 
             self.UnSectionHead('RECIPIENT ORGANIZATON CERTIFICATION')
             self.SignatureBlock('Authorized Official')
@@ -186,10 +195,16 @@ class SLALetter(Letter):
         self.story.append(result)
 
 
-    def __call__(self, providerOrg='',
+    def __call__(self,
                  materialDesc='',
-                 address1="",
-                 address2="",
+                 providerScientist='',
+                 providerOrg='',
+                 providerAddress1="",
+#                 providerAddress2="",
+                 recipientScientist='',
+                 recipientOrg='',
+                 recipientAddress1="",
+#                 recipientAddress2="",
                  endDate="",
                  transmittalFee="",
                  purpose="",
@@ -212,9 +227,9 @@ class SLALetter(Letter):
             self.UnSectionHead("PROVIDER INFORMATION and AUTHORIZED SIGNATURE")
 
             self.AddTable(
-                     [["Provider Scientist", ""],
+                     [["Provider Scientist", providerScientist],
                       ["Provider Organization", providerOrg],
-                      ["Address", address1],
+                      ["Address", providerAddress1],
                       ["Name of Authorized Official", ""],
                       ["Title of Authorized Official", ""]],
                      col1Width=2*inch)
@@ -231,9 +246,9 @@ class SLALetter(Letter):
             self.UnSectionHead("RECIPIENT INORMATION and AUTHORIZED SIGNATURE")
 
             self.AddTable(
-                     [["Recipient Scientist", ""],
-                      ["Recipient Organization", ""],
-                      ["Address", ""],
+                     [["Recipient Scientist", recipientScientist],
+                      ["Recipient Organization", recipientOrg],
+                      ["Address", recipientAddress1],
                       ["Name of Authorized Official", ""],
                       ["Title of Authorized Official", ""],
                       ["Signature of Authorized Official", ""],
@@ -256,18 +271,26 @@ class SLALetter(Letter):
 class SCLetter(Letter):
 
     # like default but no address
-    def SignatureBlock(self, name):
+    def SignatureBlock(self, nameLabel, name='', title=''):
         self.AddTable(
-            [[name + ':', ""],
-             ["Title:", ""],
+            [[nameLabel + ':', name],
+             ["Title:", title],
              ["Signature:", ""],
              ["Date:", ""]])
 
 
-    def __call__(self, providerOrg='',
+    def __call__(self,
                  materialDesc='',
-                 address1="",
-                 address2="",
+                 providerOrg='',
+                 providerAddress1="",
+                 providerAddress2="",
+
+                 recipientOrg='',
+                 recipientScientist='',
+                 recipientTitle='',
+                 recipientAddress1="",
+                 recipientAddress2="",
+
                  endDate="",
                  transmittalFee="",
                  legalURL="",
@@ -289,14 +312,14 @@ class SCLetter(Letter):
             self.SectionHead(1, "PROVIDER: Organization providing the MATERIAL:")
             self.AddTable(
                      [["Organization", providerOrg],
-                      ["Address", address1],
-                      ["", address2]])
+                      ["Address", providerAddress1],
+                      ["", providerAddress2]])
 
             self.SectionHead(2, "RECIPIENT: Organization receiving the MATERIAL:")
             self.AddTable(
-                [["Organization:", ""],
-                 ["Address:", ""],
-                 ["", ""]])
+                [["Organization:", recipientOrg],
+                 ["Address:", recipientAddress1],
+                 ["", recipientAddress2]])
 
             self.SectionHead(3, "MATERIAL (Enter description, URL, or add attachment):")
             self.AddTable(
@@ -321,14 +344,14 @@ class SCLetter(Letter):
             self.PGraph("""This Implementing Letter is effective when signed by both PROVIDER and RECIPIENT or when signed by RECIPIENT and accepted by PROVIDER.""")
 
             self.UnSectionHead('RECIPIENT SCIENTIST')
-            self.SignatureBlock('Name')
+            self.SignatureBlock('Name', recipientScientist, recipientTitle)
 
             self.UnSectionHead('RECIPIENT ORGANIZATION REPRESENTATIVE')
             self.PGraph("""As an authorized representative of RECIPIENT organization, I execute this Agreement on behalf of RECIPIENT organization (May be the RECIPIENT SCIENTIST if authorized by the RECIPIENT organization):""")
             self.SignatureBlock('Authorized Official')
 
 
-            self.UnSectionHead('ACCEPTED BY PROVIDER (IF REQUIRED')
+            self.UnSectionHead('ACCEPTED BY PROVIDER (IF REQUIRED)')
             self.SignatureBlock('Authorized Official')
 
             doc.build(self.story,
