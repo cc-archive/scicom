@@ -293,11 +293,11 @@ class MtaWeb(object):
     # sites on one web page.
     @cherrypy.expose
     def embed_wizard_js(self):
-        self.embed_gen(False)
-
+        return self.embed_gen(False)
+        
     @cherrypy.expose
     def embed_wizard_debug_js(self):
-        self.embed_gen(True)
+        return self.embed_gen(True)
 
     def embed_gen(self, debug):
         template = self.__loader.load("embed-wizard.html")
