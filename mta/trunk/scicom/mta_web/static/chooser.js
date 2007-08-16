@@ -587,13 +587,15 @@ YAHOO.mta.init_use_field = function() {
 	var sc_panel = YAHOO.mta.dlg_offer.wiz_panels['sc_info'];
 	var fieldEl = sc_panel.fieldSpec.getEl().dom;
 	var acEl = document.createElement('div');
-	// fucking javascript has insertBefore but no insertAfter
+	// stupid javascript has insertBefore but no insertAfter
 	fieldEl.parentNode.insertBefore(acEl, fieldEl.nextSibling);
 
-	// embedded version needs to go to mothership for this data.
-	var meshURL = MTA_embedded ? "http://sciencecommons.mta.org/mesh/json" : "/mesh/json";
-
-	var dsMeSH = new YAHOO.widget.DS_XHR(meshURL, ["Result", "Description", "LookupKey"]);
+	// NOTE: this will get errors on the embeddable chooser, unless the embedder implements
+	// a proxy as described in the documentations.  It can't point to mta.sciencecommons.org
+	// due to the ever-annoying browser security restrictions.
+	var dsMeSH = new YAHOO.widget.DS_XHR("/mesh/json",
+	    ["Result", "Description", "LookupKey"]
+					    );
 	var diseaseAutoComp = new YAHOO.widget.AutoComplete(fieldEl, acEl, dsMeSH);
 // may need to turn this on for IE.
 //    diseaseAutoComp.useIFrame = true;
