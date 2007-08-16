@@ -590,9 +590,10 @@ YAHOO.mta.init_use_field = function() {
 	// fucking javascript has insertBefore but no insertAfter
 	fieldEl.parentNode.insertBefore(acEl, fieldEl.nextSibling);
 
-	var dsMeSH = new YAHOO.widget.DS_XHR("/mesh/json",
-	    ["Result", "Description", "LookupKey"]
-					    );
+	// embedded version needs to go to mothership for this data.
+	var meshURL = MTA_embedded ? "http://sciencecommons.mta.org/mesh/json" : "/mesh/json";
+
+	var dsMeSH = new YAHOO.widget.DS_XHR(meshURL, ["Result", "Description", "LookupKey"]);
 	var diseaseAutoComp = new YAHOO.widget.AutoComplete(fieldEl, acEl, dsMeSH);
 // may need to turn this on for IE.
 //    diseaseAutoComp.useIFrame = true;
