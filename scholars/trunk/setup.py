@@ -30,8 +30,9 @@ setup(
                         'CherryPy>=3.0',
                         'Reportlab>=2.0',
                         'Genshi',
-                        'SQLAlchemy',
+                        'SQLAlchemy>=0.4-dev',
                         'zdaemon',
+                        'pysqlite',
                         ],
     dependency_links = ['http://www.reportlab.co.uk/svn/public/reportlab/trunk/reportlab#egg=Reportlab-2.0'],
 

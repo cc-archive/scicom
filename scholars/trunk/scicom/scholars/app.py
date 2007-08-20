@@ -19,6 +19,7 @@
 ## DEALINGS IN THE SOFTWARE.
 
 import os
+import md5
 import cherrypy
 import genshi.template
 
@@ -54,6 +55,14 @@ class ScholarsCopyright(object):
                                  default=default,
                                  agreements=agreements.handlers).render('xhtml')
 
+    @cherrypy.expose
+    def stats(self):
+        """Return the stats page."""
+
+        template = self._loader.load('stats.html')
+        return template.generate(total = self._stats.total(),
+                                 counts = self._stats.counts()).render('xhtml')
+    
     # serve up static files for HTML, CSS, Javascript, etc.
     _cp_config = {'tools.staticdir.on':True,
                   'tools.staticdir.root':STATIC_DIR,
@@ -127,9 +136,16 @@ def serve():
 
     # load the local configuration
     cherrypy.config.update( get_localconf() )
-
+    stats_conf = {'/stats':
+                  {'tools.basic_auth.on' : True,
+                   'tools.basic_auth.realm': 'localhost',
+                   'tools.basic_auth.users': {'stats':
+                                              md5.new('stats').hexdigest()}
+                   },
+                  }
+        
     # mount the application
-    cherrypy.tree.mount(ScholarsCopyright())
+    cherrypy.tree.mount(ScholarsCopyright(), config=stats_conf)
 
     cherrypy.server.quickstart()
     cherrypy.engine.start()
