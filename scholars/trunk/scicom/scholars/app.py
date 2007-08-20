@@ -40,7 +40,7 @@ class ScholarsCopyright(object):
     def __init__(self):
         
         # create a persistent connection to our database
-        self._session = scicom.scholars.dbconn.connect_session()
+        self._stats = scicom.scholars.stats.StatsMapper()
 
         # create a template loader instance
         self._loader = genshi.template.TemplateLoader([TEMPLATE_DIR])
@@ -82,11 +82,11 @@ class ScholarsCopyright(object):
         pdf_contents = scicom.scholars.generate.create_pdf(
             manuscript, journal, author, publisher, agreement)
 
-        self._session.save(
+        self._stats.session.save(
             scicom.scholars.stats.AgreementStatistic(
                 partner_id, journal, agreement)
             )
-        self._session.flush()
+        self._stats.session.flush()
 
         # set the appropriate headers
         cherrypy.response.headers['Expires'] = '0'
