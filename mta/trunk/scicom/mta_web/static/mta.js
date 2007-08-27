@@ -131,7 +131,8 @@ function MtaClass() {
 
     this.build_basic_uri = function(type) {
 	var agr_type = this.get_agreement_id();
-        var url = "agreements/" + agr_type + '/' + version;
+	var url = MTA_embedded ? 'http://mta.sciencecommons.org/' : '';
+        url = url + "agreements/" + agr_type + '/' + version;
 	if (type != null) {
 	    url = url + "/" + type;
 	}
