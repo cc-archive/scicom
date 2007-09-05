@@ -145,7 +145,7 @@ function MtaClass() {
 	// here we add in parameters...+++ only needed sometimes
 	url = url + "?source=mta";  
 	url = this.url_add_parameter(url, "providerOrg", info.provider_name);
-	url = this.url_add_parameter(url, "providerAddress", info.provider_address);
+	url = this.url_add_parameter(url, "providerAddress1", info.provider_address);
 	url = this.url_add_parameter(url, "materialDesc", info.material_description);
 	url = this.add_additional_url_parameters(url);
 	return url;

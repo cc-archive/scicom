@@ -33,8 +33,6 @@
 	    <h3>You are free to:</h3>
 	    <ul>
 	      <py:for each="clause in permissions">
-		<!-- no icons for permissions, so no code -->
-                <!-- ${clause.code} -->
 		<li class="license permission" 
 		    rel="cc:permits" 
 		    href="${clause.uri}">
@@ -52,8 +50,6 @@
 		<li class="license ${clause.code}" 
 		    rel="cc:prohibits" 
 		    href="${clause.uri}">
-		    <!-- not currently used -->
-<!-- 		  <strong>${clause.short}</strong> -->
 		   ${clause.long}
 		   <py:if test="clause.extra">
 		     <br>${clause.extra}</br>

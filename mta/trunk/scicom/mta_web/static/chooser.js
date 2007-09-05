@@ -714,6 +714,7 @@ YAHOO.mta.init = function() {
 
     YAHOO.mta.init_help_text('material_provider_hl', 'material_provider_help');	
     YAHOO.mta.init_help_text('material_provider_url_hl', 'material_provider_url_help');	
+    YAHOO.mta.init_help_text('material_provider_address_hl', 'material_provider_address_help');	
     YAHOO.mta.init_help_text('material_desc_hl', 'material_desc_help');	
     YAHOO.mta.init_help_text('material_uri_hl', 'material_uri_help');	
 
