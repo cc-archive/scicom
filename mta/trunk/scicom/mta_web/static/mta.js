@@ -102,7 +102,6 @@ function MtaClass() {
 	    result = result + '<br/><span rel="cc:prohbits" class="sc:ProtocolProhibition">Offer is limited to use with protocol <span property="sc:protocol">{fieldSpec}</span> </span>';
 	}
 	// assuming most other parameters live on the deed, so needn't be here.
-	// +++ more here
 	return result
     }
 

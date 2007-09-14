@@ -11,7 +11,12 @@ class MeshEntry(object):
         self.lookup = lookup
 
     def match(self, query):
-        return (query.lower() in self.description.lower())
+        #        return (query.lower() in self.description.lower()) 
+        return begins(self.description.lower(), query.lower())
+
+def begins(string,sub):
+    return string[0:len(sub)] == sub
+
 
 class MeshTreeSet(object):
 
@@ -24,10 +29,14 @@ class MeshTreeSet(object):
         the filename specified in the constructor."""
 
         source = open(filename or self.__filename, 'r')
-        self.data = []
+        self.data = {}
 
         for entry in source:
-            self.data.append(MeshEntry(*entry.strip().split(';')))
+            description, lookup = entry.strip().split(';')
+            # C indicates a disease term
+            # only store entry once (+++ this is O(n^2), should use a dictionary)
+            if lookup[0] == 'C' and not(self.data.__contains__(description)):
+                self.data[description] = MeshEntry(description, lookup)
 
     def query(self, query):
         """Query the dataset for entries which match the query.  Return
@@ -37,8 +46,10 @@ class MeshTreeSet(object):
             # no filtering
             return self.data
         
-        return [n for n in self.data if n.match(query)]
+        matches = [n for n in self.data.itervalues() if n.match(query)]
+        matches.sort(None, lambda(mesh): mesh.description)
 
+        return matches
 
 class MeshEntryJsonEncoder(simplejson.JSONEncoder):
 

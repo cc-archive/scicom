@@ -19,33 +19,6 @@ YAHOO.mta.pnl_type_activate = function(obj) {
 
 } // pnl_type_activate
 
-
-// +++ no longer used, flush
-YAHOO.mta.pnl_for_whom_activate = function(obj) {
-
-    // get agreement type, and enable checkboxes accordingly.
-    var agr_class = YAHOO.mta.get_selected_offer_type();
-    var forprofit = agr_class.allowed(true);
-    var nonprofit = agr_class.allowed(false);
-
-    var forprofit_box = document.getElementById('offer_to_forprofit');
-    var nonprofit_box = document.getElementById('offer_to_nonprofit');
-
-    forprofit_box.disabled = !forprofit;
-    nonprofit_box.disabled = !nonprofit;
-
-    if (!forprofit) {
-	forprofit_box.checked = false;
-	nonprofit_box.checked = true;
-    }
-    if (!nonprofit) {
-	nonprofit_box.checked = false;
-	forprofit_box.checked = true;
-    }
-
-} // pnl_for_whom_activate
-
-
 YAHOO.mta.get_selected_offer_type = function() {
 
     for (i = 0; i < YAHOO.mta.AGREEMENT_CLASSES.length; i++) {
@@ -352,9 +325,7 @@ YAHOO.mta.add_offer = function(event) {
 	
 	panel = new Ext.ContentPanel('for_whom');
 	YAHOO.mta.dlg_offer.wiz_panels['for_whom'] = panel;
-//	panel.addListener('activate', YAHOO.mta.pnl_for_whom_activate);
 
-	// +++ let's try a new scheme
 	var for_whom_form =  new Ext.form.Form({
 	    labelAlign: 'right',
             labelWidth: 200});
@@ -363,6 +334,7 @@ YAHOO.mta.add_offer = function(event) {
 		fieldLabel: "Recipient class",
 		boxLabel : "All types of recipients",
 		inputValue: 'all',
+		checked: true,
 		name : 'recipientType'
 	    }), 
 
@@ -604,7 +576,7 @@ YAHOO.mta.init_use_field = function() {
 	diseaseAutoComp.typeAhead = false;  // too aggressive
 
 	diseaseAutoComp.formatResult = function(aResultItem, sQuery) {
-	    return aResultItem[0] + " (" + aResultItem[1] + ")";
+	    return aResultItem[0] + " [" + aResultItem[1] + "]"
 	}  
 
 	// save it.
