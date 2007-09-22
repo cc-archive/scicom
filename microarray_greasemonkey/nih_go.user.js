@@ -1,6 +1,6 @@
 // NIH GEO thingamajig
-// version 0.1 BETA!
-// 2007-09-11
+// version 0.2 BETA!
+// 2007-09-21
 // Copyright (c) 2007, Asheesh Laroia <asheesh@creativecommons.org> and others
 // Released under the GPL license
 // http://www.gnu.org/copyleft/gpl.html
@@ -26,6 +26,29 @@
 // @include       http://www.ncbi.nlm.nih.gov/sites/entrez?*db=gds*
 // ==/UserScript==
 
+function array_contains(needle, haystack) {
+    for (var i = 0 ; i < haystack.length; i++) {
+	var elt = haystack[i];
+	if (elt.nodeValue == needle.nodeValue) {
+	    return true;
+	}
+    }
+    return false;
+}
+
+var added_to_a = [];
+var added_to_b = [];
+
+function first_parent_of_type(base_tag, tag_name) {
+    // Yay for infinite loops!
+    while (base_tag.nodeName.toLowerCase() != "body") {
+	if (base_tag.parentNode.nodeName.toLowerCase() == tag_name.toLowerCase()) {
+	    return base_tag.parentNode;
+	}
+	base_tag = base_tag.parentNode;
+    }
+}
+
 function form2urlparts() {
     var me_tabble = document.getElementById('compare_me'); // lol evil - looking for a table
     var parts = [[], []];
@@ -49,15 +72,16 @@ function form2urlparts() {
 	}
     }
 
-    var ret = "";
+    var ret = "a=";
     for (var i = 0 ; i < parts[0].length ; i++) {
-	var subthing = "a=" + parts[0][i];
-	ret += subthing + "&";
+	var subthing = "" + parts[0][i];
+	ret += subthing + ",";
     }
+    ret += "&b=";
 
     for (var i = 0 ; i < parts[1].length ; i++) {
-	var subthing = "b=" + parts[1][i];
-	ret += subthing + "&";
+	var subthing = "" + parts[1][i];
+	ret += subthing + ",";
     }
     
     return ret;
@@ -306,8 +330,7 @@ var input_0 = document.createElement('input');
 
 var input_0_onclick = function(event) { 
     url_parts = form2urlparts();
-    alert(url_parts);
-    //    document.location = 'http://www.google.com/search?' + url_parts;
+    document.location = 'http://sw.neurocommons.org/2007/activity-center?' + url_parts;
     event.preventDefault();
     return false;
 };
@@ -326,7 +349,15 @@ function a_0() {
     var a_0 = document.createElement('a');
     a_0.href = "#";
     var a_0_onclick = function(event){
-	add_to_table('compare_me', 0, 2, target2textnode(event.target));
+	var text = target2textnode(event.target);
+
+	// if it's not already there, then add it
+	if (! array_contains(text, added_to_a)) {
+	    add_to_table('compare_me', 0, 2, target2textnode(event.target));
+	    added_to_a.push(text);
+	}
+
+	// no matter what, don't let the clicking do real linking
 	event.preventDefault();
 	return false;
     };
@@ -344,7 +375,12 @@ function a_1() {
     var a_1 = document.createElement('a');
     a_1.href = "#";
     var a_1_onclick = function(event){
-	add_to_table('compare_me', 1, 2, target2textnode(event.target));
+	var text = target2textnode(event.target);
+
+	if (! array_contains(text, added_to_b)) {
+	    add_to_table('compare_me', 1, 2, text);
+	    added_to_b.push(text);
+	}
 	event.preventDefault();
 	return false;
     };
@@ -357,13 +393,28 @@ function a_1() {
 
 // Links to click
 
+function table2reference_series(table) {
+    var links = table.getElementsByTagName('a');
+    for (var i = 0 ; i < links.length ; i++) {
+	var link = links[i];
+	if (link.previousSibling && link.previousSibling.data == "Reference Series: ") {
+	    var gse = link.firstChild.data;
+	}
+    }
+    return gse;
+}
+
 function target2textnode(elt) {
     var my_td = elt.parentNode;
     var my_td_links = document.evaluate('a', my_td, null, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE, null);
     var my_td_link = my_td_links.snapshotItem(0);
     var my_td_link_text = my_td_link.childNodes[0].data;
     var my_td_gsm_thing = my_td_link_text.split(":")[0];
-    return document.createTextNode(my_td_gsm_thing);
+
+    // grab the reference series, too
+    var my_reference_series = table2reference_series(first_parent_of_type(first_parent_of_type(my_td, 'table'), 'table'));
+
+    return document.createTextNode(my_reference_series + '/' + my_td_gsm_thing);
 }
 
 
