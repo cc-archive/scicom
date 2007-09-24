@@ -26,6 +26,7 @@ setup(
     packages = ['scicom.mta_web'],
 
     # scripts and dependencies
+    dependency_links = ['http://www.reportlab.co.uk/svn/public/reportlab/trunk/reportlab#egg=Reportlab-2.0'],
     install_requires = ['setuptools',
                         'CherryPy>=3.0beta2',
                         'simplejson',
@@ -34,7 +35,7 @@ setup(
                         'Reportlab>=2.0', 
                         'scicom.mta',
                         ],
-    dependency_links = ['http://www.reportlab.co.uk/svn/public/reportlab/trunk/reportlab#egg=Reportlab-2.0'],
+
     include_package_data = True,
     namespace_packages = ['scicom'],
     zip_safe = False,

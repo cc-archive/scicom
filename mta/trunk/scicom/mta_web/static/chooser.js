@@ -774,7 +774,7 @@ var offerEvent = new YAHOO.util.CustomEvent("offerEvent");
 var include_logistics = true;
 
 // expose something without YAHOO in the name, for embeddable version
-add_offer = function(logistics) {
+var add_offer = function(logistics) {
     include_logistics = logistics;
     YAHOO.mta.add_offer(null);
 }
