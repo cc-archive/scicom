@@ -34,7 +34,7 @@ class MeshTreeSet(object):
         for entry in source:
             description, lookup = entry.strip().split(';')
             # C indicates a disease term
-            # only store entry once (+++ this is O(n^2), should use a dictionary)
+            # only store entry once 
             if lookup[0] == 'C' and not(self.data.__contains__(description)):
                 self.data[description] = MeshEntry(description, lookup)
 
