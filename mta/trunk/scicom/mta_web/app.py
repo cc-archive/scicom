@@ -112,6 +112,9 @@ class MtaAgreements(object):
         if doctype == 'legaltext':
             return self.legaltext(code, version)
 
+        if doctype == 'icon':
+            return self.icon(basecode, version)
+
         # might use basecode here
         if doctype == 'letter':
             return self.letter(basecode, version, kwargs)
@@ -222,6 +225,12 @@ class MtaAgreements(object):
         result = l(**kwargs)
         l.pdf_prepare_response('implementing-letter')
         return result
+
+    def icon(self, code, version):
+        filename = STATIC_DIR + '/images/mta/' + code + '.png'
+        string = open(filename).read()
+        cherrypy.response.headers['Content-Type'] = 'image/png'
+        return string
 
     # MTA legal code
     def legalcode(self, code, version, kwargs):

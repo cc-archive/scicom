@@ -67,7 +67,8 @@ function MtaClass() {
 		  { agreement_name: this.get_name(),
 		    agreement_uri: this.get_deed_uri(),	
 		    legalcode_uri: this.get_legalcode_uri(),
-		    letter_uri: this.get_letter_uri()
+		    letter_uri: this.get_letter_uri(),
+		    icon_uri: this.get_icon_uri()
 		  });
 	return specs;
     }
@@ -124,6 +125,10 @@ function MtaClass() {
 
     this.get_legaltext_uri = function() {
 	return this.build_basic_uri('legaltext');
+    }
+
+    this.get_icon_uri = function() {
+	return this.build_basic_uri('icon');
     }
 
     // no parameters
