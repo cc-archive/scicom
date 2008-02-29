@@ -30,7 +30,7 @@ setup(
                         'CherryPy>=3.0',
                         'Reportlab>=2.0',
                         'Genshi',
-                        'SQLAlchemy>=0.4-dev',
+                        'SQLAlchemy',
                         'zdaemon',
                         'pysqlite',
                         ],
