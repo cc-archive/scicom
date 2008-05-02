@@ -57,6 +57,11 @@
  onmouseout="start_delayed_hide_menu()"><img
  src="/wp-content/themes/scowp/images/neurocommons.gif" alt="The Neurocommons" title=""
  border="0" height="27" width="575"></a></li>
+  <li><a href="/projects/healthcommons/"
+ onmouseover="cancel_delayed_hide_menu()"
+ onmouseout="start_delayed_hide_menu()"><img
+ src="/wp-content/themes/scowp/images/healthcommons.gif" alt="The Health Commons" title=""
+ border="0" height="27" width="575"></a></li>
 </ul>
 <h2><a href="/resources/"
  onmouseover="MM_swapImage('n1resources','','/wp-content/themes/scowp/images/resources_ro.gif',1)"
