@@ -1,0 +1,74 @@
+<?php
+/*
+Template Name: Home/Blog
+*/
+?>
+
+<?php if ($_GET['page_id'] == 8) { ?>
+
+	<?php get_header(); ?>
+	
+		<h1>Blog</h1>
+	
+		<?php get_sidebar(); ?>
+		
+		<div id="column_2" class="column">
+			<div class="padding">
+				<p><a href="<?php bloginfo('rss2_url'); ?>">Subscribe to RSS</a></p>
+				<div class="spacer_ver_medium"></div>
+				<p>Archives
+				<ul id="archives_list">
+				<?php wp_get_archives('type=monthly&show_post_count=1'); ?>
+				</ul>
+				</p>
+			</div>
+		</div>
+		
+		<div id="column_1" class="column">
+			<div class="padding">
+				<?php if (have_posts()) : ?>
+			
+					<?php while (have_posts()) : the_post(); ?>
+			
+						<div class="post" id="post-<?php the_ID(); ?>">
+							<h2><?php the_title(); ?></a></h2>
+							<p class="whenwho"><a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title(); ?>"><?php the_time('F jS, Y') ?></a> by <?php the_author() ?></p>
+			
+							<div class="entry">
+								<?php the_content(''); ?>
+							</div>
+			
+							<p class="postmetadata"><?php comments_popup_link('No Comments &#187;', '1 Comment &#187;', '% Comments &#187;'); ?></p>
+						</div>
+			
+					<?php endwhile; ?>
+			
+					<div class="navigation">
+						<div class="alignleft"><?php next_posts_link('&laquo; Previous Entries') ?></div>
+						<div class="alignright"><?php previous_posts_link('Next Entries &raquo;') ?></div>
+					</div>
+			
+				<?php else : ?>
+			
+					<h2 class="center">Not Found</h2>
+					<p class="center">Sorry, but you are looking for something that isn't here.</p>
+					<?php include (TEMPLATEPATH . "/searchform.php"); ?>
+			
+				<?php endif; ?>
+			</div>
+		</div>
+	
+	<?php edit_post_link('Edit this entry.', '<p>', '</p>'); ?>
+	
+	<?php get_footer(); ?>
+
+<?php } else { ?>
+
+	<?php get_header_home(); ?>
+	<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+		<?php the_content(''); ?>
+	<?php endwhile; endif; ?>
+	<?php edit_post_link('Edit this entry.', '<p>', '</p>'); ?>
+	<?php get_footer_home(); ?>
+
+<?php } ?>

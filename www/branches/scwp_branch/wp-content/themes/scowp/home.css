@@ -1,0 +1,329 @@
+
+/* common styles for Science Commons site  */
+
+
+
+/* GENERAL */
+
+html, body {
+  margin: 0px;
+}
+/* don't set background color on html for sake of Dreamweaver */
+body {
+  background-color: #ffffff;
+  background-image: none;
+  text-align: center;        /* centers the page for IE/win */
+}
+
+h4 {
+  margin-left:4px;
+  margin-bottom:5px;
+  font-family: arial, lucida, helvetica, sans-serif;
+
+}
+
+/* for div containing skip links and other content that should never be seen by visual browsers */
+.offscreen {
+  position: absolute;
+  left: 0px; top: -9999px;
+  width: 1px; height: 1px;
+  overflow: hidden;
+}
+/* for back to top anchor */
+#divtopanchor {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 1px;
+  height: 1px;
+  z-index: 1;
+}
+
+/* div to clear floating divs */
+.divclear {
+  clear: both;
+}
+
+/* remove space around form */
+form {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+/* get rid of fieldsets and legends */
+fieldset {
+  display: inline;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+legend {
+  display: none;
+}
+
+/* table cells all aligned left and top */
+td {
+  text-align: left;
+  vertical-align: top;
+}
+
+/* layout table */
+/* note: cellspacing=0 must still be specified in table tag because of IE */
+table.layouttable {
+  border: none;
+  border-spacing: 0px;
+  margin: 0px;
+  padding: 0px;
+}
+table.layouttable td {
+  padding: 0px;
+}
+
+/* elements for screen display or print display only */
+span.screenonly {
+  display: inline;
+}
+span.printonly {
+  display: none;
+}
+div.screenonly {
+  display: block;
+}
+div.printonly {
+  display: none;
+}
+
+/* all lists use solid bullet */
+ul {
+  list-style-type: disc;
+}
+
+
+
+/* OUTER SHELL */
+/* container for all page content */
+
+#divoutershell {
+  width: 750px;
+  margin: 0px auto;
+  text-align: left; /* reset alignment for IE */
+}
+
+
+
+/* LINKS */
+
+a,
+a:link {
+  color: #3059a4;
+  text-decoration: none;
+}
+a:visited {
+  color: #4b617d;
+  text-decoration: none;
+}
+a:active,
+a:hover,
+a:focus {
+  color: #3059a4;
+  text-decoration: underline;
+}
+
+
+
+/* FOOTER */
+
+#divfooter {
+  margin: 18px 0px 18px 0px;
+}
+#divfooter p {
+  font-family: arial, lucida, helvetica, sans-serif;
+  font-size: 0.70em;
+  font-weight: normal;
+  line-height: 140%;
+  color: #4b4b4b;
+  margin: 0px;
+  text-align: center;
+}
+#divfooter p img {
+  margin-bottom: 4px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* home page styles for Science Commons site  */
+
+
+
+/* PAGE AREA */
+/* (inside the centered outer shell) */
+
+#divpagearea {
+  width: 732px;
+  padding: 0px 9px 9px 9px;
+}
+
+
+
+/* TITLE AREA */
+/* (contains "Science Commons") */
+
+#divtitle {
+  margin-top: 4px;
+  border-top: 1px solid #a6a6a6;
+  border-bottom: 1px solid #a6a6a6;
+  padding: 47px 33px 10px 521px;
+  width: 178px;
+  height: 51px;
+  background-image: url(/wp-content/themes/scowp/images/bkg1.gif);
+  background-repeat: no-repeat;
+}
+#divtitle h1 {
+  margin: 0px;
+	padding: 0px;
+}
+
+
+/* PRIMARY NAVIGATION */
+
+#divprimarynav {
+  position: relative;
+  z-index: 1;
+}
+#divprimarynav h2 {
+	padding: 0px;
+	margin: 0px;
+  border-bottom: 1px solid #a6a6a6;
+}
+/* menus */
+#divprimarynav ul.popupmenu {
+  position: absolute;
+  left: 157px;
+	width: 575px;
+  z-index: 5;
+  visibility: hidden;
+
+  list-style: none;
+	padding: 0px;
+	margin: 0px;
+}
+#divprimarynav ul.popupmenu li {
+  float: left;
+}
+#divprimarynav ul.popupmenu li a {
+  display: block;
+}
+#menu_projects {
+  top: 67px;
+}
+
+
+/* CONTENT */
+
+/* table enclosing content */
+#leftcolumn {
+  background-color: #f2f2f2;
+  background-image: url(/wp-content/themes/scowp/images/bkg3.gif);
+  background-repeat: no-repeat;
+}
+#rightcolumn {
+  border-left: 1px solid #a6a6a6;
+  background-color: #f9f9f9;
+  background-image: url(/wp-content/themes/scowp/images/bkg4.gif);
+  background-repeat: no-repeat;
+}
+
+/* intro text in left column (total width 526) */
+#divintrotext {
+  width: 418px;
+  padding: 136px 36px 50px 72px;
+}
+#divintrotext h1 {
+  font-family: arial, lucida, helvetica, sans-serif;
+  font-size: 1.60em;
+  font-weight: bold;
+  line-height: 160%;
+  color: #000000;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+#divintrotext p.subtitle {
+  font-family: arial, lucida, helvetica, sans-serif;
+  font-size: 1.00em;
+  font-weight: bold;
+  line-height: 160%;
+  color: #000000;
+  margin-top: 0px;
+  margin-bottom: 0.60em;
+}
+#divintrotext p {
+  font-family: arial, lucida, helvetica, sans-serif;
+  font-size: 0.90em;
+  font-weight: normal;
+  line-height: 140%;
+  color: #000000;
+  margin-top: 0px;
+  margin-bottom: 0.60em;
+}
+
+/* current blog post in right column (total width 205) */
+#divcurrentpost {
+  width: 205px;
+  padding: 124px 0px 35px 0px;
+}
+#divcurrentpost h2 {
+  font-family: arial, lucida, helvetica, sans-serif;
+  font-size: 0.70em;
+  font-weight: bold;
+  line-height: 100%;
+  color: #000000;
+  margin: 0px 0px 12px 0px;
+  border-top: 1px solid #a6a6a6;
+  border-bottom: 1px solid #a6a6a6;
+  padding: 4px 8px 4px 8px;
+}
+#divcurrentpost p {
+  font-family: arial, lucida, helvetica, sans-serif;
+  font-size: 0.70em;
+  font-weight: normal;
+  line-height: 180%;
+  color: #000000;
+  margin-top: 0px;
+  padding: 0px 8px 0px 8px;
+}
+
+
+
+
+/* FACTOID - TEMPORARY UNTIL THE BLOG IS CONNECTED */
+
+#divfactoid {
+}
+#divfactoid h2, #divfactoid p {
+  font-family: arial, lucida, helvetica, sans-serif;
+  font-size: 0.75em;
+  line-height: 140%;
+  color: #333333;
+  margin: 0px;
+}
+#divfactoid h2 {
+  font-style: normal;
+}
+#divfactoid p.attribution {
+  padding-left: 20px;
+}
+div.pushdown {
+  margin-top: 6em;
+}

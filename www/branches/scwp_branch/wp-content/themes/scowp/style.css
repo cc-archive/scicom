@@ -1,0 +1,342 @@
+/*
+
++----------------------------------------------------------------------+
+| Copyright (c) 2007 Creative Commons                                  |
++----------------------------------------------------------------------+
+| AUTHOR(S): Wade Preston Shearer                                      |
++----------------------------------------------------------------------+
+| DATE: 2007/04/14                                                     |
++----------------------------------------------------------------------+
+| SITE: sciencecommons.org                                             |
++----------------------------------------------------------------------+
+| SECTION: style                                                       |
++----------------------------------------------------------------------+
+| MODULE: n/a                                                          |
++----------------------------------------------------------------------+
+
+*/
+
+/*----------------------- TYPOGRAPHY -----------------------*/
+
+body,
+table
+{
+	font-family: Lucida Grande, sans-serif;
+	font-size: 12px;
+	text-align: left;
+	color: #343434;
+	line-height: 14px;
+}
+
+a
+{
+	color: #0000bb;
+	text-decoration: none;
+}
+
+a:hover
+{
+	text-decoration: underline;
+}
+
+h1
+{
+	font-size: 22px;
+	font-weight: bold;
+	color: #707070;
+}
+
+h2
+{
+	font-size: 16px;
+	color: #000000;
+	margin: 0px;
+	line-height: 20px;
+}
+
+blockquote
+{
+	padding: 0px 20px 0px 20px;
+	margin: 0px;
+}
+
+/* lists */
+
+ul,
+ol
+{
+    padding: 0px 0px 0px 16px;
+    margin: 10px 0px 15px 0px;
+}
+
+ul li ul,
+ol li ol,
+ul li ol,
+ol li ul
+{
+    margin-top: 10px;
+}
+
+ul.below_header,
+ol.below_header
+{
+    margin-top: 16px;
+}
+
+ol
+{
+    margin-left: 4px;
+}
+
+* html ol
+{
+    margin-left: 12px;
+}
+
+ul
+{
+    list-style: disc;
+}
+
+* html ul
+{
+    padding-left: 0px;
+    margin-left: 20px;
+}
+
+li
+{
+    padding: 0px 7px 0px 8px;
+    margin: 0px 0px 10px 0px;
+    line-height: 14px;
+}
+
+* html li
+{
+    padding-left: 6px;
+}
+
+ul li
+{
+    padding-left: 11px;
+}
+
+* html ul li
+{
+    padding-left: 9px;
+}
+
+
+/*----------------------- GENERIC LAYOUT -----------------------*/
+
+a.imagelink
+{
+	text-indent: -999999px;
+	text-decoration: none;
+}
+
+.clear
+{
+	clear: both;
+}
+
+.spacer_ver_medium
+{
+	height: 25px;
+}
+
+
+/*----------------------- SPECIFIC LAYOUT -----------------------*/
+
+body
+{
+	margin: 0;
+	padding: 0;
+}
+
+div#header
+{
+	height: 87px;
+	background: url('/wp-content/themes/scowp/images/header_bg_1.jpg') repeat-x top left;
+}
+
+a#logo
+{
+	display: block;
+	width: 229px;
+	height: 70px;
+	cursor: pointer;
+	background: url('/wp-content/themes/scowp/images/logo.gif') repeat-x top left;
+}
+
+div#main
+{
+	min-height: 400px;
+	padding: 38px;
+}
+
+div.rule
+{
+	height: 1px;
+	background-color: #dddddd;
+	line-height: 1px;
+	font-size: 1px;
+}
+
+h1
+{
+	padding: 50px 15px 15px 15px;
+	margin: 0 0 23px 0;
+	border-bottom: 4px solid #000000;
+}
+
+div.column
+{
+	border-top: 1px solid #dddddd;
+}
+
+div.column .padding
+{
+	padding: 15px;
+}
+
+div#column_1
+{
+	min-height: 400px;
+	margin-right: 460px;
+	min-width: 200px;
+}
+
+div#column_2
+{
+	min-height: 400px;
+	float: right;
+	width: 260px;
+	margin-left: 15px;
+}
+
+div#column_3
+{
+	min-height: 400px;
+	float: right;
+	width: 170px;
+	margin-left: 15px;
+}
+
+ul#nav_menu,
+ul#nav_menu ul
+{
+	list-style: none;
+	margin-left: 0px;
+	padding-left: 0px;
+	line-height: 20px;
+}
+
+ul#nav_menu li
+{
+	margin: 0 0 7px 0;
+}
+
+ul#nav_menu li li
+{
+	margin: 0 0 10px 7px;
+	line-height: 11px;
+}
+
+div#footer
+{
+	background: url('/wp-content/themes/scowp/images/footer_fade.jpg') repeat-x top left;
+	text-align: center;
+	padding-top: 55px;
+	font-size: 9px;
+	color: #4b4b4b;
+	margin-bottom: 20px;
+}
+
+a#cc_logolink
+{
+	display: block;
+	width: 88px;
+	height: 31px;
+	background: url('/wp-content/themes/scowp/images/cc.gif') no-repeat center;
+	margin: 0 auto 5px auto;
+	
+}
+
+.post
+{
+	margin-bottom: 25px;
+}
+
+.whenwho
+{
+	margin-top: 2px;
+	font-size: 9px;
+}
+
+.whenwho a
+{
+	color: #8e8e8e;
+}
+
+.postmetadata
+{
+	font-size: 9px;
+}
+
+.alt
+{
+	background-color: #F3F1F1;
+}
+
+ul.postmetadata_full
+{
+	padding: 7px;
+	list-style: none;
+	margin: 0px 0px 5px 0px;
+}
+
+ul.postmetadata_full li
+{
+	display: inline;
+	margin: 0;
+	padding: 0px 10px 0px 4px;
+}
+
+ul#archives_list
+{
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+ul#archives_list li
+{
+	margin: 0 0 5px 0;
+	padding: 0px;
+}
+
+/*
+.navigation .alignleft
+{
+	float: left;
+}
+
+.navigation .alignright
+{
+	float: right;
+}
+*/
+
+ol.commentlist
+{
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+ol.commentlist li
+{
+	margin: 0;
+	padding: 11px 11px 11px 11px;
+}
