@@ -79,6 +79,12 @@
  src="/wp-content/themes/scowp/images/contactblog.gif" alt="Contact/Blog" title=""
  name="n1contactblog" id="n1contactblog" border="0" height="34"
  width="732"></a></h2>
+<h2><a href="/events/"
+ onmouseover="MM_swapImage('n1events','','/wp-content/themes/scowp/images/events_ro.gif',1)"
+ onmouseout="MM_swapImgRestore()"><img
+ src="/wp-content/themes/scowp/images/events.gif" alt="Events" title=""
+ name="n1events" id="n1events" border="0" height="34"
+ width="732"></a></h2>
 </div>
 <!-- small slice of background -->
 <div> <img src="/wp-content/themes/scowp/images/bkg2.gif" alt="" height="4" width="732"></div>
