@@ -87,5 +87,5 @@
  width="732"></a></h2>
 </div>
 <!-- small slice of background -->
-<div> <img src="/wp-content/themes/scowp/images/bkg2.gif" alt="" height="4" width="732"></div>
+<!-- <div> <img src="/wp-content/themes/scowp/images/bkg2.gif" alt="" height="4" width="732"></div> -->
 <!-- table divides page into two columns -->
