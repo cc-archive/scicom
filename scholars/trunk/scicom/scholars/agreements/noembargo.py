@@ -55,7 +55,7 @@ class NoEmbargo(object):
             [fillInRow(author[1],""), "", ""],
             [fillInRow(author[2],""), "", ""],
             [fillInRow(author[3],
-                       """(Individually or, if one than more author, collectively, Author)"""), "", fillInRow(publisher, "(Publisher")],
+                       """(Individually or, if more than one author, collectively, Author)"""), "", fillInRow(publisher, "(Publisher")],
             ],
                                    colWidths=[inch*3, inch * 0.25, inch*3],
               )
