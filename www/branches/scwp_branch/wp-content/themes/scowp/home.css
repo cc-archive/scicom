@@ -248,7 +248,7 @@ a:focus {
 /* intro text in left column (total width 526) */
 #divintrotext {
   width: 418px;
-  padding: 136px 36px 50px 72px;
+  padding: 100px 36px 50px 72px;
 }
 #divintrotext h1 {
   font-family: arial, lucida, helvetica, sans-serif;
@@ -281,7 +281,7 @@ a:focus {
 /* current blog post in right column (total width 205) */
 #divcurrentpost {
   width: 205px;
-  padding: 124px 0px 35px 0px;
+  padding: 80px 0px 35px 0px;
 }
 #divcurrentpost h2 {
   font-family: arial, lucida, helvetica, sans-serif;
