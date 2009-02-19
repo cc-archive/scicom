@@ -91,6 +91,12 @@
  src="/wp-content/themes/scowp/images/events.gif" alt="Events" title=""
  name="n1events" id="n1events" border="0" height="34"
  width="732"></a></h2>
+<h2><a href="/support/"
+ onmouseover="MM_swapImage('n1support','','/wp-content/themes/scowp/images/support_ro.gif',1)"
+ onmouseout="MM_swapImgRestore()"><img
+ src="/wp-content/themes/scowp/images/support.gif" alt="Support" title=""
+ name="n1support" id="n1support" border="0" height="34"
+ width="732"></a></h2>
 </div>
 <!-- small slice of background -->
 <!-- <div> <img src="/wp-content/themes/scowp/images/bkg2.gif" alt="" height="4" width="732"></div> -->
