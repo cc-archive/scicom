@@ -322,7 +322,7 @@ class MtaWeb(object):
         return stream.render("xhtml")        
 
 
-def serve(host='', port=8082):
+def serve(host='127.0.0.1', port=8082):
 
     cherrypy.tree.mount(MtaWeb())
 
