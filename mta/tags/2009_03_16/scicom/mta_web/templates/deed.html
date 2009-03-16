@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:cc="http://creativecommons.org/ns#"
+      xmlns:sc="http://sciencecommons.org/ns#">
+  <head>
+    <title>Science Commons Deed</title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="/scdeed.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="/scdeed-print.css" media="print" />
+    <link rel="alternate" type="application/rdf+xml" href="rdf" /> 
+  </head>
+  <body>
+
+    <div id="header">
+      <p align="center"><a href="http://sciencecommons.org/">Science Commons</a></p>
+    </div>
+    <div id="deed" class="blue">  
+      <div id="deed-head">
+	<!-- this image ins't even shown... -->
+	<div id="cc-logo"><img src="/images/sc-logo.gif" alt="sc logo"/></div>
+	<div id="deed-license">
+	  <h2>
+	  <span>${longname}</span>
+	  <br/>
+	  ${code} ${version}
+	  </h2>
+	</div>
+      </div>
+      <div id="deed-main">
+	<div id="deed-main-content">
+	  <div id="deed-rights">
+	    <h3>You are free to:</h3>
+	    <ul>
+	      <py:for each="clause in permissions">
+		<li class="license permission" 
+		    rel="cc:permits" 
+		    href="${clause.uri}">
+		  <strong>${clause.short}</strong>
+		   ${clause.long}
+		</li>
+	      </py:for>
+	      </ul>
+	  </div>
+	  <div id="deed-conditions">
+	    <h3>Under the following conditions:</h3>
+	    <ul>
+	      <py:for each="clause in conditions">
+		<!-- icon comes from class. -->
+		<li class="license ${clause.code}" 
+		    rel="cc:prohibits" 
+		    href="${clause.uri}">
+		   ${clause.long}
+		   <py:if test="clause.extra">
+		     <br>${clause.extra}</br>
+		   </py:if>
+		</li>
+	      </py:for>
+	      </ul>
+	  </div>
+	</div>
+      </div>
+
+      <div id="deed-foot">
+       ${footer}
+       <br/>
+	<p id="disclaimer">
+	  <a href="/disclaimer" target="_blank">Disclaimer</a>
+	</p>
+	This is a human readable version of the full <a href="${legalurl}">MTA</a>.
+      </div>
+    </div>
+    <p id="footer">
+      <a href="/" >Learn more.</a>
+    </p>
+
+  </body>
+</html>

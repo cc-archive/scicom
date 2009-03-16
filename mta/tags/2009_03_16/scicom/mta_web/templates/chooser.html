@@ -1,0 +1,187 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <head>
+
+    <title>Generate Materials Transfer Agreement</title>
+
+    <xi:include href="chooser-styles.html"/>
+
+  </head>
+
+  <body>
+
+    <py:if test="not(embedded)">
+
+      <img src="http://sciencecommons.org/wp-content/themes/scowp/images/logo.gif" alt="Science Commons"/>
+      <p/>
+
+      <h1>Materials Transfer Agreement</h1>
+
+      <p>Science Commons Materials Transfer Agreements (MTAs) are contracts that govern the transfer of tangible research materials from one research institution (the provider) to another (the recipient).  They are most commonly employed in the transfer of "unique research resources" such as cell lines, monoclonal antibodies, reagents, animal models, growth factors, combinatorial chemistry and DNA libraries, clones and cloning tools (such as PCR), methods, laboratory equipment and machines. Non-biological and synthetic materials, such as certain nano-materials, chemical reagents, and chemical substrates may be shared under MTAs as well.</p>
+      <div id="selector">
+
+	<div class="section_header">Provider Information</div>
+
+	<table >
+	  <tr>
+	    <td><label for="material_provider" class="fieldlabel">Provider:</label></td>
+	    <td><input type="text" id="material_provider" tabindex="1" /></td>
+	    <td><a href="" class="helpLink" id="material_provider_hl">?</a></td>
+	  </tr>
+
+	  <tr>
+	    <td> <label for="material_provider_url" class="fieldlabel">Provider URL:</label></td>
+	    <td> <input type="text" id="material_provider_url" tabindex="2"/></td>
+	    <td> <a href="" class="helpLink" id="material_provider_url_hl">?</a></td>
+	  </tr>
+
+	  <tr>
+	    <td> <label for="material_provider_url" class="fieldlabel">Provider Address:</label></td>
+	    <td> <input type="text" id="material_provider_address" tabindex="2"/></td>
+	    <td><a href="" class="helpLink" id="material_provider_address_hl">?</a></td>
+	  </tr>
+
+
+	</table>
+
+
+	<div class="section_header">Material Information</div>
+
+	<table>
+	  <tr>
+	    <td>    <label for="material_desc" class="fieldlabel">Description:</label></td>
+	    <td>    <input type="text" id="material_desc" tabindex="4" /></td>
+	    <td>    <a href="" class="helpLink" id="material_desc_hl">?</a></td>
+	  </tr>
+
+
+	  <tr>
+	    <td>    <label for="material_uri" class="fieldlabel">Material URL:</label></td>
+	    <td>    <input type="text" id="material_uri"  tabindex="5"/> </td>
+	    <td>    <a href="" class="helpLink" id="material_uri_hl">?</a></td>
+	  </tr>
+	</table>
+
+
+	<p>
+	  <label>  </label>
+	  <span id="btn_generate_material_uri" class="yuibutton">
+	    <span class="first-child">
+	      <button type="button" name="generate_material_uri">Generate a URL</button>
+	    </span>
+	  </span>
+	</p>
+
+
+	<div class="section_header">Transfer Offers</div>
+
+	<div>
+
+	  <p>An offer provides a material under a specifc legal agreement. You can create multiple offers for your material.</p>
+
+
+	  <p>
+	    <label>  </label>
+	    <span id="btn_add_offer" class="yuibutton">
+	      <span class="first-child">
+		<button type="button" name="add_offer">Add an offer</button>
+	      </span>
+	    </span>
+	  </p>
+
+	  <div id="offer_container"></div>
+	</div> 
+
+	<div py:if="debug" class="section_header">Debugging and Experiments <b>Turn off for release</b></div>
+
+	<div py:if="debug">
+  	 <div style="height:5em;margin:20px">
+	  
+	  Disease Field: 
+	  <!-- <span id="ysearchautocomplete"> -->
+	  <input id="field_disease" type="text"/>
+	  <div id="field_disease_ac"></div>
+
+
+	</div>
+          This shouldn't move, and it doesn't!
+	</div>
+
+
+      </div> <!-- End selector column -->
+
+      <div id="results">
+
+	<p>You can include information about the offers on your web page; just copy
+	and paste the HTML below into your page.  The HTML includes machine-readable
+	metadata which software can discover and aggregate.</p>
+
+	<textarea id="metadata" rows="10" cols="50">
+	</textarea>
+
+	<div>Preview:
+	<div id="metadata_preview"></div>
+	</div>
+      </div>
+    </py:if> <!-- ends long if on ~embedded -->
+
+    <!-- for embedded, just the button and dialog -->
+    <py:if test="embedded">
+      <span id="btn_add_offer" class="yuibutton">
+	<span class="first-child">
+	  <button type="button" name="add_offer">Add an offer</button>
+	</span>
+      </span>
+    </py:if>
+
+    <xi:include href="wizard.html"/>
+
+    <div id="material_provider_help" class="helpPopup">
+      <div class="hd">Material Provider</div>
+      <div class="bd">
+	<p>Type the name of the institution, laboratory, or person who is providing the material.</p>
+	<p>Example: <i>Jones Lab, Manischevitz Institute of Technocracy</i></p>
+      </div>
+    </div>
+
+    <div id="material_provider_url_help" class="helpPopup">
+      <div class="hd">Material Provider URL</div>
+      <div class="bd">
+	<p>Type the URL of the institution, laboratory, or person who is providing the material.</p>
+	<p>Example: <i>http://msvt.edu/joneslab</i></p>
+      </div>
+    </div>
+
+    <div id="material_provider_address_help" class="helpPopup">
+      <div class="hd">Provider Address</div>
+      <div class="bd">
+	<p>Type the address of the providing institution, laboratory, or person.</p>
+	<p>Example: <i>777 Massachusetts Avenue, Cambridge MA</i></p>
+      </div>
+    </div>
+
+    <div id="material_desc_help" class="helpPopup">
+      <div class="hd">Material Description</div>
+      <div class="bd">
+	<p>Type a description of the material being made available.</p>
+	<p>Example: <i>Mouse tumor sample MT33-567</i></p>
+	      </div>
+    </div>
+
+    <div id="material_uri_help" class="helpPopup">
+      <div class="hd">Material URL</div>
+      <div class="bd">
+	<p>Enter a URL corresponding to the material being made available. If you don't have one, click the Generate URL button and we will create a page for your material on the Science Commons material repository.</p>
+	<p>Example: <i>http://msvt.edu/joneslab/material/MT33-567</i></p>
+      </div>
+    </div>
+
+
+    <xi:include href="chooser-scripts.html" parse="text"/> 
+
+  </body>
+
+
+</html>

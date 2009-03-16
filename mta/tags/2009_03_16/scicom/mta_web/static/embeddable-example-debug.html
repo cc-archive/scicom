@@ -1,0 +1,35 @@
+<html>
+  <head>
+
+    <title>MTA Embeddable Chooser Tester</title>
+
+  </head>
+
+  <body>
+
+    <h1>MTA Embeddable Chooser Tester</h1>
+    
+    <div>
+     <!-- The argument of false means to skip the logistics panel -->
+     <button id="button" disabled="true" onclick="add_offer(false)">Add offer</button><br>
+    </div>
+
+     <b>Offers:</b><br/>
+     <div id="offers">
+
+     </div>
+
+     
+     <!-- Load up the chooser -->
+
+<!-- Debugging version: load locally  -->
+     <script src="embed_wizard_debug.js" type="text/javascript"> </script>
+
+     <!-- Load up javascript handlers for the page, including code to enable the Add Offer button -->
+     <script src="embed.js" type="text/javascript"> </script>
+
+  </body>
+
+
+
+</html>

@@ -1,0 +1,55 @@
+==============
+scicom.mta_web
+==============
+
+:Date: $LastChangedDate$
+:Version: $LastChangedRevision$
+:Authors: Nathan R. Yergler <nathan@creativecommons.org>
+          Mike Travers <mt@alum.mit.edu>
+:Organization: `Creative Commons <http://creativecommons.org>`_
+:Copyright: 
+   2006-2007, Nathan R. Yergler, Creative Commons; 
+   licensed to the public under the `MIT license 
+   <http://opensource.org/licenses/mit-license.php>`_.
+
+The scicom.mta_web project includes the code and static files for the
+Science Commons MTA web application.  This package requires Python 2.4 or later.
+
+Installation
+============
+
+scicom.mta_web and its dependencies may be installed using `easy_install 
+<http://peak.telecommunity.com/DevCenter/EasyInstall>`_ (recommended) ::
+
+  $ easy_install scicom.mta_web
+
+Installing scicom.mta_web using easy_install will create an ``mta`` script in
+your Python bin directory.
+
+Development & Deployment
+========================
+
+This project uses `zc.buildout <http://python.org/pypi/zc.buildout>`_ to 
+manage dependencies and deployment.   After checking out the code, run 
+``bootstrap.py`` to download zc.buildout and its dependencies ::
+
+  $ python bootstrap/bootstrap.py
+
+After running bootstrap, you can run buildout to install the project for
+development in the local directory ::
+
+  $ ./bin/buildout
+
+This will retrieve the run-time dependencies of the project and place them
+in the ``eggs`` directory.  It will also create a development egg for the
+MTA-specific code.  A development egg is a special link file in the 
+``develop-eggs`` directory which links the code in development to the local
+Python environment.
+
+You can then run the test server by running the ``mta`` wrapper script which
+buildout generates ::
+
+  $ ./bin/server
+
+The server runs on port 8082.
+
