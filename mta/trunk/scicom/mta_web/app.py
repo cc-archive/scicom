@@ -259,7 +259,8 @@ class MtaWeb(object):
     def __init__(self):
 
         # create a template loader instance
-        self.__loader = genshi.template.TemplateLoader([TEMPLATE_DIR])
+        self.__loader = genshi.template.TemplateLoader([TEMPLATE_DIR],
+                                                       variable_lookup='lenient')
 
         # Material Registration
         self.material = MtaMaterial(self.__loader)
