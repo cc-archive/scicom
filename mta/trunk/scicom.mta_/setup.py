@@ -27,7 +27,7 @@ setup(
 
     # scripts and dependencies
     install_requires = ['setuptools',
-                        'SQLAlchemy',
+                        'SQLAlchemy==0.3.11',
                         ],
 
     include_package_data = True,

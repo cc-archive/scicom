@@ -26,13 +26,16 @@ setup(
     packages = ['scicom.mta_web'],
 
     # scripts and dependencies
-    dependency_links = ['http://www.reportlab.co.uk/svn/public/reportlab/trunk/reportlab#egg=Reportlab-2.0'],
+    dependency_links = ['http://dist.repoze.org/PIL-1.1.6.tar.gz#egg=PIL-1.1.6',
+                        'http://ftp.schooltool.org/schooltool/eggs/Reportlab-2.1.tar.gz#egg=Reportlab-2.1'],
+
     install_requires = ['setuptools',
-                        'CherryPy>=3.0beta2',
+                        'CherryPy<=3.0.999',
                         'simplejson',
                         'Genshi',
                         'zdaemon',
-                        'Reportlab>=2.0', 
+                        'PIL',
+                        'Reportlab==2.1', 
                         'scicom.mta',
                         ],
 
