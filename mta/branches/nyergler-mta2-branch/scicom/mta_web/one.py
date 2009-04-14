@@ -130,7 +130,8 @@ class Mta(object):
         elif code == 'sc':
             l = letters.letter.SCLetter()
         else:
-            raise cherrypy.HTTPError(404, 'Unknown license %s' % code)            
+            raise cherrypy.HTTPError(404, 'Unknown license %s' % code)
+
         # do this first to catch errors before declaring it a pdf
         result = l(**kwargs)
         l.pdf_prepare_response('implementing-letter')
@@ -146,11 +147,11 @@ class Mta(object):
     def legalcode(self, code, kwargs):
 
         template = self.__loader.load("legal.html")
-        #stream = template.generate(agreementType=code, version=self.VERSION, agreementText=self.legaltext(code), **kwargs)
         stream = template.generate(agreementType=code, version=self.VERSION,
                                    **kwargs)
         return stream.render("xhtml")
 
+    # MTA legal text -- served from static files, immutable
     def legaltext(self, code):
         filename = STATIC_DIR + '/legal/' + self.VERSION + '/' + code + '.txt'
         string = open(filename).read()
