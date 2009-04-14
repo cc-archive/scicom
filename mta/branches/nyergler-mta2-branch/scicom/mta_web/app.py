@@ -63,6 +63,9 @@ class MtaAgreements(object):
         elif version == '2.0':
             return self.__two.dispatch(basecode, code, doctype, **kwargs)
 
+        raise cherrypy.HTTPError(404, 'Unknown license %s %s' % 
+                                 (code, version))        
+
     # return the base code, or error out
     def basecode(self, code):
         if ['ubmta', 'sla'].__contains__(code):
