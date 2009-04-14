@@ -14,13 +14,9 @@
 
 <h3>Legal code for ${agreementType} agreement.</h3>
 
-<!-- This should work, but Genshi is brokena -->
-<!-- <pre> -->
-<!--     <xi:include href="../static/legal/${version}/${agreementType}.txt" parse="text"/> -->
-<!-- </pre> -->
-
-<pre width="100" style="background:#ffffdd; padding: 20px">
-${agreementText}
+<pre width="100" style="background:#ffffdd; padding: 20px"> 
+<xi:include href="../static/legal/${version}/${agreementType}.txt" 
+	    parse="text" />
 </pre>
 
 </body>
