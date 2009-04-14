@@ -1,0 +1,67 @@
+<html>
+
+<!-- This page is pointed to by the exit_url parameter of the chooser popup,
+     and is loaded into the popup window when the user hits the Finish button.
+
+     It illustrates how to retrieve the offer properties and use them to 
+     modify the source page.  -->
+
+<script type="text/javascript">
+
+function handleResponse() {
+
+        // This is the original document that launched the MTA Chooser.
+        var sourceDoc = window.opener.document;
+
+	// Get the offer string and turn it into a JSON object
+        var offer_string = get_url_param("offer");
+	offer_string = decodeURIComponent(offer_string);
+        var offer_info = eval("(" + offer_string + ")");  
+
+	// Make a block to contain the HTML representation of the offer
+  	var container = sourceDoc.getElementById("offers");
+	var offerdiv = sourceDoc.createElement("div");
+	offerdiv.setAttribute('style', 'border: 1px; border-style: solid; padding: 5px');
+	container.appendChild(offerdiv);
+
+	// Generate a link to the deed
+        var link = document.createElement('a');
+	link.setAttribute('href', 'http://mta.sciencecommons.org/' + offer_info['agreement_uri']);
+	link.appendChild(document.createTextNode(offer_info['agreement_name']));
+	offerdiv.appendChild(link);
+
+	// Display all the offer properties
+	var parameters = sourceDoc.createElement("div");
+        parameters.setAttribute('style', 'border: 1px; border-style: solid; padding: 5px');
+	for (var prop in offer_info) {
+	    var textnode = sourceDoc.createTextNode(prop + ": " + offer_info[prop]);
+	    parameters.appendChild(textnode);
+	    parameters.appendChild(sourceDoc.createElement('br'));
+        }
+	offerdiv.appendChild(parameters);
+
+	// Close the popup.
+        window.close();
+
+   }
+
+   // utility for getting an URL parameter
+   function get_url_param(name) {
+      name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+      var regexS = "[\\?&]"+name+"=([^&#]*)";
+      var regex = new RegExp( regexS );
+      var results = regex.exec( window.location.href );
+      if (results == null)
+         return "";
+       else
+         return results[1];
+    }
+
+
+</script>
+
+<body onload="javascript:handleResponse();">
+  You shouldn't be seeing this.
+</body>
+
+</html>

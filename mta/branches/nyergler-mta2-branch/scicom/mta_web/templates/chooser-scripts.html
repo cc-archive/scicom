@@ -1,0 +1,74 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+
+    <!-- Real version -->
+    <div py:if="not(debug)" py:strip="True" >
+      <script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+      <script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/element/element-beta-min.js"></script>
+      <script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/button/button-beta-min.js"></script>
+      <script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/animation/animation-min.js"></script>
+      <script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/connection/connection-min.js"></script>
+      <script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/autocomplete/autocomplete-min.js"></script>
+      <script type="text/javascript" src="http://yui.yahooapis.com/2.2.2/build/container/container-min.js"></script>
+      <script type="text/javascript" src="http://mta.sciencecommons.org/ext/adapter/yui/ext-yui-adapter.js"></script>
+      <script type="text/javascript" src="http://mta.sciencecommons.org/ext/ext-custom.js"></script>
+
+    </div>
+
+    <!-- Debugging version, loads locally -->
+    <div py:if="debug" py:strip="True" >
+      <script type="text/javascript" src="yui/build/yahoo/yahoo-debug.js"></script>
+      <script type="text/javascript" src="yui/build/dom/dom-debug.js"></script>  
+      <script type="text/javascript" src="yui/build/event/event-debug.js"></script>
+      <script type="text/javascript" src="yui/build/element/element-beta-debug.js"></script>
+      <script type="text/javascript" src="yui/build/button/button-beta-debug.js"></script>
+      <script type="text/javascript" src="yui/build/animation/animation-debug.js"></script>
+      <script type="text/javascript" src="yui/build/connection/connection-debug.js"></script>
+      <script type="text/javascript" src="yui/build/autocomplete/autocomplete-debug.js"></script>
+      <script type="text/javascript" src="yui/build/container/container-debug.js"></script>
+      <script type="text/javascript" src="yui/build/logger/logger-debug.js"></script>
+      <script type="text/javascript" src="ext/adapter/yui/ext-yui-adapter.js"></script>
+      <script type="text/javascript" src="ext/ext-all-debug.js"></script>
+    </div>
+
+
+    <!-- Here and not in chooser-styles, because this gets loaded as part of the embeddable chooser 
+         and the other doesn't -->
+    <style type="text/css">
+      .yui-ac-content {position:absolute;border:1px solid #404040;background:#fff;overflow:hidden;text-align:left;z-index:9050}
+      .yui-ac-shadow {position:absolute;margin:.3em;background:#a0a0a0;-moz-opacity:0.10;opacity:.10;filter:alpha(opacity=10);z-index:9049;}
+      .yui-ac-content ul {padding:5px 0;width:100%;}
+      .yui-ac-content li {padding:0 5px;cursor:default;white-space:nowrap;}
+      .yui-ac-content li.yui-ac-highlight {background:#ff0;}
+
+    </style>
+
+
+    <!-- Pass embedded down below -->
+    <script py:if="embedded" type="text/javascript">
+      MTA_embedded = true;
+    </script>
+    <script py:if="not(embedded)" type="text/javascript">
+      MTA_embedded = false;
+    </script>
+    <!-- similarly for debug -->
+    <script py:if="debug" type="text/javascript">
+      MTA_debug = true;
+    </script>
+    <script py:if="not(debug)" type="text/javascript">
+      MTA_debug = false;
+    </script>
+
+
+    <div py:if="not(debug)" py:strip="True" >
+     <script type="text/javascript" src="http://mta.sciencecommons.org/mta.js"></script>
+     <script type="text/javascript" src="http://mta.sciencecommons.org/chooser.js"></script>
+    </div>
+    <div py:if="debug" py:strip="True" >
+     <script type="text/javascript" src="mta.js"></script>
+     <script type="text/javascript" src="chooser.js"></script>
+    </div>
+
+
+</div>

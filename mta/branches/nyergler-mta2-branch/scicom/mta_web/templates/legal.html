@@ -1,0 +1,27 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+
+<head>
+<title>Science Commons MTA Legal Code: ${agreementType}</title>
+</head>
+<body>
+<img src="http://sciencecommons.org/wp-content/themes/scowp/images/logo.gif"/>
+
+<p/>
+
+<h2>Science Commons Material Transfer Agreement</h2>
+
+<h3>Legal code for ${agreementType} agreement.</h3>
+
+<!-- This should work, but Genshi is brokena -->
+<!-- <pre> -->
+<!--     <xi:include href="../static/legal/${version}/${agreementType}.txt" parse="text"/> -->
+<!-- </pre> -->
+
+<pre width="100" style="background:#ffffdd; padding: 20px">
+${agreementText}
+</pre>
+
+</body>
+</html>

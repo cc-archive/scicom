@@ -1,0 +1,207 @@
+<!-- Schema to support MTAs. Builds on CC:, and reuses its classes and relations where relevant. -->
+
+<!-- CC used to be at "http://web.resource.org/cc/" and may still be for some purposes -->
+
+<!--
+    Note: for now, this lives in the sciencecommons.org domain, but will eventually be
+    folded into the cc: domain.  
+ -->
+
+<rdf:RDF xmlns="http://sciencecommons.org/ns#"
+    xmlns:cc="http://creativecommons.org/ns#"  
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+
+<!--  Material **************************************************************** -->
+
+    <rdfs:Class rdf:about="Material">
+        <dc:title>Material</dc:title>
+        <dc:description>A scientific material available for transfer</dc:description>
+    </rdfs:Class>
+
+    <!-- Use dc:title for material name -->
+
+    <rdf:Property rdf:about="provider">
+        <dc:title>Provider of the material</dc:title>
+        <rdfs:domain rdf:resource="cc:Material"/>
+        <rdfs:range rdf:resource="MaterialUser"/>
+    </rdf:Property>
+
+    <!-- recipient is a property of offers, see below -->
+
+    <rdf:Property rdf:about="offer">
+        <dc:title>An offer to provide the material</dc:title>
+        <rdfs:domain rdf:resource="Material"/>
+        <rdfs:range rdf:resource="cc:Offer"/>
+    </rdf:Property>
+
+
+<!--  MaterialUser **************************************************************** -->
+
+    <rdfs:Class rdf:about="MaterialUser">
+        <dc:title>Provider</dc:title>
+        <dc:description>A provider or recipient of some scientific material (lab, institution, researcher)</dc:description>
+	<!-- Nathan says don't do this. -->
+<!-- 	<rdfs:subClassOf rdf:resource="cc:Agent"/> -->
+    </rdfs:Class>
+
+    <rdf:Property rdf:about="nonprofit">
+        <dc:title>True if provider/recipient is a nonprofit institution</dc:title>
+        <rdfs:domain rdf:resource="MaterialUser"/>
+	<!-- boolean range -->
+        <rdfs:range rdf:resource="Literal"/>
+    </rdf:Property>
+    
+    <!-- TODO: Include organizational structure of provide/recipients, like PI -->
+
+<!--  Agreement **************************************************************** -->
+<!-- An agreement is a generic legal document governing MTAs. -->
+
+    <rdfs:Class rdf:about="Agreement">
+        <dc:title>Agreement</dc:title>
+        <dc:description>An agreement is a legal document governing a materials transaction</dc:description>
+	<rdfs:subClassOf rdf:resource="cc:License"/>
+    </rdfs:Class>
+
+
+<!--  Offer **************************************************************** -->
+<!-- An offer represents a specific offer of some material under an agreement -->
+
+    <rdfs:Class rdf:about="Offer">
+        <dc:title>Offer</dc:title>
+        <dc:description>An offer is an instantiation of an agreement.  It offers to transfer a particular material from a provider to a recipient.</dc:description>
+    </rdfs:Class>
+
+    <rdf:Property rdf:about="recipient">
+        <dc:title>the recipient of the material</dc:title>
+        <rdfs:domain rdf:resource="cc:Offer"/>
+        <rdfs:range rdf:resource="MaterialUser"/>
+    </rdf:Property>
+
+    <rdf:Property rdf:about="agreement">
+        <dc:title>has agreement</dc:title>
+        <rdfs:domain rdf:resource="Offer"/>
+        <rdfs:range rdf:resource="Agreement"/>
+	<rdfs:seeAlso rdf:resource="cc:license"/>
+	<rdfs:subPropertyOf rdf:resource="http://purl.org/dc/terms/license" />
+    </rdf:Property>
+
+    <rdf:Property rdf:about="recipientTypes">
+        <dc:title>type of institution this offer is for</dc:title>
+        <rdfs:domain rdf:resource="Offer"/>
+	<!-- values are all, forProfit, or nonProfit -->
+        <rdfs:range rdf:resource="Literal"/>
+    </rdf:Property>
+
+    <rdf:Property rdf:about="toNonProfits">
+        <dc:title>offer is made to not-profit recipients</dc:title>
+        <rdfs:domain rdf:resource="Offer"/>
+	<!-- boolean range -->
+        <rdfs:range rdf:resource="Literal"/>
+    </rdf:Property>
+
+    <rdf:Property rdf:about="expires">
+        <dc:title>Offer expires at this time</dc:title>
+        <rdfs:domain rdf:resource="Offer"/>
+	<!-- date/time range-->
+	<rdfs:range rdf:resource="Literal"/>
+    </rdf:Property>
+
+    <rdf:Property rdf:about="transmittalFee">
+        <dc:title>One-time transmittal fee</dc:title>
+        <rdfs:domain rdf:resource="Offer"/>
+	<!-- currency range-->
+        <rdfs:range rdf:resource="Literal"/>
+    </rdf:Property>
+    
+<!--  Permissions, Prohbitions, and Requirements **************************************************************** -->
+<!-- Permissions etc can be properties of Offers or Agreements-->
+
+    <!-- Permissions  -->
+
+    <!-- Permissions common to all  -->
+    <cc:Permission rdf:about="YourResearch">
+      <dc:description>Use the materials for research that you supervise</dc:description>
+    </cc:Permission>
+
+    <cc:Permission rdf:about="OthersResearch">
+      <dc:description></dc:description>
+    </cc:Permission>
+
+    <cc:Permission rdf:about="Publish">
+      <dc:description>Publish the results of your research</dc:description>
+    </cc:Permission>
+
+
+    <cc:Prohibition rdf:about="Retention">
+      <dc:description>Retaining unused or incorporated materials after completion of research</dc:description>
+    </cc:Prohibition>
+
+    <cc:Prohibition rdf:about="CommercialUser">
+      <dc:description>Use in connection with sale of products or services</dc:description>
+    </cc:Prohibition>
+
+    <cc:Prohibition rdf:about="Clinical">
+      <dc:description>Use in human subjects for treating, preventing, or diagnosing diseases</dc:description>
+    </cc:Prohibition>
+
+    <cc:Prohibition rdf:about="ScalingUp">
+      <dc:description>Making additional quantities of materials by recipient for authorized uses</dc:description>
+    </cc:Prohibition>
+
+    <cc:Prohibition rdf:about="ForProfit">
+      <dc:description>Use by for-profit organizations</dc:description>
+    </cc:Prohibition>
+
+    <cc:Prohibition rdf:about="Transfer">
+      <dc:description>Transfer or redistribution of materials to a third party</dc:description>
+    </cc:Prohibition>
+
+    <cc:Prohibition rdf:about="ForProfitTransfer">
+      <dc:description>Transfer or redistribution of materials to a for-profit entity</dc:description>
+    </cc:Prohibition>
+
+    <!-- Class of disease prohibitions (necessary to define disease property -->
+    <rdfs:Class rdf:about="DiseaseProhibition">		       
+        <dc:title>Disease Prohibition class</dc:title>
+        <dc:description>Class of disease prohibitions</dc:description>
+	<rdfs:subClassOf rdf:resource="cc:Prohibition"/>
+    </rdfs:Class>
+
+    <!-- The generic disease prohibition -->
+    <DiseaseProhibition rdf:about="Disease ">
+      <dc:description>Use is limited to work on a particular disease</dc:description>
+    </DiseaseProhibition>
+
+    <rdf:Property rdf:about="disease">
+        <dc:title>limited to disease</dc:title>
+        <rdfs:domain rdf:resource="DiseaseProhibition"/>
+	<!-- range is MeSH terms or free text -->
+        <rdfs:range rdf:resource="Literal"/>
+    </rdf:Property>
+
+    <!-- Class of protocol prohibitions (necessary to define protocol property -->
+    <rdfs:Class rdf:about="ProtocolProhibition">		       
+        <dc:title>Protocol prohibition class</dc:title>
+        <dc:description>Class of protocol prohibitions</dc:description>
+	<rdfs:subClassOf rdf:resource="cc:Prohibition"/>
+    </rdfs:Class>
+
+    <!-- Generic protocol prohibition -->
+    <ProtocolProhibition rdf:about="Protocol">
+	<dc:description>Use is limited to an agreed protocol</dc:description>
+    </ProtocolProhibition>
+
+    <rdf:Property rdf:about="protocol">
+        <dc:title>limited to protocol</dc:title>
+        <rdfs:domain rdf:resource="ProtocolProhibition"/>
+        <rdfs:range rdf:resource="Literal"/>
+    </rdf:Property>
+
+
+    <!-- Requirements  -->
+
+
+</rdf:RDF>
+

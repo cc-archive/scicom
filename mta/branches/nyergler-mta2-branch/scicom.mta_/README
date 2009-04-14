@@ -1,0 +1,97 @@
+
+==========
+scicom.mta
+==========
+
+:Date: $LastChangedDate$
+:Version: $LastChangedRevision$
+:Author: Nathan R. Yergler <nathan@creativecommons.org>
+:Organization: `Creative Commons <http://creativecommons.org>`_
+:Copyright: 
+   2007, Nathan R. Yergler, Creative Commons; 
+   licensed to the public under the `MIT license 
+   <http://opensource.org/licenses/mit-license.php>`_.
+
+scicom.mta provides a Python package for generating and manipulating Science
+Commons Material Transfer Agreements and their associated metadata. 
+
+Installation
+============
+
+scicom.mta and its dependencies may be installed using `easy_install 
+<http://peak.telecommunity.com/DevCenter/EasyInstall>`_ (recommended) ::
+
+  $ easy_install scicom.mta
+
+or by using the standard distutils setup.py::
+
+  $ python setup.py install
+
+Usage
+=====
+
+Generating Material Transfer Agreements
+---------------------------------------
+
+scicom.mta provides an interface for generating Material Transfer Agreements
+and their associated metadata based on user input.  The primary interface for
+generating an MTA is the AgreementClass object.  The AgreementClass models a 
+particular type of agreement, such as `UBMTA <>`_ or the Science Commons
+MTA.
+
+  >>> import scicom.mta
+  >>> ubmta = scicom.mta.AgreementClass(scicom.mta.classes.UBMTA)
+  >>> ubmta.id
+  'ubmta'
+
+The AgreementClass has a ``keywords`` property which is a list of keyword
+parameters which may be provided to select an Agreement.  The UBMTA is simply
+a wrapper around an existing legal agreement, and therefore does not take any
+keywords
+
+  >>> ubmta.keywords
+  []
+
+This is in contrast to the Science Commons MTA, which takes five parameters.
+
+  >>> sc_mta = scicom.mta.AgreementClass(scicom.mta.classes.SCICOM)
+  >>> sc_mta.keywords
+  ['field', 'scaling', 'term', 'retain', 'publication']
+
+The possible values and their descriptions are available using a dictionary
+like interface to the agreement.  For example,
+
+  >>> sc_mta['field'].keys()
+  ['all', 'disease', 'protocol']
+  >>> sc_mta['field'].values()
+  ['All fields', 'Disease restricted', 'Protocol restricted']
+  >>> sc_mta['field'].items()
+  [('all', 'All fields'), ('disease', 'Disease restricted'), ('protocol', 'Protocol Restricted')]
+
+An Agreement instance is created by calling the ``issue`` method of the 
+AgreementClass.  
+
+  >>> ubmta_instance = ubmta.issue()
+  >>> ubmta_instance
+  <scicom.mta.Agreement instance at ...>
+
+When creating an agreement whose class has keywords, they are specified as
+keyword paramters.
+
+  >>> sc_mta_instance = sc_mta.issue(field='all', scaling='yes', 
+  ...     term='variable', retain='yes', publication='yes')
+  >>> sc_mta_instance
+  <scicom.mta.Agreement instance at ...>
+
+
+MTA Metadata
+------------
+
+
+Material Registry
+-----------------
+
+Known Issues
+============
+
+* It's vaporware
