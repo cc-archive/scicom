@@ -6,11 +6,24 @@
   <head>
     <title>Science Commons Deed</title>
     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+
+    <link rel="stylesheet" type="text/css"
+    href="http://yui.yahooapis.com/2.7.0/build/container/assets/skins/sam/container.css"
+    /> 
+    <script type="text/javascript"
+    src="http://yui.yahooapis.com/2.7.0/build/yahoo-dom-event/yahoo-dom-event.js"></script> 
+    <script type="text/javascript"
+    src="http://yui.yahooapis.com/2.7.0/build/container/container-min.js"></script> 
+    
+    <script type="text/javascript"
+	    src="http://creativecommons.org/includes/help.js">
+    </script>
+
     <link rel="stylesheet" type="text/css" href="/scdeed.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="/scdeed-print.css" media="print" />
     <link rel="alternate" type="application/rdf+xml" href="rdf" /> 
   </head>
-  <body>
+  <body class="yui-skin-sam">
 
     <div id="header">
       <p align="center"><a href="http://sciencecommons.org/">Science Commons</a></p>
@@ -65,9 +78,28 @@
        ${footer}
        <br/>
 	<p id="disclaimer">
-	  <a href="/disclaimer" target="_blank">Disclaimer</a>
+	  <a href="#" class="helpLink" id="disclaimer">Disclaimer</a>
 	</p>
-	This is a human readable version of the full <a href="${legalurl}">MTA</a>.
+	<p>
+	  This is a human readable version of the
+	  full <a href="${legalurl}">MTA</a>.
+	</p>
+	<div id="help_disclaimer">
+	  <div class="hd">
+	    Disclaimer
+	  </div>
+	  <div class="bd">
+	    <p>
+	      Creative Commons Corporation is not a law firm and does
+	      not provide legal services. Distribution of this
+	      agreement does not create an attorney-client
+	      relationship. Creative Commons provides this information
+	      on an "as-is" basis. Creative Commons makes no
+	      warranties regarding the information provided, and
+	      disclaims liability for damages resulting from its use.
+	    </p>
+	  </div>
+	</div>
       </div>
     </div>
     <p id="footer">
