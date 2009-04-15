@@ -2,6 +2,7 @@
 
 		body {
 			background-color: #EdEdEd;
+			background-color: #2d2d2d;
 			font: 12px/16px arial, verdana, sans-serif;
 			text-align: center;
 			color: #ccc;
@@ -83,7 +84,8 @@
 		#deed-license h2 {
 			margin: 0;
 			font-size: 1.46em;
-			padding-top: 100px;
+			line-height: 1.46em;
+			padding-top: 82px;
 		}
 		#deed-main img {
 			float: right;
@@ -143,6 +145,10 @@
 		#deed-foot p {
 			margin: 0 20px;
 			padding: 0;
+		}
+
+		#deed-foot div.bd p {
+		    color: black;
 		}
 		
 		a {
