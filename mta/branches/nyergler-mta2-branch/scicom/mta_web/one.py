@@ -1,5 +1,7 @@
 # MTA 1.0 support
 import cherrypy
+
+import letters
 from const import STATIC_DIR, TEMPLATE_DIR, MESH_SOURCE
 
 class Mta(object):
