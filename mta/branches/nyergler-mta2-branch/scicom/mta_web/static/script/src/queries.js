@@ -1,5 +1,5 @@
 YAHOO.cc.mta.MTA_INFO =  {
-        select: [ "offer", "material", "disease", "permits"],
+        select: [ "offer", "material", "disease", "offer_permits"],
         where:
         [
     { pattern: [ "?offer", 
@@ -42,7 +42,7 @@ YAHOO.cc.mta.MTA_INFO =  {
       [
     { pattern: [ "?offer",
 		 "http://creativecommons.org/ns#permits", 
-		 "?permits" ] }
+		 "?offer_permits" ] }
        ],
       optional: true,
     }
