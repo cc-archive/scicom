@@ -30,9 +30,11 @@ setup(
                         'http://ftp.schooltool.org/schooltool/eggs/Reportlab-2.1.tar.gz#egg=Reportlab-2.1'],
 
     install_requires = ['setuptools',
-                        'CherryPy<=3.0.999',
                         'simplejson',
                         'Genshi',
+                        'PasteScript[wsgiutils]',
+                        'PasteDeploy',
+                        'CherryPy<=3.0.999',
                         'zdaemon',
                         'PIL',
                         'Reportlab==2.1', 
@@ -44,8 +46,11 @@ setup(
     zip_safe = False,
 
     entry_points = { 'console_scripts':
-                     ['server = scicom.mta_web.app:serve',
-                      ],
+                         ['server = scicom.mta_web.app:serve',
+                          ],
+                     'paste.app_factory':
+                         ['main=scicom.mta_web.app:app_factory',
+                          ],
                      },
 
     # author metadata
