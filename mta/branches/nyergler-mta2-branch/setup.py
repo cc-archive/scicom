@@ -46,7 +46,7 @@ setup(
     zip_safe = False,
 
     entry_points = { 'console_scripts':
-                         ['server = scicom.mta_web.app:serve',
+                         ['mta-ctl = scicom.mta_web.startup:zdaemon_controller'
                           ],
                      'paste.app_factory':
                          ['main=scicom.mta_web.app:app_factory',
