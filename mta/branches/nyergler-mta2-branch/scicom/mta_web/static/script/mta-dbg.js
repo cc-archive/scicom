@@ -24,8 +24,14 @@ YAHOO.cc.mta.parse_success = function(store) {
 		    }
 
 		    // what about contractor access
-		    if (obj.permits == "http://") {
-			// XXX add the contractor permission to the deed
+		    if (obj.offer_permits == "http://mta.sciencecommons.org/ns#ContractorAccess") {
+			// add the contractor permission to the deed
+			var notice = document.createElement("li");
+			YAHOO.util.Dom.addClass(notice, "license");
+			notice.innerHTML = "Contractors may access the material.";
+			
+			YAHOO.util.Dom.insertAfter(notice,
+						   YAHOO.util.Dom.getLastChild(YAHOO.util.Dom.get("requirements")));
 			console.log("permits contractor access");
 		    }
 		}
@@ -85,7 +91,7 @@ YAHOO.register("cc.mta", YAHOO.cc.mta, {version:"0.0.1", build:"1"});
      
  }()
  );YAHOO.cc.mta.MTA_INFO =  {
-        select: [ "offer", "material", "disease", "permits"],
+        select: [ "offer", "material", "disease", "offer_permits"],
         where:
         [
     { pattern: [ "?offer", 
@@ -128,7 +134,7 @@ YAHOO.register("cc.mta", YAHOO.cc.mta, {version:"0.0.1", build:"1"});
       [
     { pattern: [ "?offer",
 		 "http://creativecommons.org/ns#permits", 
-		 "?permits" ] }
+		 "?offer_permits" ] }
        ],
       optional: true,
     }
