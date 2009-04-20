@@ -8,29 +8,24 @@ scicom.mta_web
           Mike Travers <mt@alum.mit.edu>
 :Organization: `Creative Commons <http://creativecommons.org>`_
 :Copyright: 
-   2006-2007, Nathan R. Yergler, Creative Commons; 
+   2006-2009, Nathan R. Yergler, Creative Commons; 
    licensed to the public under the `MIT license 
    <http://opensource.org/licenses/mit-license.php>`_.
 
 The scicom.mta_web project includes the code and static files for the
-Science Commons MTA web application.  This package requires Python 2.4 or later.
+Science Commons MTA web application.  This package requires Python 2.5 or later.
 
-Installation
-============
-
-scicom.mta_web and its dependencies may be installed using `easy_install 
-<http://peak.telecommunity.com/DevCenter/EasyInstall>`_ (recommended) ::
-
-  $ easy_install scicom.mta_web
-
-Installing scicom.mta_web using easy_install will create an ``mta`` script in
-your Python bin directory.
+This package imports the `CC metadata scraper
+<http://code.creativecommons.org/svnroot/metadata_scraper>`_ and
+serves it on ``/scrape``; this is integrated using `Paste Deploy's
+<http://pythonpaste.org/deploy/>`_ `composite application
+<http://pythonpaste.org/deploy/>`_ support.
 
 Development & Deployment
 ========================
 
-This project uses `zc.buildout <http://python.org/pypi/zc.buildout>`_ to 
-manage dependencies and deployment.   After checking out the code, run 
+`zc.buildout <http://python.org/pypi/zc.buildout>`_ is used to manage
+dependencies and deployment.  After checking out the code, run
 ``bootstrap.py`` to download zc.buildout and its dependencies ::
 
   $ python bootstrap/bootstrap.py
@@ -46,10 +41,19 @@ MTA-specific code.  A development egg is a special link file in the
 ``develop-eggs`` directory which links the code in development to the local
 Python environment.
 
-You can then run the test server by running the ``mta`` wrapper script which
-buildout generates ::
+You can then run the test server by running the ``mta-ctl`` wrapper
+script which buildout generates ::
 
-  $ ./bin/server
+  $ ./bin/mta-ctl fg
 
 The server runs on port 8082.
 
+Known / Reporting Issues 
+========================
+
+``scicom.mta_web`` has a fair amount of technical debt at this point.
+We're trying to pay that off as we go, with varying degress of
+success.  
+
+You can find a list of open issues (and report new ones) in the `CC
+Issue Tracker <http://code.creativecommons.org/issues/issue?status=-1,1,2,3,4,5,6,7&@sort=-activity&@search_text=&@dispname=SciCom&@filter=status,project&@group=priority&project=19&@columns=id,activity,title,creator,assignedto,status&@pagesize=50&@startwith=0>`_.
