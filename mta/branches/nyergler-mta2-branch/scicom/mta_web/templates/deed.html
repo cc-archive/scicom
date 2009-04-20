@@ -19,6 +19,9 @@
 	    src="http://creativecommons.org/includes/help.js">
     </script>
 
+    <script type="text/javascript"
+	    src="/includes/referrer/mta/mta-bootstrap.js" />
+
     <link rel="stylesheet" type="text/css" href="/scdeed.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="/scdeed-print.css" media="print" />
     <link rel="alternate" type="application/rdf+xml" href="rdf" /> 
@@ -44,7 +47,7 @@
 	<div id="deed-main-content">
 	  <div id="deed-rights">
 	    <h3>You are free to:</h3>
-	    <ul>
+	    <ul id="permissions">
 	      <py:for each="clause in permissions">
 		<li class="license permission" 
 		    rel="cc:permits" 
@@ -57,10 +60,10 @@
 	  </div>
 	  <div id="deed-conditions">
 	    <h3>Under the following conditions:</h3>
-	    <ul>
+	    <ul id="requirements">
 	      <py:for each="clause in conditions">
-		<!-- icon comes from class. -->
 		<li class="license ${clause.code}" 
+		    id="requirement-${clause.code}"
 		    rel="cc:prohibits" 
 		    href="${clause.uri}">
 		   ${clause.long}
