@@ -144,9 +144,21 @@ class MtaWeb(object):
         return stream.render("xhtml")        
 
 
-def serve(host='127.0.0.1', port=8082):
+def app_factory(*args):
+    """Application factory for use with Python Paste deployments."""
+
+    from cherrypy._cpengine import STARTED, STARTING, STOPPED
 
     cherrypy.tree.mount(MtaWeb())
+
+    if cherrypy.engine.state not in (STARTED, STARTING):
+        cherrypy.engine.start(blocking=False)
+    
+    return cherrypy.tree
+
+def serve(host='127.0.0.1', port=8082):
+
+    cp_app = app_factory()
 
     cherrypy.server.socket_host = host
     cherrypy.server.socket_port = port
