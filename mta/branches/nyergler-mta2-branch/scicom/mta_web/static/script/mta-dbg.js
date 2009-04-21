@@ -2,12 +2,10 @@ YAHOO.namespace("cc.mta");
 
 
 YAHOO.cc.mta.parse_success = function(store) {
-    console.log(store);
 
     // make sure the referrer has metadata about this document
     var query = new RDFQuery(store);
     var results = query.query2(YAHOO.cc.mta.MTA_INFO);
-    console.log(results);
 
     query.walk2(results, {
 	    action : function (obj) {
@@ -32,7 +30,6 @@ YAHOO.cc.mta.parse_success = function(store) {
 			
 			YAHOO.util.Dom.insertAfter(notice,
 						   YAHOO.util.Dom.getLastChild(YAHOO.util.Dom.get("requirements")));
-			console.log("permits contractor access");
 		    }
 		}
 	    }});
