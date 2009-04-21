@@ -52,7 +52,7 @@ YAHOO.cc.mta.check_referrer = function() {
 	// construct the request callback
 	var callback = {
 	    success: YAHOO.cc.mta.parse_success,
-	    failure: YAHOO.cc.mta.parse_failure,
+	    failure: YAHOO.cc.mta.parse_failure
 	};
 
 	YAHOO.cc.ld.load(document.referrer, 
@@ -90,7 +90,9 @@ YAHOO.register("cc.mta", YAHOO.cc.mta, {version:"0.0.1", build:"1"});
      YAHOO.cc.mta.init();
      
  }()
- );YAHOO.cc.mta.MTA_INFO =  {
+ );
+
+YAHOO.cc.mta.MTA_INFO =  {
         select: [ "offer", "material", "disease", "offer_permits"],
         where:
         [
@@ -110,7 +112,7 @@ YAHOO.register("cc.mta", YAHOO.cc.mta, {version:"0.0.1", build:"1"});
 		 "http://mta.sciencecommons.org/ns#offer",
 		 "?offer" ] }
        ],
-      optional: true,
+      optional: true
     },
 
     // optionally look for disease information
@@ -126,7 +128,7 @@ YAHOO.register("cc.mta", YAHOO.cc.mta, {version:"0.0.1", build:"1"});
 		 "http://mta.sciencecommons.org/ns#disease", 
 		 "?disease" ] }
        ],
-      optional: true,
+      optional: true
     },
 
     // look for additional, optional permissions
@@ -136,7 +138,8 @@ YAHOO.register("cc.mta", YAHOO.cc.mta, {version:"0.0.1", build:"1"});
 		 "http://creativecommons.org/ns#permits", 
 		 "?offer_permits" ] }
        ],
-      optional: true,
+      optional: true
     }
         ]
 };
+
