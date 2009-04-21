@@ -18,7 +18,7 @@ YAHOO.cc.mta.MTA_INFO =  {
 		 "http://mta.sciencecommons.org/ns#offer",
 		 "?offer" ] }
        ],
-      optional: true,
+      optional: true
     },
 
     // optionally look for disease information
@@ -34,7 +34,7 @@ YAHOO.cc.mta.MTA_INFO =  {
 		 "http://mta.sciencecommons.org/ns#disease", 
 		 "?disease" ] }
        ],
-      optional: true,
+      optional: true
     },
 
     // look for additional, optional permissions
@@ -44,7 +44,8 @@ YAHOO.cc.mta.MTA_INFO =  {
 		 "http://creativecommons.org/ns#permits", 
 		 "?offer_permits" ] }
        ],
-      optional: true,
+      optional: true
     }
         ]
 };
+

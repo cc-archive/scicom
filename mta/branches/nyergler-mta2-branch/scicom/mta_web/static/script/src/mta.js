@@ -52,7 +52,7 @@ YAHOO.cc.mta.check_referrer = function() {
 	// construct the request callback
 	var callback = {
 	    success: YAHOO.cc.mta.parse_success,
-	    failure: YAHOO.cc.mta.parse_failure,
+	    failure: YAHOO.cc.mta.parse_failure
 	};
 
 	YAHOO.cc.ld.load(document.referrer, 
@@ -91,3 +91,4 @@ YAHOO.register("cc.mta", YAHOO.cc.mta, {version:"0.0.1", build:"1"});
      
  }()
  );
+
