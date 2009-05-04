@@ -1,13 +1,6 @@
 <!-- Schema to support MTAs. Builds on CC:, and reuses its classes and relations where relevant. -->
 
-<!-- CC used to be at "http://web.resource.org/cc/" and may still be for some purposes -->
-
-<!--
-    Note: for now, this lives in the sciencecommons.org domain, but will eventually be
-    folded into the cc: domain.  
- -->
-
-<rdf:RDF xmlns="http://sciencecommons.org/ns#"
+<rdf:RDF xmlns="http://mta.sciencecommons.org/ns#"
     xmlns:cc="http://creativecommons.org/ns#"  
     xmlns:dc="http://purl.org/dc/elements/1.1/"
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -33,7 +26,7 @@
     <rdf:Property rdf:about="offer">
         <dc:title>An offer to provide the material</dc:title>
         <rdfs:domain rdf:resource="Material"/>
-        <rdfs:range rdf:resource="cc:Offer"/>
+        <rdfs:range rdf:resource="Offer"/>
     </rdf:Property>
 
 
@@ -71,11 +64,12 @@
     <rdfs:Class rdf:about="Offer">
         <dc:title>Offer</dc:title>
         <dc:description>An offer is an instantiation of an agreement.  It offers to transfer a particular material from a provider to a recipient.</dc:description>
+	<rdfs:subClassOf rdf:resource="cc:License"/>
     </rdfs:Class>
 
     <rdf:Property rdf:about="recipient">
         <dc:title>the recipient of the material</dc:title>
-        <rdfs:domain rdf:resource="cc:Offer"/>
+        <rdfs:domain rdf:resource="Offer"/>
         <rdfs:range rdf:resource="MaterialUser"/>
     </rdf:Property>
 
@@ -133,6 +127,12 @@
       <dc:description>Publish the results of your research</dc:description>
     </cc:Permission>
 
+    <cc:Permission rdf:about="ContractorAccess">
+      <dc:title>Contractor Access</dc:title>
+      <dc:description>Contractors are allowed access to the material.</dc:description>
+    </cc:Permission>
+
+    <!-- Prohibitions -->
 
     <cc:Prohibition rdf:about="Retention">
       <dc:description>Retaining unused or incorporated materials after completion of research</dc:description>
@@ -162,6 +162,8 @@
       <dc:description>Transfer or redistribution of materials to a for-profit entity</dc:description>
     </cc:Prohibition>
 
+    <!-- Disease Limitation -->
+
     <!-- Class of disease prohibitions (necessary to define disease property -->
     <rdfs:Class rdf:about="DiseaseProhibition">		       
         <dc:title>Disease Prohibition class</dc:title>
@@ -177,6 +179,7 @@
     <rdf:Property rdf:about="disease">
         <dc:title>limited to disease</dc:title>
         <rdfs:domain rdf:resource="DiseaseProhibition"/>
+        <rdfs:domain rdf:resource="DiseaseRequirement"/>
 	<!-- range is MeSH terms or free text -->
         <rdfs:range rdf:resource="Literal"/>
     </rdf:Property>
@@ -202,6 +205,13 @@
 
     <!-- Requirements  -->
 
+    <rdfs:Class rdf:abbout="DiseaseRequirement">
+        <dc:title>Disease Requirement class</dc:title>
+	<dc:description>Class of disease requirements; limited to
+    			specific diseases.</dc:description>
+	<rdfs:subClassOf rdf:resource="cc:Requirement" />
+    </rdfs:Class>
 
+ 
 </rdf:RDF>
 
