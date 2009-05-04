@@ -103,6 +103,10 @@ class MtaWeb(object):
     index = cherrypy.tools.staticfile.handler(
         os.path.join(TEMPLATE_DIR, 'index.html'))
 
+    # the namespace document
+    ns = cherrypy.tools.staticfile.handler(
+        os.path.join(STATIC_DIR, 'mta-schema.rdf'))
+
     # the chooser
     @cherrypy.expose
     def chooser(self):
