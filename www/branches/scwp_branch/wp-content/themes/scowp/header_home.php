@@ -79,10 +79,10 @@
  onmouseout="MM_swapImgRestore()"><img src="/wp-content/themes/scowp/images/partners.gif"
  alt="Partners" title="" name="n1partners" id="n1partners" border="0"
  height="33" width="732"></a></h2>
-<h2><a href="/contact/"
+<h2><a href="/follow/"
  onmouseover="MM_swapImage('n1contactblog','','/wp-content/themes/scowp/images/contactblog_ro.gif',1)"
  onmouseout="MM_swapImgRestore()"><img
- src="/wp-content/themes/scowp/images/contactblog.gif" alt="Contact/Blog" title=""
+ src="/wp-content/themes/scowp/images/contactblog.gif" alt="Follow Us" title=""
  name="n1contactblog" id="n1contactblog" border="0" height="34"
  width="732"></a></h2>
 <h2><a href="/events/"
