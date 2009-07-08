@@ -65,6 +65,10 @@ class Mta(object):
 
             footer = ''
             conditions = [
+                {'long': 'Attribution required.',
+                 'code': 'by',
+                 'uri' : 'cc:Attribution',
+                 },
                 {'long': 'You may not use the materials for clinical purposes.',
                  'code': 'no-clinical',
                  'uri': 'sc:Clinical'},
@@ -75,23 +79,11 @@ class Mta(object):
                  'code': 'no-distribution',
                  'uri': 'sc:Transfer'}]
 
-            if splits.__contains__('rp'):
-                conditions.insert(0, {'long': 'Your use of the materials is restricted to a specific research protocol.',
-                                      'code': 'restricted-field',
-                                      'extra': fieldStr})
             if splits.__contains__('df'):
                 conditions.insert(0, {'long': 'Your use of the materials is restricted by fields of use.',
                                       'code': 'restricted-field',
                                       'extra': fieldStr
                                       })
-            if splits.__contains__('ns'):
-                conditions.append({'long': 'You may not produce additional quantities of the materials.',
-                                   'code': 'no-scaling',
-                                   'uri': 'sc:ScalingUp'})
-            if splits.__contains__('rd'):
-                conditions.append({'long': 'You will return or destroy the materials upon completion of research or the termination of the agreement.',
-                                   'uri': 'sc:Retention',
-                                   'code': 'return'})
 
         stream = template.generate(code=code, version=self.VERSION, permissions=permissions, conditions=conditions, footer=footer, legalurl=legalurl, longname=longname)
         return stream.render("xhtml")
