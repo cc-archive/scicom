@@ -64,7 +64,7 @@
 	      <py:for each="clause in conditions">
 		<li class="license ${clause.code}" 
 		    id="requirement-${clause.code}"
-		    rel="cc:prohibits" 
+		    rel="${clause.get('rel', 'cc:prohibits')}" 
 		    resource="${clause.uri}">
 		   ${clause.long}
 		   <py:if test="clause.extra">

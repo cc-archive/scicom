@@ -68,6 +68,7 @@ class Mta(object):
             conditions = [
                 {'long': 'You must provide appropriate acknowledgment of the source of Materials.',
                  'code': 'by',
+                 'rel' : 'cc:requires',
                  'uri' : '[cc:Attribution]',
                  },
                 {'long': 'You may not transfer or distribute the materials. ',
