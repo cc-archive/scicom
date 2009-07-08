@@ -45,11 +45,11 @@ class Mta(object):
         # same for all deeds
         permissions = [
             {'long': 'Use the materials for research that you supervise',
-             'uri': 'sc:YourResearch'},
+             'uri': '[sc:YourResearch]'},
             {'long': 'Allow others under your supervision to use the materials',
-             'uri': 'sc:OthersResearch'},
+             'uri': '[sc:OthersResearch]'},
             {'long':'Publish the results of your research',
-             'uri': 'sc:Publish'}]
+             'uri': '[sc:Publish]'}]
 
         # default
         footer = 'You will acknowledge provider in publications reporting use of the materials.'
@@ -68,11 +68,11 @@ class Mta(object):
             conditions = [
                 {'long': 'You must provide appropriate acknowledgment of the source of Materials.',
                  'code': 'by',
-                 'uri' : 'cc:Attribution',
+                 'uri' : '[cc:Attribution]',
                  },
                 {'long': 'You may not transfer or distribute the materials. ',
                  'code': 'no-distribution',
-                 'uri': 'sc:Transfer'}]
+                 'uri': '[sc:Transfer]'}]
 
             if 'df' in splits: 
                 deed_title = "Specific Use"
@@ -83,10 +83,10 @@ class Mta(object):
                 conditions += [
                     {'long': 'You may not use the materials for clinical purposes.',
                      'code': 'no-clinical',
-                     'uri': 'sc:Clinical'},
+                     'uri': '[sc:Clinical]'},
                     {'long': 'You may not use the materials in connection with the sale of a product or service.',
                      'code': 'nc',
-                     'uri': 'cc:CommercialUse'},
+                     'uri': '[cc:CommercialUse]'},
                     ]
 
             elif 'ou' in splits:

@@ -51,7 +51,7 @@
 	      <py:for each="clause in permissions">
 		<li class="license permission" 
 		    rel="cc:permits" 
-		    href="${clause.uri}">
+		    resource="${clause.uri}">
 		  <strong>${clause.short}</strong>
 		   ${clause.long}
 		</li>
@@ -65,7 +65,7 @@
 		<li class="license ${clause.code}" 
 		    id="requirement-${clause.code}"
 		    rel="cc:prohibits" 
-		    href="${clause.uri}">
+		    resource="${clause.uri}">
 		   ${clause.long}
 		   <py:if test="clause.extra">
 		     <br>${clause.extra}</br>

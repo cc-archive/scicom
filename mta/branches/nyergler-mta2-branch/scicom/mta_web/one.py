@@ -40,11 +40,11 @@ class Mta(object):
         # same for all deeds
         permissions = [
             {'long': 'Use the materials for research that you supervise',
-             'uri': 'sc:YourResearch'},
+             'uri': '[sc:YourResearch]'},
             {'long': 'Allow others under your supervision to use the materials',
-             'uri': 'sc:OthersResearch'},
+             'uri': '[sc:OthersResearch]'},
             {'long':'Publish the results of your research',
-             'uri': 'sc:Publish'}]
+             'uri': '[sc:Publish]'}]
 
         # default
         footer = 'You will acknowledge provider in publications reporting use of the materials.'
@@ -55,15 +55,15 @@ class Mta(object):
             conditions = [
                 {'long': 'You may not use the materials for clinical purposes.',
                  'code': 'no-clinical',
-                 'uri': 'sc:Clinical' },
+                 'uri': '[sc:Clinical]' },
                 {'long': 'You may only use the materials for teaching and academic research.',
                  'code': 'nc',
-                 'uri': 'cc:CommercialUse'},
+                 'uri': '[cc:CommercialUse]'},
                 {'long': 'You may not transfer or distribute the materials, except only Modifications to non-profit organizations under the UBMTA. ',
                  'code': 'no-distribution',
-                 'uri': 'sc:Transfer'},
+                 'uri': '[sc:Transfer]'},
                 {'long': 'You will return or destroy materials upon completion of research or expiration of the implementing letter.',
-                 'uri': 'sc:Retention',
+                 'uri': '[sc:Retention]',
                  'code': 'return'}]
 
         if code == 'sla':
@@ -71,13 +71,13 @@ class Mta(object):
             conditions = [
                 {'long': 'You may not use the materials for clinical purposes.',
                  'code': 'no-clinical',
-                 'uri': 'sc:Clinical'},
+                 'uri': '[sc:Clinical]'},
                 {'long': 'You may only use the materials for teaching and academic research.',
                  'code': 'nc',
-                 'uri': 'cc:CommercialUse'},
+                 'uri': '[cc:CommercialUse]'},
                 {'long': 'You may not transfer or distribute the materials without permission.',
                  'code': 'no-distribution',
-                 'uri': 'sc:Transfer'}]
+                 'uri': '[sc:Transfer]'}]
 
         # must be sc
         splits = code.split('-')
@@ -91,13 +91,13 @@ class Mta(object):
             conditions = [
                 {'long': 'You may not use the materials for clinical purposes.',
                  'code': 'no-clinical',
-                 'uri': 'sc:Clinical'},
+                 'uri': '[sc:Clinical]'},
                 {'long': 'You may not use the materials in connection with the sale of a product or service.',
                  'code': 'nc',
-                 'uri': 'cc:CommercialUse'},
+                 'uri': '[cc:CommercialUse]'},
                 {'long': 'You may not transfer or distribute the materials. ',
                  'code': 'no-distribution',
-                 'uri': 'sc:Transfer'}]
+                 'uri': '[sc:Transfer]'}]
 
             if splits.__contains__('rp'):
                 conditions.insert(0, {'long': 'Your use of the materials is restricted to a specific research protocol.',
@@ -111,10 +111,10 @@ class Mta(object):
             if splits.__contains__('ns'):
                 conditions.append({'long': 'You may not produce additional quantities of the materials.',
                                    'code': 'no-scaling',
-                                   'uri': 'sc:ScalingUp'})
+                                   'uri': '[sc:ScalingUp]'})
             if splits.__contains__('rd'):
                 conditions.append({'long': 'You will return or destroy the materials upon completion of research or the termination of the agreement.',
-                                   'uri': 'sc:Retention',
+                                   'uri': '[sc:Retention]',
                                    'code': 'return'})
 
         if kwargs.__contains__('endDate'):
