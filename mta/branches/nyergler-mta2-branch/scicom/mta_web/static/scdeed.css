@@ -213,6 +213,9 @@
 			padding-bottom: 5px;
 		}
 
+		li.by {
+		    background: url("/images/deed/by.png") 0 0 no-repeat;
+		}
 		li.nc {
 					background: url("/images/deed/nc.png") 0 0 no-repeat;
 		}
