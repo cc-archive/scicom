@@ -1,0 +1,227 @@
+Science Commons Material Transfer Agreement
+Open Use
+Version 2.0 
+
+1. Introduction
+
+NOTICE: CREATIVE COMMONS CORPORATION IS NOT A LAW FIRM AND DOES NOT
+PROVIDE LEGAL SERVICES. DISTRIBUTION OF THIS AGREEMENT DOES NOT CREATE
+AN ATTORNEY-CLIENT RELATIONSHIP. CREATIVE COMMONS PROVIDES THIS
+INFORMATION ON AN "AS-IS" BASIS. CREATIVE COMMONS MAKES NO WARRANTIES
+REGARDING THE INFORMATION PROVIDED, AND DISCLAIMS LIABILITY FOR
+DAMAGES RESULTING FROM ITS USE.
+
+This Science Commons Material Transfer Agreement (the "Base MTA") and
+the attached Supplemental Addendum (the "Supplemental Addendum" and,
+together with the Base MTA, the "Agreement") is entered into between
+the Provider and the Recipient (or the "Parties", as further
+identified in the Supplemental Addendum), and governs the exchange and
+use of the certain materials specified in this Agreement between the
+Parties. 
+
+This Agreement may be released in multiple versions.  Only the version
+expressly referenced by the Parties shall apply, even if subsequent or
+alternative versions are released by Science Commons.
+
+2. Definitions
+
+Capitalized terms used in this Agreement have the meaning defined
+below. Plural and singular forms may be used interchangeably.
+
+"Authorized Users" means i) an employee of the Recipient, and  ii) to
+the extent expressly permitted by the Supplemental Addendum, a
+contractor or agent performing services on behalf of the Recipient
+that (A) has been notified of the Recipient's obligations under this
+Agreement and (B) have binding obligations to the Recipient to use and
+protect the Materials (including any Materials contained in any
+Modifications) in accordance with this Agreement.
+
+"Materials" means i) the tangible materials that are transferred
+subject to this Agreement and ii) Unmodified Products. 
+
+"Modification" means i) a material with novel properties resulting
+from a change to the Materials, or ii) a combination of the Materials
+with other materials.
+
+"Original Materials Provider" means any entity or entities that
+provided the Materials to the Provider, as identified in the
+Supplemental Addendum.
+
+"Provider" means the Party that provided the Materials.
+
+"Recipient" means the Party that received the Materials.
+
+"Unmodified Product" means: i) the progeny (if an organism, including
+a virus) or subclone of the Materials, ii) a product expressed or
+secreted by the Materials, or iii) a subunit, structure, or portion of
+the Materials (including materials purified or extracted from the
+Materials).
+
+3. Authorized Uses and Use Limitations
+
+The Recipient agrees to use the Materials only in accordance with the
+following terms and conditions.  
+
+a. Authorized Uses
+
+The Provider authorizes the Recipient and the Authorized Users to i)
+replicate the Materials and ii) use the Materials subject to the
+limitations below. 
+
+b. Use Limitations 
+
+   i. The Recipient shall use, store and dispose of the Materials and
+   any Modifications in compliance with all applicable laws, rules and
+   regulations, including, but not limited to, all applicable export
+   laws, rules, and regulations in connection with any use of the
+   Materials and any Modifications.
+
+
+   ii. The Recipient shall not permit anyone other than an Authorized
+   User to be given access to the Materials (including any Materials
+   contained in any Modifications). The Recipient agrees to promptly
+   notify the Provider if it becomes aware of any loss or unauthorized
+   use or transfer of the Materials (including any Materials contained
+   in any Modifications).
+
+c. Distribution 
+
+The Recipient shall not distribute, transfer, or permit third parties
+to access the Materials or any Modifications containing the Materials.
+If a third party wishes to receive the Materials, the Recipient may
+notify such third party that the Materials may be available from the
+Provider.  
+
+d. No Implied Licenses, Ownership of Tangible Materials and Patent Rights
+
+Except for the rights expressly granted herein, the Recipient agrees
+that no other rights or licenses, whether express or implied, are
+granted to the Recipient under any patent, patent application,
+copyright, trademark, or trade secret of the Provider or the Original
+Materials Provider. As between the Parties, each retains all right,
+title, and interest in works and inventions made by its personnel, and
+nothing herein shall be construed to transfer ownership of any
+invention, patent, patent application, copyright, or trade secret.
+With respect to tangible materials, i) the Provider retains ownership
+and title to the Materials (including any Materials contained in any
+Modifications) and ii) the Recipient retains ownership and title to
+the Modifications (except that the Provider retains ownership and
+title to any Materials contained in any Modifications). The Recipient
+is free to file patent application(s) claiming inventions made by, or
+on behalf of, the Recipient through the use of the Materials, but
+agrees not to file any patent application containing a composition of
+matter claim on the original Materials or an Unmodified Product.
+
+4. General Terms and Conditions
+
+a. Term and Termination
+
+   i. Unless otherwise specified in the Supplemental Addendum, the
+   term of this Agreement shall commence on the date it is executed by
+   both Parties and shall continue in effect until terminated in
+   accordance with the terms hereof or by the mutual written agreement
+   of the Parties.
+
+   ii. This Agreement will automatically terminate (A) upon a material
+   breach of any representation, warranty or covenant of this
+   Agreement by the Recipient and such breach is not remedied within
+   45 days of the receipt by the Recipient of notice of such breach
+   from the Provider, or (B) if the Recipient becomes insolvent, files
+   for bankruptcy, makes an assignment for the benefit of creditors,
+   or fails to carry on business in the ordinary course. 
+
+   iii. Upon any termination of this Agreement, the Recipient (A) will
+   immediately discontinue its use of the Materials (including any
+   Modifications that contain Materials) and (B) will, as directed by
+   the Provider, return or dispose of the Materials (including any
+   Modifications that contain Materials).
+
+   iv. This Section 4 and each of Section 2, Section 3(b), Section
+   3(c), Section 3(d) and the Supplemental Addendum shall survive any
+   termination of this Agreement.
+
+b. Acknowledgement of the Source of the Materials
+
+The Recipient agrees to provide appropriate acknowledgement of the
+source of the Material (i.e., the Provider and any Original Materials
+Provider) in all publications resulting from any use of the
+Materials. 
+
+c. No Warranties
+
+THE MATERIALS ARE PROVIDED "AS-IS" AND,TO THE MAXIMUM EXTENT PERMITTED
+BY LAW, THE PROVIDER DISCLAIMS ALL WARRANTIES, REPRESENTATIONS, AND
+CONDITIONS, WHETHER IMPLIED, EXPRESS, OR STATUTORY, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE. THE PROVIDER MAKES NO WARRANTY THAT THE
+MATERIALS DO NOT INFRINGE ANY PATENT, COPYRIGHT, TRADEMARK, OR OTHER
+THIRD PARTY RIGHTS.
+
+d. Assumption of Liability and Indemnification
+
+Except to the extent prohibited by law (or, alternatively, to the
+extent permitted by law), the Recipient assumes all liability for
+damages to the extent due to or arising from the use, storage or
+disposal of the Materials and any Modifications by the
+Recipient. Neither the Provider nor the Original Materials Provider
+will be liable to the Recipient for any loss, claim or demand made by
+the Recipient, or made against the Recipient by any other party, to
+the extent due to or arising from the use, storage or disposal of the
+Material or any Modifications by the Recipient.
+
+Except to the extent prohibited by law (or, alternatively, to the
+extent permitted by law), the Recipient will defend and indemnify the
+Provider and the Original Materials Provider (and their respective
+directors, officers, employees, trustees, shareholders, members and
+agents) against any loss, claim or demand (including attorneys' fees
+and cost of defense and the enforcement of this provision) suffered by
+the Provider and the Original Materials Provider, as the case may be,
+to the extent due to or arising from i) a breach of this Agreement by
+the Recipient or ii) the use, storage or disposal of the Material or
+any Modifications by the Recipient.
+
+e. Entire Agreement and Assignment
+
+This Agreement shall constitute the entire agreement between the
+Parties with respect to the subject matter herein, and supersedes all
+prior or contemporaneous understandings, agreements, or
+representations, whether written or oral. The Recipient may not assign
+this Agreement without the prior written consent of the Provider.
+
+f. Amendment and Waiver
+
+This Agreement may only be amended by a written instrument executed by
+each of the Parties.  No delay or failure by a Party to enforce any
+provision of this Agreement shall be deemed to be a waiver of the
+right to enforce this Agreement with respect to a separate or
+continuing breach.  No waiver of any provision of this Agreement shall
+be valid unless it is in writing and is executed by the Party against
+whom such waiver is sought to be enforced. A waiver by either of the
+Parties of any provision of this Agreement will not be construed to be
+a waiver of any succeeding breach thereof or of any other provision of
+this Agreement.
+
+g. Notices
+
+Any notice required or permitted to be given by this Agreement shall
+be in writing and shall be delivered by personal delivery, US mail,
+postage prepaid, return receipt requested, facsimile (provided the
+sender has evidence of successful transmission) or next-day courier
+service. Any notice so delivered shall be deemed to be given,
+delivered and received, if delivered by personal delivery or if
+delivered by US mail, on the day received as indicated by the postal
+receipt and if delivered by facsimile or courier service, on the day
+following dispatch. All such notices are to be given or made at the
+address specified in the Supplemental Addendum (or to such other
+address as may be designated by a notice given in accordance with the
+provisions of this section).
+
+h. Choice of Law
+
+If a jurisdiction is specified in the Supplemental Addendum, then this
+Agreement shall be governed by the domestic laws of such jurisdiction
+without giving effect to any choice of law provision or rule, unless
+the Recipient is prohibited by applicable law from so agreeing, in
+which case this Agreement will be governed by such law as determined
+by a court of competent jurisdiction.
+

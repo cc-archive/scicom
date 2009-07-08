@@ -18,7 +18,7 @@ class Mta(object):
     def dispatch(self, basecode, code, doctype, **kwargs):
 
         # make sure this is a valid code for MTA 2.0
-        if code not in ('sc-df',):
+        if code not in ('sc-df', 'sc-ou',):
             raise cherrypy.HTTPError(404)
 
         if doctype == 'deed':
@@ -54,38 +54,45 @@ class Mta(object):
         # default
         footer = 'You will acknowledge provider in publications reporting use of the materials.'
         legalurl = '/agreements/' + code + "/" + self.VERSION + '/legalcode'
+        deed_title = code
 
         # must be sc
         splits = code.split('-')
         
         if splits[0] == 'sc':
             longname = 'Science Commons Material Transfer Agreement'
-
+            
             fieldStr = 'Limited to %s' % kwargs['fieldSpec'] if kwargs.__contains__('fieldSpec') else None;
 
             footer = ''
             conditions = [
-                {'long': 'Attribution required.',
+                {'long': 'You must provide appropriate acknowledgment of the source of Materials.',
                  'code': 'by',
                  'uri' : 'cc:Attribution',
                  },
-                {'long': 'You may not use the materials for clinical purposes.',
-                 'code': 'no-clinical',
-                 'uri': 'sc:Clinical'},
-                {'long': 'You may not use the materials in connection with the sale of a product or service.',
-                 'code': 'nc',
-                 'uri': 'cc:CommercialUse'},
                 {'long': 'You may not transfer or distribute the materials. ',
                  'code': 'no-distribution',
                  'uri': 'sc:Transfer'}]
 
-            if splits.__contains__('df'):
+            if 'df' in splits: 
+                deed_title = "Specific Use"
                 conditions.insert(0, {'long': 'Your use of the materials is restricted by fields of use.',
                                       'code': 'restricted-field',
                                       'extra': fieldStr
                                       })
+                conditions += [
+                    {'long': 'You may not use the materials for clinical purposes.',
+                     'code': 'no-clinical',
+                     'uri': 'sc:Clinical'},
+                    {'long': 'You may not use the materials in connection with the sale of a product or service.',
+                     'code': 'nc',
+                     'uri': 'cc:CommercialUse'},
+                    ]
 
-        stream = template.generate(code=code, version=self.VERSION, permissions=permissions, conditions=conditions, footer=footer, legalurl=legalurl, longname=longname)
+            elif 'ou' in splits:
+                deed_title = "Open Use"
+
+        stream = template.generate(code=deed_title, version=self.VERSION, permissions=permissions, conditions=conditions, footer=footer, legalurl=legalurl, longname=longname)
         return stream.render("xhtml")
         
     def letter(self, code, kwargs):
