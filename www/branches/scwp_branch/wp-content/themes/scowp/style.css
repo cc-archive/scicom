@@ -340,3 +340,11 @@ ol.commentlist li
 	margin: 0;
 	padding: 11px 11px 11px 11px;
 }
+
+#footerLinks ul {
+    list-style-type: none;
+}
+
+#footerLinks ul li {
+    display: inline;
+}
