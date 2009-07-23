@@ -327,3 +327,11 @@ a:focus {
 div.pushdown {
   margin-top: 6em;
 }
+
+#footerLinks ul {
+    list-style-type: none;
+}
+
+#footerLinks ul li {
+    display: inline;
+}
