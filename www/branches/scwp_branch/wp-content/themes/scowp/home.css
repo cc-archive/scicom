@@ -330,6 +330,7 @@ div.pushdown {
 
 #footerLinks {
     text-align: center;
+    font-size: 0.7em;
 }
 
 #footerLinks ul {
@@ -338,4 +339,5 @@ div.pushdown {
 
 #footerLinks ul li {
     display: inline;
+    padding-right: 2em;
 }
