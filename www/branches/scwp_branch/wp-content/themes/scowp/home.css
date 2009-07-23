@@ -328,6 +328,10 @@ div.pushdown {
   margin-top: 6em;
 }
 
+#footerLinks {
+    text-align: center;
+}
+
 #footerLinks ul {
     list-style-type: none;
 }
