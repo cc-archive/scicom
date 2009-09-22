@@ -60,32 +60,5 @@ YAHOO.cc.mta.check_referrer = function() {
 
 }
 
-YAHOO.cc.mta.init = function() {
-
-    // load dependencies and initialize MTA handling
-    loader = new YAHOO.util.YUILoader();
-    YAHOO.cc.modules.add_definitions(loader, pathToModule("mta"));
-    loader.require("cc.ld");
-
-    loader.onSuccess = function(o) {
-	setTimeout(
-		   function() {
-		       YAHOO.cc.mta.check_referrer();
-		   },
-		   500
-		   );
-    };
-
-    loader.insert();
-
-} // cc.mta.init
-
 YAHOO.register("cc.mta", YAHOO.cc.mta, {version:"0.0.1", build:"1"});
-
-(
- function() {
-     YAHOO.cc.mta.init();
-     
- }()
- );
-
+YAHOO.util.Event.onDOMReady(YAHOO.cc.mta.check_referrer);

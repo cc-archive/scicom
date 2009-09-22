@@ -1,8 +1,8 @@
 
-MTA_FILES = src/mta.js src/queries.js
+MTA_FILES = ../includes/referrer/src/bootstrap.js src/mta.js src/queries.js
 BOOTSTRAP_FILES = ../includes/referrer/src/bootstrap.js src/bootstrap.js
 
-all: mta.js mta-bootstrap.js
+all: mta.js
 
 mta.js: $(MTA_FILES) 
 	cat $(MTA_FILES) > mta-dbg.js
