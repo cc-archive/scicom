@@ -38,7 +38,8 @@ def create_pdf(manuscript, journal, authors, publisher,
             pdf_fn, 
             manuscript=manuscript.decode(sys.getdefaultencoding(),'ignore'),
             journal=journal.decode(sys.getdefaultencoding(),'ignore'), 
-            author=authors.decode(sys.getdefaultencoding(),'ignore'),
+            author=[
+                a.decode(sys.getdefaultencoding(),'ignore') for a in authors],
             publisher=publisher.decode(sys.getdefaultencoding(),'ignore'))
     else:
         # invalid target
