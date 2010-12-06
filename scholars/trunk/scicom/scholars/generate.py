@@ -34,9 +34,12 @@ def create_pdf(manuscript, journal, authors, publisher,
     
     # generate the appropriate PDF
     if target_agreement in agreements.handlers:
-        agreements.handlers[target_agreement]() (pdf_fn, manuscript=manuscript,
-                                     journal=journal, author=authors,
-                                     publisher=publisher)
+        agreements.handlers[target_agreement]() (
+            pdf_fn, 
+            manuscript=manuscript.decode(sys.getdefaultencoding(),'ignore'),
+            journal=journal.decode(sys.getdefaultencoding(),'ignore'), 
+            author=authors.decode(sys.getdefaultencoding(),'ignore'),
+            publisher=publisher.decode(sys.getdefaultencoding(),'ignore'))
     else:
         # invalid target
         show_error()
