@@ -22,6 +22,7 @@ import os
 import md5
 import cherrypy
 import genshi.template
+from paste import httpserver
 
 import scicom.scholars
 from scicom.scholars import agreements
@@ -145,10 +146,8 @@ def serve():
                   }
         
     # mount the application
-    cherrypy.tree.mount(ScholarsCopyright(), config=stats_conf)
-
-    cherrypy.server.quickstart()
-    cherrypy.engine.start()
+    app = cherrypy.tree.mount(ScholarsCopyright(), config=stats_conf)
+    httpserver.serve(app, '127.0.0.1', '8003')
 
 if __name__ == '__main__':
     serve()
