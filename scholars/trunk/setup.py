@@ -32,7 +32,7 @@ setup(
                         'Genshi',
                         'SQLAlchemy',
                         'zdaemon',
-                        'pysqlite',
+                        'paste',
                         ],
     dependency_links = ['http://www.reportlab.co.uk/svn/public/reportlab/trunk/reportlab#egg=Reportlab-2.0'],
 
