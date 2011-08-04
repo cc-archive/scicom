@@ -92,7 +92,7 @@ class ScholarsCopyright(object):
         pdf_contents = scicom.scholars.generate.create_pdf(
             manuscript, journal, author, publisher, agreement)
 
-        self._stats.session.save(
+        self._stats.session.add(
             scicom.scholars.stats.AgreementStatistic(
                 partner_id, journal, agreement)
             )
