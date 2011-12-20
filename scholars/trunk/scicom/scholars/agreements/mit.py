@@ -82,7 +82,7 @@ class MIT(object):
             """<seq id="main">. The parties agree that wherever there is any
             conflict between the Amendment and the Publication Agreement, 
             the provisions of this Amendment are paramount and the 
-            Publication Agreement shall be construed accoidingly.""",
+            Publication Agreement shall be construed accordingly.""",
             styles['outer_style'])
             )
 
@@ -91,7 +91,7 @@ class MIT(object):
             Paragraph(
             """<seq id="main">. Notwithstanding any terms in the Publication
 Agreement to the contrary and in addition to the rights retained by Author 
-or licensed by Published to Author in the Publication Agreemtn and any fair 
+or licensed by Published to Author in the Publication Agreement and any fair 
 use rights of Author, Author and Publisher agree that the Author shall also 
 retain the following rights:""",
             styles['outer_style'])
