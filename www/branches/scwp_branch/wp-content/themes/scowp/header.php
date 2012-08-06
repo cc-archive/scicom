@@ -42,10 +42,21 @@ div#header
 {
 	background-image: url('/wp-content/themes/scowp/images/header_bg_<?php echo rand(1,5); ?>.jpg');
 }
+#deprecated_banner
+{
+	background-color: #FF8080;
+	text-align: center;
+	font-weight: bold;
+	padding: 1ex;
+}
 </style>
 <?php wp_head(); ?>
 </head>
 <body>
+
+<div id="deprecated_banner">
+	<div>Science Commons was <a href="http://creativecommons.org/science">re-integrated</a> with Creative Commons. This content is no longer maintained and remains only for reference.</div>
+</div>
 
 <div id="header">
 	<a id="logo" class="imagelink" href="/" />home</a>
